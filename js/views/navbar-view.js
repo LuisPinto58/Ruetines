@@ -1,0 +1,307 @@
+// Create desktop navbar with 3 text items
+function createDesktopNavbar(logo, navItems) {
+  const navbar = document.createElement('nav');
+  navbar.className = 'navbar navbar-desktop';
+
+  const logoContainer = document.createElement('div');
+  logoContainer.className = 'navbar-logo';
+  logoContainer.textContent = logo;
+
+  const navList = document.createElement('ul');
+  navList.className = 'navbar-items';
+
+  navItems.forEach((item) => {
+    const li = document.createElement('li');
+    const link = document.createElement('a');
+    link.href = item.href || '#';
+    link.textContent = item.label;
+    if (item.href === 'nan') {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        alert('Funcionalidade não disponível para utilizadores não autenticados!');
+      });
+      link.classList.add('disabled');
+    } if (item.href === window.location.pathname.split('/').pop()) {
+      link.classList.add('active');
+    }
+    li.appendChild(link);
+    navList.appendChild(li);
+  });
+  if (localStorage.getItem('userRole')) {
+    navbar.appendChild(logoContainer);
+    navbar.appendChild(navList);
+    navbar.style.justifyContent = 'flex-start';
+  } else {
+    const authContainer = document.createElement('div');
+    authContainer.className = 'navbar-auth';
+
+    const loginClick = document.createElement('a');
+    loginClick.className = 'navbar-login';
+    loginClick.href = '#';
+    loginClick.textContent = 'Log in';
+    loginClick.addEventListener('click', function (event) {
+      event.preventDefault();
+      if (!document.querySelector('.login-modal')) {
+        document.body.appendChild(createLoginModal());
+      }
+    });
+    authContainer.appendChild(loginClick);
+
+    navbar.appendChild(logoContainer);
+    navbar.appendChild(navList);
+    navbar.appendChild(authContainer);
+  }
+
+  return navbar;
+}
+
+// Create mobile navbar with logo on top and bottom icon navbar
+function createMobileNavbar(logo, navItems) {
+  const mobileContainer = document.createElement('div');
+  mobileContainer.className = 'mobile-navbar-container';
+
+  // Top section with logo
+  const topBar = document.createElement('nav');
+
+  const logoContainer = document.createElement('div');
+  logoContainer.className = 'navbar-logo';
+  logoContainer.textContent = logo;
+
+  if (localStorage.getItem('userRole')) {
+    topBar.className = 'navbar navbar-mobile-top navbar-logged';
+    topBar.appendChild(logoContainer);
+  } else {
+    topBar.className = 'navbar navbar-mobile-top';
+    const authContainer = document.createElement('div');
+    authContainer.className = 'navbar-auth';
+
+    const loginClick = document.createElement('a');
+    loginClick.className = 'navbar-login';
+    loginClick.href = '#';
+    loginClick.textContent = 'Log in';
+    loginClick.addEventListener('click', function (event) {
+      event.preventDefault();
+      if (!document.querySelector('.login-modal')) {
+        document.body.appendChild(createLoginModal());
+      }
+    });
+
+    topBar.appendChild(logoContainer);
+    authContainer.appendChild(loginClick);
+    topBar.appendChild(authContainer);
+  }
+
+  mobileContainer.appendChild(topBar);
+
+  // Bottom navigation bar with icons
+  const bottomNav = document.createElement('nav');
+  bottomNav.className = 'navbar navbar-mobile-bottom';
+
+  const iconList = document.createElement('ul');
+  iconList.className = 'navbar-icons';
+
+  navItems.forEach((item) => {
+    const li = document.createElement('li');
+    const link = document.createElement('a');
+    link.href = item.href || '#';
+    if (item.href === 'nan') {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        alert('Funcionalidade não disponível para utilizadores não autenticados!');
+      });
+    }
+    link.title = item.label;
+
+    const icon = document.createElement('span');
+    icon.className = `icon icon-${item.icon}`;
+    icon.textContent = item.icon;
+
+    link.appendChild(icon);
+    li.appendChild(link);
+    iconList.appendChild(li);
+  });
+
+  bottomNav.appendChild(iconList);
+  mobileContainer.appendChild(bottomNav);
+
+  return mobileContainer;
+}
+
+
+function createLoginModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal fade show';
+  modal.style.display = 'block';
+  modal.tabIndex = -1;
+
+  const modalHTML = `
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"></h5>
+          <button type="button" class="btn-close" aria-label="Close"></button>
+        </div>
+        <div class="modal-body"></div>
+      </div>
+    </div>
+  `;
+
+  modal.innerHTML = modalHTML;
+
+  changeModalContent(modal, 'login');
+
+  const backdrop = document.createElement('div');
+  backdrop.className = 'modal-backdrop fade show';
+
+  const closeModal = () => {
+    modal.remove();
+    backdrop.remove();
+    document.body.classList.remove('modal-open');
+  };
+
+  const closeButton = modal.querySelector('.btn-close');
+  if (closeButton) {
+    closeButton.addEventListener('click', closeModal);
+  }
+
+  modal.addEventListener('click', function (event) {
+    if (event.target === modal) {
+      closeModal();
+    }
+  });
+
+  document.body.appendChild(backdrop);
+  document.body.classList.add('modal-open');
+  return modal;
+}
+
+function changeModalContent(modal, type) {
+  const modalTitle = modal.querySelector('.modal-title');
+  const modalBody = modal.querySelector('.modal-body');
+  if (type === 'signup') {
+    modalTitle.textContent = 'Registar';
+    modalBody.innerHTML = `
+      <form class="signup-form">
+        <div class="mb-3">
+          <label for="signup-email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="signup-email" placeholder="email@exemplo.com" required>
+        </div>
+        <div class="mb-3">
+          <label for="signup-password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="signup-password" placeholder="Introduza a sua password" required>
+        </div>
+        <div class="mb-3">
+          <label for="signup-password-confirm" class="form-label">Confirme a Password</label>
+          <input type="password" class="form-control" id="signup-password-confirm" placeholder="Confirme a sua password" required>
+        </div>
+        <button type="submit" class="btn btn-primary login-button w-100">Registar</button>
+      </form>
+    `;
+
+    document.querySelector('.signup-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const email = this.querySelector('#signup-email').value;
+      const password = this.querySelector('#signup-password').value;
+      const passwordConfirm = this.querySelector('#signup-password-confirm').value;
+      if (password !== passwordConfirm) {
+        alert('As passwords não coincidem!');
+        return;
+      } else {
+        //adicionar logica de registo
+        alert('Registo realizado com sucesso!');
+        changeModalContent(modal, 'login');
+      }
+    })
+  } else if (type === 'login') {
+    modalTitle.textContent = 'Log in';
+    modalBody.innerHTML = `
+      <form class="login-form">
+        <div class="mb-3">
+          <label for="login-email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="login-email" placeholder="email@exemplo.com" required>
+        </div>
+        <div class="mb-3">
+          <label for="login-password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="login-password" placeholder="Introduza a sua password" required>
+        </div>
+        <div class="d-flex justify-content-between gap-2 flex-wrap">
+          <button type="submit" class="btn btn-primary w-100 login-button">Log in</button>
+          <button type="button" class="btn btn-outline-secondary w-100 signup-button" id="signup-button">Registar</button>
+        </div>
+      </form>
+    `;
+    const form = modal.querySelector('.login-form');
+    if (form) {
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const email = form.querySelector('#login-email').value;
+        const password = form.querySelector('#login-password').value;
+        console.log('Logging in with', email, password);
+        closeModal();
+      });
+    }
+
+    const signUpButton = modal.querySelector('.signup-button');
+    if (signUpButton) {
+      signUpButton.addEventListener('click', function () {
+        changeModalContent(modal, 'signup');
+      });
+    }
+  }
+}
+
+// Render navbar based on type
+function renderNavbar(type, logo, navItems) {
+  const container = document.getElementById('navbar-container');
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  if (type === 'desktop') {
+    container.appendChild(createDesktopNavbar(logo, navItems));
+  } else if (type === 'mobile') {
+    container.appendChild(createMobileNavbar(logo, navItems));
+  } else if (type === 'both') {
+    // Render both for media query switching
+    const desktopWrapper = document.createElement('div');
+    desktopWrapper.className = 'navbar-wrapper navbar-desktop-wrapper';
+    desktopWrapper.appendChild(createDesktopNavbar(logo, navItems));
+
+    const mobileWrapper = document.createElement('div');
+    mobileWrapper.className = 'navbar-wrapper navbar-mobile-wrapper';
+    mobileWrapper.appendChild(createMobileNavbar(logo, navItems));
+
+    container.appendChild(desktopWrapper);
+    container.appendChild(mobileWrapper);
+  }
+}
+
+// init navbar
+document.addEventListener('DOMContentLoaded', function () {
+  const navbarContainer = document.createElement('div');
+  navbarContainer.id = 'navbar-container';
+  document.body.insertBefore(navbarContainer, document.body.firstChild);
+  let navItems
+  if (localStorage.getItem('userRole') === 'admin') {
+    navItems = [
+      { label: 'Perfil', href: 'user.html', icon: '👤' },
+      { label: 'Painel principal', href: 'adminTasks.html', icon: '🏠' },
+      { label: 'Chat', href: 'adminChat.html', icon: '📧' }
+    ];
+  } else if (localStorage.getItem('userRole') === 'user') {
+    navItems = [
+      { label: 'Perfil', href: 'user.html', icon: '👤' },
+      { label: 'Painel principal', href: 'loggedTasks-view.html', icon: '🏠' },
+      { label: 'Chat', href: 'chat.html', icon: '📧' }
+    ];
+  } else {
+    navItems = [
+      { label: 'Perfil', href: 'nan', icon: '👤' },
+      { label: 'Painel principal', href: 'tasks.html', icon: '🏠' },
+      { label: 'Chat', href: 'nan', icon: '📧' }
+    ];
+  }
+
+
+  renderNavbar('both', 'Ruetines', navItems);
+});
