@@ -1,11 +1,13 @@
 // Create desktop navbar with 3 text items
-function createDesktopNavbar(logo, navItems) {
+import { login, register } from '../data/service.js';
+
+function createDesktopNavbar(navItems) {
   const navbar = document.createElement('nav');
   navbar.className = 'navbar navbar-desktop';
 
   const logoContainer = document.createElement('div');
   logoContainer.className = 'navbar-logo';
-  logoContainer.textContent = logo;
+  logoContainer.innerHTML = '<img src="../assets/img/logo.svg" width="100" alt="Landing Page button with Ruetines Logo">';
 
   const navList = document.createElement('ul');
   navList.className = 'navbar-items';
@@ -27,7 +29,7 @@ function createDesktopNavbar(logo, navItems) {
     li.appendChild(link);
     navList.appendChild(li);
   });
-  if (localStorage.getItem('userRole')) {
+  if (localStorage.getItem('user')) {
     navbar.appendChild(logoContainer);
     navbar.appendChild(navList);
     navbar.style.justifyContent = 'flex-start';
@@ -56,7 +58,7 @@ function createDesktopNavbar(logo, navItems) {
 }
 
 // Create mobile navbar with logo on top and bottom icon navbar
-function createMobileNavbar(logo, navItems) {
+function createMobileNavbar(navItems) {
   const mobileContainer = document.createElement('div');
   mobileContainer.className = 'mobile-navbar-container';
 
@@ -65,9 +67,9 @@ function createMobileNavbar(logo, navItems) {
 
   const logoContainer = document.createElement('div');
   logoContainer.className = 'navbar-logo';
-  logoContainer.textContent = logo;
+  logoContainer.innerHTML = '<img src="../assets/img/logo.svg" alt="Landing Page button with Ruetines Logo">';
 
-  if (localStorage.getItem('userRole')) {
+  if (localStorage.getItem('user')) {
     topBar.className = 'navbar navbar-mobile-top navbar-logged';
     topBar.appendChild(logoContainer);
   } else {
@@ -81,9 +83,7 @@ function createMobileNavbar(logo, navItems) {
     loginClick.textContent = 'Log in';
     loginClick.addEventListener('click', function (event) {
       event.preventDefault();
-      if (!document.querySelector('.login-modal')) {
         document.body.appendChild(createLoginModal());
-      }
     });
 
     topBar.appendChild(logoContainer);
@@ -175,6 +175,32 @@ function createLoginModal() {
   return modal;
 }
 
+function getNavItems() {
+
+  if (!localStorage.getItem('user')) {
+    return [
+    { label: 'Perfil', href: 'nan', icon: '👤' },
+    { label: 'Painel principal', href: 'tasks.html', icon: '🏠' },
+    { label: 'Chat', href: 'nan', icon: '📧' }
+  ];}
+
+  if (JSON.parse(localStorage.getItem('user')).role === 'admin') {
+    return [
+      { label: 'Perfil', href: 'user.html', icon: '👤' },
+      { label: 'Painel principal', href: 'adminTasks.html', icon: '🏠' },
+      { label: 'Chat', href: 'adminChat.html', icon: '📧' }
+    ];
+  }
+
+  if ((JSON.parse(localStorage.getItem('user'))).role === 'user') {
+    return [
+      { label: 'Perfil', href: 'user.html', icon: '👤' },
+      { label: 'Painel principal', href: 'loggedTasks.html', icon: '🏠' },
+      { label: 'Chat', href: 'chat.html', icon: '📧' }
+    ];
+  }
+}
+
 function changeModalContent(modal, type) {
   const modalTitle = modal.querySelector('.modal-title');
   const modalBody = modal.querySelector('.modal-body');
@@ -198,20 +224,28 @@ function changeModalContent(modal, type) {
       </form>
     `;
 
-    document.querySelector('.signup-form').addEventListener('submit', function (event) {
-      event.preventDefault();
-      const email = this.querySelector('#signup-email').value;
-      const password = this.querySelector('#signup-password').value;
-      const passwordConfirm = this.querySelector('#signup-password-confirm').value;
+    const signupForm = modal.querySelector('.signup-form');
+    if (signupForm) {
+      signupForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const email = this.querySelector('#signup-email').value;
+        const password = this.querySelector('#signup-password').value;
+        const passwordConfirm = this.querySelector('#signup-password-confirm').value;
       if (password !== passwordConfirm) {
         alert('As passwords não coincidem!');
         return;
-      } else {
-        //adicionar logica de registo
-        alert('Registo realizado com sucesso!');
-        changeModalContent(modal, 'login');
       }
-    })
+
+      const result = await register(email, password);
+      if (!result.ok) {
+        alert('Registo falhou. Tente novamente com outro email.');
+        return;
+      }
+
+      alert('Registo realizado! Faça login para continuar');
+      changeModalContent(modal, 'login');
+    });
+    }
   } else if (type === 'login') {
     modalTitle.textContent = 'Log in';
     modalBody.innerHTML = `
@@ -232,12 +266,23 @@ function changeModalContent(modal, type) {
     `;
     const form = modal.querySelector('.login-form');
     if (form) {
-      form.addEventListener('submit', function (event) {
+      form.addEventListener('submit', async function (event) {
         event.preventDefault();
         const email = form.querySelector('#login-email').value;
         const password = form.querySelector('#login-password').value;
-        console.log('Logging in with', email, password);
+
+        const result = await login(email, password);
+        if (!result.ok) {
+          alert('Credenciais inválidas.');
+          return;
+        }
+
+        sessionStorage.setItem('token', result.token);
+        localStorage.setItem('user', JSON.stringify(result.user));
+        location.href = "loggedTasks.html";
+
         closeModal();
+        renderNavbar('both', getNavItems());
       });
     }
 
@@ -251,25 +296,25 @@ function changeModalContent(modal, type) {
 }
 
 // Render navbar based on type
-function renderNavbar(type, logo, navItems) {
+function renderNavbar(type, navItems) {
   const container = document.getElementById('navbar-container');
   if (!container) return;
 
   container.innerHTML = '';
 
   if (type === 'desktop') {
-    container.appendChild(createDesktopNavbar(logo, navItems));
+    container.appendChild(createDesktopNavbar(navItems));
   } else if (type === 'mobile') {
-    container.appendChild(createMobileNavbar(logo, navItems));
+    container.appendChild(createMobileNavbar(navItems));
   } else if (type === 'both') {
     // Render both for media query switching
     const desktopWrapper = document.createElement('div');
     desktopWrapper.className = 'navbar-wrapper navbar-desktop-wrapper';
-    desktopWrapper.appendChild(createDesktopNavbar(logo, navItems));
+    desktopWrapper.appendChild(createDesktopNavbar(navItems));
 
     const mobileWrapper = document.createElement('div');
     mobileWrapper.className = 'navbar-wrapper navbar-mobile-wrapper';
-    mobileWrapper.appendChild(createMobileNavbar(logo, navItems));
+    mobileWrapper.appendChild(createMobileNavbar(navItems));
 
     container.appendChild(desktopWrapper);
     container.appendChild(mobileWrapper);
@@ -281,27 +326,5 @@ document.addEventListener('DOMContentLoaded', function () {
   const navbarContainer = document.createElement('div');
   navbarContainer.id = 'navbar-container';
   document.body.insertBefore(navbarContainer, document.body.firstChild);
-  let navItems
-  if (localStorage.getItem('userRole') === 'admin') {
-    navItems = [
-      { label: 'Perfil', href: 'user.html', icon: '👤' },
-      { label: 'Painel principal', href: 'adminTasks.html', icon: '🏠' },
-      { label: 'Chat', href: 'adminChat.html', icon: '📧' }
-    ];
-  } else if (localStorage.getItem('userRole') === 'user') {
-    navItems = [
-      { label: 'Perfil', href: 'user.html', icon: '👤' },
-      { label: 'Painel principal', href: 'loggedTasks-view.html', icon: '🏠' },
-      { label: 'Chat', href: 'chat.html', icon: '📧' }
-    ];
-  } else {
-    navItems = [
-      { label: 'Perfil', href: 'nan', icon: '👤' },
-      { label: 'Painel principal', href: 'tasks.html', icon: '🏠' },
-      { label: 'Chat', href: 'nan', icon: '📧' }
-    ];
-  }
-
-
-  renderNavbar('both', 'Ruetines', navItems);
+  renderNavbar('both', getNavItems());
 });
