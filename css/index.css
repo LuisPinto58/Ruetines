@@ -11,6 +11,7 @@ body {
   margin-bottom: 0;
   padding: 20px;
   font-family: 'DCSans', sans-serif;
+  background-color: #fdfbf7;
 }
 
 
@@ -220,13 +221,18 @@ body {
 }
 
 .navbar-mobile-bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: auto;
   height: 70px;
   border-top: 1px solid var(--border-color);
   background-color: var(--terciary-color);
+  z-index: 1000;
 }
 
 .navbar-icons {

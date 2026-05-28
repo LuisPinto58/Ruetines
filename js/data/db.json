@@ -5,23 +5,98 @@
       "password": "$2a$10$arcBi2tHm2hvKRrEhqsLMOzcA3veGIEgBawYYHg1utj9pMrURAXLW",
       "role": "user",
       "id": 1
+    },
+    {
+      "email": "test2@test.pt",
+      "password": "$2a$10$arcBi2tHm2hvKRrEhqsLMOzcA3veGIEgBawYYHg1utj9pMrURAXLW",
+      "role": "user",
+      "id": 2
     }
   ],
-  "tasks": [
-    
-  ],
-  "chats":[{
-        "id": 4,
-        "type": "individual",
-        "timeStamp": "2024-06-01T12:00:00Z",
-        "status": "active",
-        "users": [1],
-        "messages":[
-          {
-            "content": "Olá",
-            "sender": 1
-          }
-        ]
-  }
+  "tasks": [],
+  "chats": [
+    {
+      "id": 4,
+      "type": "individual",
+      "timeStamp": "2024-06-01T12:00:00Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 1,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 2,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "Olá",
+          "sender": 1
+        },
+        {
+          "content": "olá",
+          "sender": 1
+        },
+        {
+          "content": "olá 3",
+          "sender": 2
+        },
+        {
+          "content": "olá",
+          "sender": 1
+        }
+      ]
+    },
+    {
+      "id": "b696d17d-cbf0-484c-b3b9-edc3de3d66fe",
+      "type": "individual",
+      "timeStamp": "2026-05-28T15:31:06.803Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 1,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "olá",
+          "sender": 1
+        }
+      ]
+    },
+    {
+      "id": "8bab2443-42af-448a-94e7-9983c839b01b",
+      "type": "individual",
+      "timeStamp": "2026-05-28T15:45:06.966Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 2,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 1,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "teste",
+          "sender": 2
+        },
+        {
+          "content": "este",
+          "sender": 1
+        }
+      ]
+    }
   ]
 }
