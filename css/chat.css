@@ -1,0 +1,26 @@
+
+
+.button-flex-container{
+  display: flex;
+  justify-content: space-between;
+  padding:20px
+}
+
+.btn-highlight{
+  background-color: var(--highlight-color);
+  border: 1px solid var(--highlight-color);
+  color: var(--secondary-color);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+#chat-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 20px;
+  border: 1px solid var(--terciary-color);
+  border-radius: 20px;
+  height: min(600px, 60vh);
+}

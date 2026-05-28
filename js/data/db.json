@@ -6,5 +6,22 @@
       "role": "user",
       "id": 1
     }
+  ],
+  "tasks": [
+    
+  ],
+  "chats":[{
+        "id": 4,
+        "type": "individual",
+        "timeStamp": "2024-06-01T12:00:00Z",
+        "status": "active",
+        "users": [1],
+        "messages":[
+          {
+            "content": "Olá",
+            "sender": 1
+          }
+        ]
+  }
   ]
 }

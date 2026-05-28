@@ -23,7 +23,7 @@ function createDesktopNavbar(navItems) {
         alert('Funcionalidade não disponível para utilizadores não autenticados!');
       });
       link.classList.add('disabled');
-    } if (item.href === window.location.pathname.split('/').pop()) {
+    } if (item.href === window.location.pathname.replace("/Ruetines", "..")) {
       link.classList.add('active');
     }
     li.appendChild(link);
@@ -67,7 +67,7 @@ function createMobileNavbar(navItems) {
 
   const logoContainer = document.createElement('div');
   logoContainer.className = 'navbar-logo';
-  logoContainer.innerHTML = '<img src="../assets/img/logo.svg" alt="Landing Page button with Ruetines Logo">';
+  logoContainer.innerHTML = '<img src="../assets/img/logo.svg" width="100" alt="Landing Page button with Ruetines Logo">';
 
   if (localStorage.getItem('user')) {
     topBar.className = 'navbar navbar-mobile-top navbar-logged';

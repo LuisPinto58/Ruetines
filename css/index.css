@@ -2,6 +2,7 @@
   --primary-color: #8a9e83;
   --secondary-color: #fff;
   --terciary-color: #a8a89e;
+  --highlight-color: #8A38F5;
 }
 
 /*------------------------------Body-------------------------------*/
@@ -269,6 +270,8 @@ body {
   align-items: center;
 }
 
+
+
 /* MEDIA QUERIES */
 
 /* Desktop */
@@ -292,3 +295,8 @@ body {
     display: flex;
   }
 }
+
+
+
+
+
