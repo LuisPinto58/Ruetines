@@ -180,23 +180,23 @@ function getNavItems() {
   if (!localStorage.getItem('user')) {
     return [
     { label: 'Perfil', href: 'nan', icon: '👤' },
-    { label: 'Painel principal', href: 'tasks.html', icon: '🏠' },
+    { label: 'Painel principal', href: '../html/tasks.html', icon: '🏠' },
     { label: 'Chat', href: 'nan', icon: '📧' }
   ];}
 
   if (JSON.parse(localStorage.getItem('user')).role === 'admin') {
     return [
-      { label: 'Perfil', href: 'user.html', icon: '👤' },
-      { label: 'Painel principal', href: 'adminTasks.html', icon: '🏠' },
-      { label: 'Chat', href: 'adminChat.html', icon: '📧' }
+      { label: 'Perfil', href: '../html/user.html', icon: '👤' },
+      { label: 'Painel principal', href: '../html/adminTasks.html', icon: '🏠' },
+      { label: 'Chat', href: '../html/adminChat.html', icon: '📧' }
     ];
   }
 
   if ((JSON.parse(localStorage.getItem('user'))).role === 'user') {
     return [
-      { label: 'Perfil', href: 'user.html', icon: '👤' },
-      { label: 'Painel principal', href: 'loggedTasks.html', icon: '🏠' },
-      { label: 'Chat', href: 'chat.html', icon: '📧' }
+      { label: 'Perfil', href: '../html/user.html', icon: '👤' },
+      { label: 'Painel principal', href: '../html/loggedTasks.html', icon: '🏠' },
+      { label: 'Chat', href: '../html/chat.html', icon: '📧' }
     ];
   }
 }
