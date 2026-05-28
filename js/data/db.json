@@ -5,6 +5,12 @@
       "password": "$2a$10$arcBi2tHm2hvKRrEhqsLMOzcA3veGIEgBawYYHg1utj9pMrURAXLW",
       "role": "user",
       "id": 1
+    },
+    {
+      "email": "email@esmad.ipp.pt",
+      "password": "$2a$10$yFwB9Z8zo24f9Zpw77fH3uQHcpE8KD1sIDD25gRePMyPu20DV1InS",
+      "role": "user",
+      "id": 2
     }
   ],
   "tasks": [
