@@ -1,0 +1,60 @@
+:root {
+  --primary-color: #8a9e83;
+  --secondary-color: #fff;
+  --terciary-color: #a8a89e;
+}
+
+/* Botões */
+/* botão primário */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: transparent;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-color);
+  border-color: transparent;
+  opacity: 0.9;
+}
+
+.btn-primary:active {
+  background-color: var(--primary-color);
+  border-color: transparent;
+  opacity: 0.8;
+}
+
+
+/* botão secundário */
+.btn-secondary {
+  background-color: transparent;
+  border: 1px solid var(--terciary-color);
+  color: var(--terciary-color);
+}
+
+.btn-secondary:hover {
+  background-color: transparent;
+  border: 1px solid var(--terciary-color);
+  color: var(--terciary-color);
+  opacity: 0.9;
+}
+
+.btn-secondary:active {
+  background-color: transparent;
+  border: 1px solid var(--terciary-color);
+  color: var(--terciary-color);
+  opacity: 0.8;
+}
+
+/* Container */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-right: 32px;
+  padding-left: 32px;
+  border: 1px solid var(--terciary-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  height: min(600px, 60vh);
+}
+
