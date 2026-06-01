@@ -752,7 +752,7 @@ body {
     /* COMUNIDADE */
     .comunidade { padding: 40px 20px; box-sizing: border-box; width: 100%; }
     .comunidade-container { width: 100%; height: auto; padding: 40px 20px; border-radius: 40px; box-sizing: border-box; }
-    .comunidade-content { flex-direction: column; gap: 40px; with: 100%; }
+    .comunidade-content { flex-direction: column; gap: 40px; width: 100%; }
     .com-image { width: 100%; height: auto; }
     .com-text-button { width: 100%; height: auto; align-items: center; gap: 30px; }
     .com-text { width: 100%; align-items: center; gap: 20px; }
