@@ -35,11 +35,13 @@ body {
 #chat-selector,#chat-window{
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
   gap: 1rem;
   padding: 20px;
   border: 2px solid var(--terciary-color);
   border-radius: 20px;
-  min-height: calc(100vh - 200px);
+  min-height: calc(100vh - 230px);
+  max-height: calc(100vh - 230px);
   box-sizing: border-box;
   transition: flex-basis 0.3s ease, max-width 0.3s ease, opacity 0.3s ease,
   transform 0.3s ease;
@@ -56,6 +58,7 @@ body {
   opacity: 1;
   transform: translateX(0);
 }
+
 
 .chat-header {
   display: flex;
@@ -145,4 +148,19 @@ body {
 
 .individual-chat{
   border: 2px solid var(--terciary-color);
+}
+
+
+
+/* MEDIA QUERIES */
+
+/* Mobile */
+@media (max-width: 991px) {
+  .mobile-hidden{
+    display: none !important;
+  }
+  #chat-selector,#chat-window{
+  min-height: calc(100vh - 320px);
+  max-height: calc(100vh - 320px);
+}
 }

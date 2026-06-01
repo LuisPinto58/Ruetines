@@ -1,6 +1,8 @@
 // Toda a comunicação com o servidor mock centralizada aqui.
 // Os controllers nunca constroem pedidos fetch nem acedem diretamente aos headers ou ao token.
 
+import Chat from "../models/chat-model.js";
+
 const API = 'http://localhost:3000';
 
 const authHeaders = () => ({
@@ -9,6 +11,35 @@ const authHeaders = () => ({
 });
 
 const jsonHeaders = () => ({ 'Content-Type': 'application/json' });
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+const expireOrDeleteChat = async (chat) => {
+  if (!chat?.timeStamp || !chat?.id) return chat;
+
+  const ageMs = Date.now() - new Date(chat.timeStamp).getTime();
+
+  if (ageMs >= 3 * DAY_MS) {
+    await fetch(`${API}/chats/${chat.id}`, {
+      method: 'DELETE',
+      headers: authHeaders(),
+    });
+    return null;
+  }
+
+  if (ageMs >= DAY_MS && chat.status !== 'expired') {
+    const res = await fetch(`${API}/chats/${chat.id}`, {
+      method: 'PATCH',
+      headers: authHeaders(),
+      body: JSON.stringify({ status: 'expired' }),
+    });
+    if (res.ok) {
+      return { ...chat, status: 'expired' };
+    }
+  }
+
+  return chat;
+};
 
 // Autenticação
 
@@ -38,10 +69,12 @@ export const login = async (email, password) => {
 export const getChats = async (userId) => {
   const res = await fetch(`${API}/chats`, { headers: authHeaders() });
   if (!res.ok) return [];
+
   const chats = await res.json();
-  return chats.filter(chat =>
-    chat.users?.some(userObj => userObj.id === userId)
-  );
+  const processed = await Promise.all(chats.map(expireOrDeleteChat));
+  return processed
+    .filter(Boolean)
+    .filter(chat => chat.users?.some(userObj => userObj.id === userId));
 };
 
 export const addChats = async (data) => {
@@ -63,9 +96,10 @@ export const addChats = async (data) => {
       );
 
     if (openChat) {
-      const updatedUsers = [...(openChat.users || []), data.users[0]];
-      const response = await addChatUser(openChat.id, { users: updatedUsers });
-      return { ok: response.ok, joined: response.ok, chat: { ...openChat, users: updatedUsers } };
+      const openChatInstance = Chat.fromObject(openChat);
+      openChatInstance.addUser(data.users[0]);
+      const response = await addChatUser(openChat.id, { users: openChatInstance.users });
+      return { ok: response.ok, joined: response.ok, chat: { ...openChat, users: openChatInstance.users } };
     }
   }
 

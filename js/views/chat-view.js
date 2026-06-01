@@ -19,12 +19,33 @@ const renderChatList = () => {
     if (!chatSelector) return;
 
     chatSelector.innerHTML = "";
+    let inactiveChat = [];
 
     chats.forEach(chat => {
-        if (chat.status !== "active") return;
+        if (chat.status !== "active") {
+            inactiveChat.push(chat);
+            return;
+        };
 
-        const chatElement = document.createElement("div");
+        renderChatElement(chat);
+    });
+
+    const chatDivider = document.createElement("hr");
+    chatDivider.textContent = "Chats expirados";
+    chatSelector.appendChild(chatDivider);
+
+    inactiveChat.forEach(chat => {
+        renderChatElement(chat);
+    });
+
+    };
+
+function renderChatElement(chat){
+    
+    const chatSelector = document.getElementById("chat-selector");
+    const chatElement = document.createElement("div");
         chatElement.classList.add("chat-container", `${chat.type}-chat`);
+        chatElement.style.opacity = chat.status === "active" ? "1" : "0.5";
 
         chatElement.innerHTML = `
             <h5>${chat.type === "individual" ? "Chat individual" : "Chat em Grupo"}</h5>
@@ -41,8 +62,7 @@ const renderChatList = () => {
             currentChat = chat;
             renderChats(chat);
         });
-    });
-};
+}
 
 export const bindChatSend = (handler) => {
     const chatInput = document.getElementById("chat-input");
@@ -68,18 +88,34 @@ export const bindChatSend = (handler) => {
 export async function renderChats(chat) {
     const currentUserId = JSON.parse(localStorage.getItem("user"))?.id;
     const chatWindow = document.getElementById("chat-window");
+    const chatSelector = document.getElementById("chat-selector");
+    chatSelector.classList.add("mobile-hidden");
+    if(chatSelector.style.display === "none"){
+        chatSelector.classList.remove("col-4");
+        chatSelector.classList.add("col-12");
+        chatWindow.classList.remove("col-7");
+        chatWindow.classList.add("col-12");
+    }
     if (!chatWindow) return;
 
     chatWindow.innerHTML = `
         <div class="chat-header">
             <h4>${chat.type === "individual" ? "Chat individual" : "Chat em Grupo"}</h4>
+            <h6>${chat.status === "active" ? `Hora de fecho: ${new Date(chat.timeStamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : ""}</h6>
+            <button id="close-chat-btn" class="btn-close" aria-label="Fechar chat"></button>
         </div>
         <div class="chat-messages" id="chat-messages"></div>
-        <div class="chat-input-row">
-            <input id="chat-input" type="text" placeholder="Escreva a sua mensagem" />
-            <button id="chat-send-btn" class="btn btn-primary chat-send-btn" type="button" aria-label="Enviar mensagem">&#10148;</button>
-        </div>
+        ${chat.status === "active" ? `
+            <div class="chat-input-row">
+                <input id="chat-input" type="text" placeholder="Escreva a sua mensagem" />
+                <button id="chat-send-btn" class="btn btn-primary chat-send-btn" type="button" aria-label="Enviar mensagem">&#10148;</button>
+            </div>
+        ` : ""}
     `;
+
+    chatWindow.querySelector("#close-chat-btn")?.addEventListener("click", () => {
+        closeChatWindow();
+    });
 
     const messagesContainer = chatWindow.querySelector("#chat-messages");
     if (!messagesContainer) return;
@@ -98,9 +134,7 @@ export async function renderChats(chat) {
                 messageBubble.style.color = sender.textColor;
             }
 
-            const senderLabel = sender?.id === currentUserId ? "Você" : `Participante ${sender?.id ?? message.sender}`;
             messageBubble.innerHTML = `
-                <div class="chat-bubble-meta">${senderLabel}</div>
                 <div>${message.content}</div>
             `;
 
@@ -183,16 +217,45 @@ function openChatWindow() {
     if (!chatWindow || !chatSelector) return;
 
     chatSelector.classList.remove("col-12");
-    chatSelector.classList.add("col-4");
+    chatSelector.classList.remove("col-lg-12");
+    chatSelector.classList.add("col-lg-4");
 
-    chatWindow.classList.remove("col-12");
-    chatWindow.classList.add("col-7");
+    chatWindow.classList.remove("col-0");
+    chatWindow.classList.add("col-12");
+    chatWindow.classList.add("col-lg-7");
 
     chatWindow.style.display = "flex";
 
     requestAnimationFrame(() => {
         chatWindow.classList.add("visible");
     });
+}
+
+function closeChatWindow() {
+    const chatWindow = document.getElementById("chat-window");
+    const chatSelector = document.getElementById("chat-selector");
+
+    if (!chatWindow || !chatSelector) return;
+    if(chatSelector.style.display === "none"){
+        chatSelector.classList.add("col-12");
+        chatSelector.classList.remove("col-lg-4");
+
+        chatWindow.classList.add("col-12");
+        chatWindow.classList.remove("col-lg-7");
+
+    }else{
+    chatSelector.classList.add("col-12");
+    chatSelector.classList.remove("col-lg-4");
+
+    chatWindow.classList.add("col-12");
+    chatWindow.classList.remove("col-lg-7");
+
+    }
+
+    chatWindow.classList.remove("visible");
+    chatSelector.classList.remove("mobile-hidden");
+
+    flag = 0;
 }
 
 

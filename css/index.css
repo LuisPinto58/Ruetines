@@ -197,16 +197,12 @@ body {
 
 
 /* MOBILE */
-.navbar-mobile-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
 
+.navbar-mobile-wrapper,
 .mobile-navbar-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: auto;
 }
 
 .navbar-mobile-top {
@@ -300,6 +296,9 @@ body {
   .navbar-mobile-wrapper {
     display: flex;
   }
+  body {
+  padding-bottom: 90px;
+}
 }
 
 

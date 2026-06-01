@@ -55,10 +55,10 @@ export default class Chat {
         return {
             id: this.id,
             type: this.type,
-            timeStamp: this.timeStamp,
+            timeStamp: this.timeStamp?.toISOString?.() ?? this.timeStamp,
             status: this.status,
-            users: this.#users,
-            messages: this.#messages,
+            users: this.users,
+            messages: this.messages,
         };
     }
 
@@ -67,7 +67,11 @@ export default class Chat {
         chat.id = obj.id;
         chat.timeStamp = new Date(obj.timeStamp);
         chat.status = obj.status;
-        chat.#users = obj.users || [];
+        chat.#users = (obj.users || []).map((user, index) => ({
+            id: user.id,
+            identifier: user.identifier ?? identifiers[index],
+            textColor: user.textColor ?? textColors[index],
+        }));
         chat.#messages = obj.messages || [];
         return chat;
     }

@@ -17,6 +17,7 @@ export const createChat = async (type) => {
     chat.addUser(currentUser);
 
     const response = await addChats(chat);
+    console.log(response);
     if (!response.ok) {
         throw new Error("Falha ao criar novo chat.");
     }
