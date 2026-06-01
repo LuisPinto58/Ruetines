@@ -605,7 +605,7 @@ body {
     justify-content: center;
     align-self: stretch;
     color: var(--Carvao);
-    text-align: left;
+    text-align: center;
     font-family: 'DM Sans', sans-serif;
     font-size: 48px;
     font-weight: 500;
@@ -616,8 +616,8 @@ body {
 
 .com-body {
     align-self: stretch;
-    color: var(--carvao);
-    text-align: left;
+    color: var(--Carvao);
+    text-align: center;
     font-family: 'DM Sans', sans-serif;
     font-size: 24px;
     font-weight: 500;
@@ -626,15 +626,19 @@ body {
     margin: 0;
 }
 
+
+
 .com-button {
     display: flex;
+    width: 205px;
     height: 45px;
-    padding: 16px;
+    padding: 0 16px;
+    align-self: center;
+    white-space: nowrap;
     justify-content: center;
     align-items: center;
     gap: 10px;
     flex-shrink: 0;
-    align-self: stretch;
     border-radius: 8px;
     background-color: var(--Violeta-Profundo);
     box-shadow: 0px 4px 4px 0 rgba(0, 0, 0, 0.25);
@@ -642,6 +646,8 @@ body {
     cursor: pointer;
     color: var(--Papel-Cru);
     text-align: center;
+    leading-trim: both;
+    text-edge: cap;
     font-family: 'DM Sans', sans-serif;
     font-size: 18px;
     font-weight: 500;
