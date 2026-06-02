@@ -1,12 +1,19 @@
-import { getChat, createChat, handleSendMessage, handleReportMessage } from "../controller/chat-controller.js";
+import { getChat, createChat, sendMessage, handleReportMessage, joinChatRoom, initializeChatSocket } from "../controller/chat-controller.js";
 import { sendWarning, banUser, getUserWarnings, expireChat } from "../controller/adminChat-controller.js";
-
 
 let flag = 0;
 let currentChat = null;
 let chats = [];
 
 window.onload = async function () {
+    initializeChatSocket(async (payload) => {
+        await loadChatList();
+        if (currentChat?.id === payload.chatId) {
+            currentChat = chats.find(c => c.id === currentChat.id) || currentChat;
+            renderChats(currentChat);
+        }
+    });
+
     await loadChatList();
 };
 
@@ -63,6 +70,7 @@ function renderChatElement(chat) {
             flag = 1;
         }
         currentChat = chat;
+        joinChatRoom(chat.id);
         renderChats(chat);
     });
 }
@@ -244,7 +252,7 @@ export async function renderChats(chat) {
     }
 
     bindChatSend(async (text) => {
-        const updatedChat = await handleSendMessage(chat, text);
+        const updatedChat = await sendMessage(chat, text);
         await loadChatList();
         currentChat = chats.find(c => c.id === updatedChat.id) || updatedChat;
         renderChats(currentChat);
@@ -289,6 +297,7 @@ if (newChatButton) {
                     openChatWindow();
                     flag = 1;
                 }
+                joinChatRoom(currentChat.id);
                 renderChats(currentChat);
             } catch (error) {
                 console.error(error);
