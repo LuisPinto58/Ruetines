@@ -1,5 +1,6 @@
-import { getChats, addChats, addChatMessage } from "../data/service.js";
+import { getChats, addChats, addChatMessage, reportMessage } from "../data/service.js";
 import Chat from "../models/chat-model.js";
+
 
 export async function getChat() {
     const userId = JSON.parse(localStorage.getItem("user"))?.id;
@@ -43,4 +44,19 @@ export const handleSendMessage = async (chat, text) => {
     }
 
     return chatInstance;
+};
+
+export const handleReportMessage = async (message, chat) => {
+    const currentUserId = JSON.parse(localStorage.getItem("user"))?.id;
+    if (!currentUserId) {
+        throw new Error("Utilizador não autenticado.");
+    }
+
+    try {
+        const result = await reportMessage(message, currentUserId, chat.id);
+        return result;
+    } catch (error) {
+        console.error("Falha ao reportar mensagem:", error);
+        return { ok: false };
+    }
 };

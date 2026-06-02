@@ -1,4 +1,6 @@
-import { getChat, createChat, handleSendMessage } from "../controller/chat-controller.js";
+import { getChat, createChat, handleSendMessage, handleReportMessage } from "../controller/chat-controller.js";
+import { sendWarning, banUser, getUserWarnings, expireChat } from "../controller/adminChat-controller.js";
+
 
 let flag = 0;
 let currentChat = null;
@@ -38,30 +40,31 @@ const renderChatList = () => {
         renderChatElement(chat);
     });
 
-    };
+};
 
-function renderChatElement(chat){
-    
+function renderChatElement(chat) {
+
     const chatSelector = document.getElementById("chat-selector");
     const chatElement = document.createElement("div");
-        chatElement.classList.add("chat-container", `${chat.type}-chat`);
-        chatElement.style.opacity = chat.status === "active" ? "1" : "0.5";
+    chatElement.classList.add("chat-container", `${chat.type}-chat`);
+    chatElement.style.opacity = chat.status === "active" ? "1" : "0.5";
 
-        chatElement.innerHTML = `
-            <h5>${chat.type === "individual" ? "Chat individual" : "Chat em Grupo"}</h5>
+    chatElement.innerHTML = `
+            <h5>${chat.type === "individual" ? "Chat individual" : chat.type === "group" ? "Chat em Grupo" : "Chat administrativo"}</h5>
+            <h6>Participantes: ${chat.users.length} <h6>
             <p>${chat.messages?.[chat.messages.length - 1]?.content ?? ""}</p>
         `;
 
-        chatSelector.appendChild(chatElement);
+    chatSelector.appendChild(chatElement);
 
-        chatElement.addEventListener("click", () => {
-            if (flag === 0) {
-                openChatWindow();
-                flag = 1;
-            }
-            currentChat = chat;
-            renderChats(chat);
-        });
+    chatElement.addEventListener("click", () => {
+        if (flag === 0) {
+            openChatWindow();
+            flag = 1;
+        }
+        currentChat = chat;
+        renderChats(chat);
+    });
 }
 
 export const bindChatSend = (handler) => {
@@ -90,7 +93,7 @@ export async function renderChats(chat) {
     const chatWindow = document.getElementById("chat-window");
     const chatSelector = document.getElementById("chat-selector");
     chatSelector.classList.add("mobile-hidden");
-    if(chatSelector.style.display === "none"){
+    if (chatSelector.style.display === "none") {
         chatSelector.classList.remove("col-4");
         chatSelector.classList.add("col-12");
         chatWindow.classList.remove("col-7");
@@ -98,12 +101,15 @@ export async function renderChats(chat) {
     }
     if (!chatWindow) return;
 
+
     chatWindow.innerHTML = `
         <div class="chat-header">
-            <h4>${chat.type === "individual" ? "Chat individual" : "Chat em Grupo"}</h4>
+            <h4>${chat.type === "individual" ? "Chat individual" : chat.type === "group" ? "Chat em Grupo" : "Chat administrativo"}</h4>
+            <h6>Participantes: ${chat.users.length} <h6>
             <h6>${chat.status === "active" ? `Hora de fecho: ${new Date(chat.timeStamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : ""}</h6>
             <button id="close-chat-btn" class="btn-close" aria-label="Fechar chat"></button>
         </div>
+        <div class="admin-header"></div>
         <div class="chat-messages" id="chat-messages"></div>
         ${chat.status === "active" ? `
             <div class="chat-input-row">
@@ -112,6 +118,57 @@ export async function renderChats(chat) {
             </div>
         ` : ""}
     `;
+
+    const currentUser = JSON.parse(localStorage.getItem("user"));
+
+    if (currentUser?.role === "admin" && chat.type === "admin") {
+        const adminButtonDiv = document.createElement("div")
+        adminButtonDiv.classList.add("admin-button-div")
+        adminButtonDiv.innerHTML = `
+    <button id="warn-user-btn" class="btn btn-warning warn-btn">Warn User</button>
+    <div>Avisos: ${await getUserWarnings(chat.users[0].id)}</div>
+    <button id="expire-chat-btn" class="btn btn-secondary expire-btn">Expire Chat</button>
+    <button id="ban-user-btn" class="btn btn-danger ban-btn">Ban User</button>
+    `;
+
+        document.querySelector(".admin-header").appendChild(adminButtonDiv);
+
+        const warnBtn = document.getElementById("warn-user-btn");
+        const banBtn = document.getElementById("ban-user-btn");
+        const expireBtn = document.getElementById("expire-chat-btn");
+        const reportedUser = chat.users.find(user => user.id !== currentUser.id) || chat.users[0];
+
+        warnBtn.addEventListener("click", async () => {
+            if (!reportedUser?.id) return;
+            const result = await sendWarning(reportedUser.id);
+            if (result?.ok) {
+                alert(`User ${reportedUser.id} warned! Total warnings: ${result.warnings || 0}`);
+            } else {
+                alert('Falha ao avisar usuário.');
+            }
+        });
+
+        banBtn.addEventListener("click", async () => {
+            if (!reportedUser?.id) return;
+            const result = await banUser(reportedUser.id);
+            if (result?.ok) {
+                alert(`User ${reportedUser.id} banned!`);
+            } else {
+                alert('Falha ao banir usuário.');
+            }
+        });
+
+        expireBtn.addEventListener("click", async () => {
+            if (!reportedUser?.id) return;
+            console.log(chat.id);
+            const result = await expireChat(chat.id);
+            if (result?.ok) {
+                alert(`Chat ${chat.id} expired!`);
+            } else {
+                alert('Falha ao expirar chat.');
+            }
+        });
+    }
 
     chatWindow.querySelector("#close-chat-btn")?.addEventListener("click", () => {
         closeChatWindow();
@@ -134,11 +191,43 @@ export async function renderChats(chat) {
                 messageBubble.style.color = sender.textColor;
             }
 
-            messageBubble.innerHTML = `
-                <div>${message.content}</div>
-            `;
+            if (sender?.id === currentUserId || chat.type === "admin") {
+                messageBubble.innerHTML = `
+                    <div>${message.content}</div>
+                `;
+                messagesContainer.appendChild(messageBubble);
+            } else {
+                messageBubble.innerHTML = `
+                    <div class="report-button" style="display:none">⚠</div>
+                    <div>${message.content}</div>
+                `;
 
-            messagesContainer.appendChild(messageBubble);
+                messagesContainer.appendChild(messageBubble);
+
+                const reportButton = messageBubble.querySelector('.report-button');
+                messageBubble.addEventListener('mouseenter', () => {
+                    reportButton.style.display = 'flex';
+                });
+                messageBubble.addEventListener('mouseleave', () => {
+                    reportButton.style.display = 'none';
+                });
+                reportButton.addEventListener('click', async (event) => {
+                    event.stopPropagation();
+                    try {
+                        const result = await handleReportMessage(message, chat);
+                        if (result?.ok) {
+                            alert(`Mensagem reportada: "${message.content}" do chat ${chat.id}`);
+                        } else {
+                            alert('Falha ao reportar mensagem.');
+                        }
+                    } catch (error) {
+                        console.error('[Chat View] Erro ao reportar mensagem:', error);
+                        alert('Erro ao reportar mensagem.');
+                    }
+                });
+            }
+
+
         });
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
@@ -236,19 +325,19 @@ function closeChatWindow() {
     const chatSelector = document.getElementById("chat-selector");
 
     if (!chatWindow || !chatSelector) return;
-    if(chatSelector.style.display === "none"){
+    if (chatSelector.style.display === "none") {
         chatSelector.classList.add("col-12");
         chatSelector.classList.remove("col-lg-4");
 
         chatWindow.classList.add("col-12");
         chatWindow.classList.remove("col-lg-7");
 
-    }else{
-    chatSelector.classList.add("col-12");
-    chatSelector.classList.remove("col-lg-4");
+    } else {
+        chatSelector.classList.add("col-12");
+        chatSelector.classList.remove("col-lg-4");
 
-    chatWindow.classList.add("col-12");
-    chatWindow.classList.remove("col-lg-7");
+        chatWindow.classList.add("col-12");
+        chatWindow.classList.remove("col-lg-7");
 
     }
 

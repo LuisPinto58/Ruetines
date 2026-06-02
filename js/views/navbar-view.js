@@ -188,7 +188,7 @@ function getNavItems() {
     return [
       { label: 'Perfil', href: '../html/user.html', icon: '👤' },
       { label: 'Painel principal', href: '../html/adminTasks.html', icon: '🏠' },
-      { label: 'Chat', href: '../html/adminChat.html', icon: '📧' }
+      { label: 'Chat', href: '../html/chat.html', icon: '📧' }
     ];
   }
 

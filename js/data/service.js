@@ -12,36 +12,9 @@ const authHeaders = () => ({
 
 const jsonHeaders = () => ({ 'Content-Type': 'application/json' });
 
-const DAY_MS = 24 * 60 * 60 * 1000;
 
-const expireOrDeleteChat = async (chat) => {
-  if (!chat?.timeStamp || !chat?.id) return chat;
 
-  const ageMs = Date.now() - new Date(chat.timeStamp).getTime();
-
-  if (ageMs >= 3 * DAY_MS) {
-    await fetch(`${API}/chats/${chat.id}`, {
-      method: 'DELETE',
-      headers: authHeaders(),
-    });
-    return null;
-  }
-
-  if (ageMs >= DAY_MS && chat.status !== 'expired') {
-    const res = await fetch(`${API}/chats/${chat.id}`, {
-      method: 'PATCH',
-      headers: authHeaders(),
-      body: JSON.stringify({ status: 'expired' }),
-    });
-    if (res.ok) {
-      return { ...chat, status: 'expired' };
-    }
-  }
-
-  return chat;
-};
-
-// Autenticação
+// user and auth
 
 export const register = async (email, password) => {
   const res = await fetch(`${API}/register`, {
@@ -64,6 +37,41 @@ export const login = async (email, password) => {
   return { ok: true, token: data.accessToken, user: data.user };
 };
 
+//admin user mngmt
+
+export const warnUser = async (userId) => {
+  const userRes = await fetch(`${API}/users/${userId}`, {
+    headers: authHeaders(),
+  });
+  if (!userRes.ok) return { ok: false };
+
+  const user = await userRes.json();
+  const warnings = (user.warnings || 0) + 1;
+
+  const res = await fetch(`${API}/users/${userId}`, {
+    method: 'PATCH',
+    headers: authHeaders(),
+    body: JSON.stringify({ warnings }),
+  });
+  return { ok: res.ok, warnings };
+};
+
+export const banUser = async (userId) => {
+  const res = await fetch(`${API}/users/${userId}`, {
+    method: 'DELETE',
+    headers: authHeaders(),
+  });
+  return { ok: res.ok };
+};
+
+export const getUserWarnings = async (userId) => {
+  const res = await fetch(`${API}/users/${userId}`, {
+    headers: authHeaders(),
+  });
+  if (!res.ok) return 0;
+  const user = await res.json();
+  return user.warnings || 0;
+};
 
 //chats
 export const getChats = async (userId) => {
@@ -71,10 +79,16 @@ export const getChats = async (userId) => {
   if (!res.ok) return [];
 
   const chats = await res.json();
-  const processed = await Promise.all(chats.map(expireOrDeleteChat));
-  return processed
+  let processed = await Promise.all(chats.map(expireOrDeleteChat));
+  processed = processed
     .filter(Boolean)
-    .filter(chat => chat.users?.some(userObj => userObj.id === userId));
+    .filter(chat => chat.users?.some(userObj => userObj.id === userId))
+
+  if(userId === 3){
+    return processed
+  }else{
+    return processed.filter(chat => chat.type !== "admin" || chat.messages?.length > 1);
+  }
 };
 
 export const addChats = async (data) => {
@@ -128,5 +142,63 @@ export const addChatMessage = async (chatId, data) => {
     body: JSON.stringify(data),
   });
   return { ok: res.ok };
+};
+
+export const reportMessage = async (message, reporterId, chatId) => {
+  const adminUserId = 3;
+  const reportChat = new Chat('admin');
+  reportChat.addUser({ id: reporterId });
+  if (adminUserId !== reporterId) {
+    reportChat.addUser({ id: adminUserId });
+  }
+
+  const reportedContent = `REPORT: mensagem reportada de ${message.sender} no chat ${chatId} - "${message.content ?? ''}"`;
+  reportChat.addMessage(reportedContent, reporterId);
+
+  const res = await fetch(`${API}/chats`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify(reportChat.toJSON()),
+  });
+
+  return { ok: res.ok };
+};
+
+export const expireChat = async (chatId) => {
+  const res = await fetch(`${API}/chats/${chatId}`, {
+    method: 'PATCH',
+    headers: authHeaders(),
+    body: JSON.stringify({ status: 'expired' }),
+  });
+  return { ok: res.ok };
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+const expireOrDeleteChat = async (chat) => {
+  if (!chat?.timeStamp || !chat?.id) return chat;
+  if(chat.type === "admin") return chat;
+  const ageMs = Date.now() - new Date(chat.timeStamp).getTime();
+
+  if (ageMs >= 3 * DAY_MS) {
+    await fetch(`${API}/chats/${chat.id}`, {
+      method: 'DELETE',
+      headers: authHeaders(),
+    });
+    return null;
+  }
+
+  if (ageMs >= DAY_MS && chat.status !== 'expired') {
+    const res = await fetch(`${API}/chats/${chat.id}`, {
+      method: 'PATCH',
+      headers: authHeaders(),
+      body: JSON.stringify({ status: 'expired' }),
+    });
+    if (res.ok) {
+      return { ...chat, status: 'expired' };
+    }
+  }
+
+  return chat;
 };
 
