@@ -126,7 +126,7 @@ export async function renderChats(chat) {
         adminButtonDiv.classList.add("admin-button-div")
         adminButtonDiv.innerHTML = `
     <button id="warn-user-btn" class="btn btn-warning warn-btn">Warn User</button>
-    <div>Avisos: ${await getUserWarnings(chat.users[0].id)}</div>
+    <div id="warning-count>Avisos: ${await getUserWarnings(chat.users[0].id)}</div>
     <button id="expire-chat-btn" class="btn btn-secondary expire-btn">Expire Chat</button>
     <button id="ban-user-btn" class="btn btn-danger ban-btn">Ban User</button>
     `;
@@ -143,6 +143,7 @@ export async function renderChats(chat) {
             const result = await sendWarning(reportedUser.id);
             if (result?.ok) {
                 alert(`User ${reportedUser.id} warned! Total warnings: ${result.warnings || 0}`);
+                document.getElementById("warning-count").textContent = `Avisos: ${result.warnings || 0}`;
             } else {
                 alert('Falha ao avisar usuário.');
             }
@@ -211,6 +212,16 @@ export async function renderChats(chat) {
                 messageBubble.addEventListener('mouseleave', () => {
                     reportButton.style.display = 'none';
                 });
+                messageBubble.addEventListener("mousedown", (event) => {
+                    setTimeout(function () {
+                        if (messageBubble.onmousedown = true)
+                            if (reportButton.style.display === 'flex') {
+                                reportButton.style.display = 'none';
+                            }else{
+                                reportButton.style.display === 'flex'
+                            }
+                    }, 5000)
+                })
                 reportButton.addEventListener('click', async (event) => {
                     event.stopPropagation();
                     try {

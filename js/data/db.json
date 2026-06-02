@@ -189,6 +189,78 @@
           "sender": 4
         }
       ]
+    },
+    {
+      "id": "242983af-7482-4666-8901-d947759828ec",
+      "type": "admin",
+      "timeStamp": "2026-06-02T17:54:21.175Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 1,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 3,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "REPORT: mensagem reportada de 4 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"test\"",
+          "sender": 1
+        }
+      ]
+    },
+    {
+      "id": "3e17fdb2-1aee-4f18-b9c8-67a56fe828b8",
+      "type": "admin",
+      "timeStamp": "2026-06-02T17:54:45.392Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 1,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 3,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "REPORT: mensagem reportada de 4 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"test\"",
+          "sender": 1
+        }
+      ]
+    },
+    {
+      "id": "89fddb3f-a8f8-4fcb-ba14-b7a70b4c305d",
+      "type": "admin",
+      "timeStamp": "2026-06-02T17:54:51.700Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 1,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 3,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "REPORT: mensagem reportada de 4 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"test\"",
+          "sender": 1
+        }
+      ]
     }
   ]
 }
