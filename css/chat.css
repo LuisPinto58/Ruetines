@@ -3,6 +3,7 @@
   --secondary-color: #fff;
   --terciary-color: #a8a89e;
   --highlight-color: #8A38F5;
+  --danger-color: #c07a56;
 }
 
 html, body {
@@ -80,6 +81,7 @@ body {
 
 .chat-bubble {
   max-width: 75%;
+  min-width: 20%;
   padding: 0.85rem 1rem;
   border-radius: 18px;
   line-height: 1.4;
@@ -97,6 +99,11 @@ body {
   background-color: rgba(138, 158, 131, 0.12);
   color: #000;
 }
+
+.report-button:hover{
+  cursor: pointer;
+}
+
 
 .chat-input-row {
   display: flex;
@@ -116,6 +123,31 @@ body {
   min-width: 100px;
   background-color: var(--highlight-color);
   border: none;
+}
+
+.admin-button-div{
+  display: flex;
+  gap: 10px;
+  justify-content:space-between;
+  margin-top: 10px;
+}
+
+.warn-btn{
+  background-color: var(--highlight-color);
+  border: none;
+  color: var(--secondary-color);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.ban-btn{
+  background-color: var(--danger-color);
+  border: none;
+  color: var(--secondary-color);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
 }
 
 .chat-empty {
@@ -148,6 +180,10 @@ body {
 
 .individual-chat{
   border: 2px solid var(--terciary-color);
+}
+
+.admin-chat{
+  border: 2px solid var(--danger-color);
 }
 
 

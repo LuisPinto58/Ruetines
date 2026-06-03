@@ -13,10 +13,17 @@
       "id": 2
     },
     {
-      "email": "thiago-teste@esmad.ipp.pt",
-      "password": "$2a$10$wvUhuTfISZoYV.plLh3MF.BpZORHtQExqn9bqe5oe5sIqe7dg74.G",
-      "role": "user",
+      "email": "admin@test.com",
+      "password": "$2a$10$RLeQb2axKOjUbACDJ5zf1OXY0F4JEaHruH4h6liA8GHYKE76SQJom",
+      "role": "admin",
       "id": 3
+    },
+    {
+      "email": "test2@test.pt",
+      "password": "$2a$10$hDTb8yxfksxFhZWO3DOpVepW2THxAvDM2S915Jbztu4.JISK8MRfu",
+      "role": "user",
+      "id": 4,
+      "warnings": 3
     }
   ],
   "tasks": [],
@@ -69,25 +76,225 @@
       "messages": []
     },
     {
-      "id": "90c6b2ac-6beb-4d2a-9711-5d95ceb18615",
+      "id": "b28421e7-98f1-4f51-8f33-c74c7d755ec0",
       "type": "individual",
-      "timeStamp": "2026-06-02T14:22:40.423Z",
+      "timeStamp": "2026-06-02T13:13:13.989Z",
       "status": "active",
       "users": [
         {
-          "id": 3,
+          "id": 1,
           "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 4,
+          "identifier": "#685fa0",
           "textColor": "#ffffff"
         }
       ],
       "messages": [
         {
-          "content": "Ahsahshahsa",
-          "sender": 3
+          "content": "olá",
+          "sender": 1
         },
         {
-          "content": "sdsdsdsd",
+          "content": "olá",
+          "sender": 1
+        },
+        {
+          "content": "hello",
+          "sender": 1
+        },
+        {
+          "content": "teste",
+          "sender": 1
+        },
+        {
+          "content": "test",
+          "sender": 4
+        },
+        {
+          "content": "olá",
+          "sender": 1
+        },
+        {
+          "content": "ola",
+          "sender": 4
+        },
+        {
+          "content": "ola",
+          "sender": 1
+        },
+        {
+          "content": "ola",
+          "sender": 4
+        },
+        {
+          "content": "ola",
+          "sender": 1
+        },
+        {
+          "content": "ola",
+          "sender": 1
+        },
+        {
+          "content": "ola",
+          "sender": 1
+        },
+        {
+          "content": "ola",
+          "sender": 4
+        },
+        {
+          "content": "ola",
+          "sender": 4
+        },
+        {
+          "content": "ola",
+          "sender": 1
+        }
+      ]
+    },
+    {
+      "id": "0d39e25f-83c8-42d4-a8dc-de938d0dde6d",
+      "type": "admin",
+      "timeStamp": "2026-06-02T14:32:08.588Z",
+      "status": "expired",
+      "users": [
+        {
+          "id": 4,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 3,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "REPORT: mensagem reportada de 1 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"olá\"",
+          "sender": 4
+        },
+        {
+          "content": "hello",
           "sender": 3
+        }
+      ]
+    },
+    {
+      "id": "3e4ec887-5b8f-4f9d-b7c4-6e12c0cae0ec",
+      "type": "group",
+      "timeStamp": "2026-06-02T15:38:33.811Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 1,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 4,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": []
+    },
+    {
+      "id": "ae6bc85a-1d2a-4b50-8b09-79b0078bad3e",
+      "type": "admin",
+      "timeStamp": "2026-06-02T15:41:38.461Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 4,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 3,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "REPORT: mensagem reportada de 1 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"teste\"",
+          "sender": 4
+        }
+      ]
+    },
+    {
+      "id": "242983af-7482-4666-8901-d947759828ec",
+      "type": "admin",
+      "timeStamp": "2026-06-02T17:54:21.175Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 1,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 3,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "REPORT: mensagem reportada de 4 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"test\"",
+          "sender": 1
+        }
+      ]
+    },
+    {
+      "id": "3e17fdb2-1aee-4f18-b9c8-67a56fe828b8",
+      "type": "admin",
+      "timeStamp": "2026-06-02T17:54:45.392Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 1,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 3,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "REPORT: mensagem reportada de 4 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"test\"",
+          "sender": 1
+        }
+      ]
+    },
+    {
+      "id": "89fddb3f-a8f8-4fcb-ba14-b7a70b4c305d",
+      "type": "admin",
+      "timeStamp": "2026-06-02T17:54:51.700Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 1,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 3,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "REPORT: mensagem reportada de 4 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"test\"",
+          "sender": 1
         }
       ]
     }
