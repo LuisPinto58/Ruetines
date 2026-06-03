@@ -11,6 +11,12 @@
       "password": "$2a$10$yFwB9Z8zo24f9Zpw77fH3uQHcpE8KD1sIDD25gRePMyPu20DV1InS",
       "role": "user",
       "id": 2
+    },
+    {
+      "email": "thiago-teste@esmad.ipp.pt",
+      "password": "$2a$10$wvUhuTfISZoYV.plLh3MF.BpZORHtQExqn9bqe5oe5sIqe7dg74.G",
+      "role": "user",
+      "id": 3
     }
   ],
   "tasks": [],
@@ -38,7 +44,7 @@
       "id": "5fd2fa70-1c90-499d-8880-580c12607b29",
       "type": "individual",
       "timeStamp": "2026-06-01T09:35:28.554Z",
-      "status": "active",
+      "status": "expired",
       "users": [
         {
           "id": 1,
@@ -52,7 +58,7 @@
       "id": "f72f95a7-b4af-4ed5-be8a-2353f024f5e3",
       "type": "group",
       "timeStamp": "2026-06-01T09:37:19.248Z",
-      "status": "active",
+      "status": "expired",
       "users": [
         {
           "id": 1,
@@ -61,6 +67,29 @@
         }
       ],
       "messages": []
+    },
+    {
+      "id": "90c6b2ac-6beb-4d2a-9711-5d95ceb18615",
+      "type": "individual",
+      "timeStamp": "2026-06-02T14:22:40.423Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 3,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "Ahsahshahsa",
+          "sender": 3
+        },
+        {
+          "content": "sdsdsdsd",
+          "sender": 3
+        }
+      ]
     }
   ]
 }
