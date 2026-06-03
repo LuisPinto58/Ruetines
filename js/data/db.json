@@ -13,6 +13,10 @@
       "id": 2
     },
     {
+      "email": "thiago-teste@esmad.ipp.pt",
+      "password": "$2a$10$wvUhuTfISZoYV.plLh3MF.BpZORHtQExqn9bqe5oe5sIqe7dg74.G",
+      "role": "user",
+      "id": 3
       "email": "admin@test.com",
       "password": "$2a$10$RLeQb2axKOjUbACDJ5zf1OXY0F4JEaHruH4h6liA8GHYKE76SQJom",
       "role": "admin",
@@ -203,6 +207,15 @@
       "messages": []
     },
     {
+      "id": "90c6b2ac-6beb-4d2a-9711-5d95ceb18615",
+      "type": "individual",
+      "timeStamp": "2026-06-02T14:22:40.423Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 3,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
       "id": "ae6bc85a-1d2a-4b50-8b09-79b0078bad3e",
       "type": "admin",
       "timeStamp": "2026-06-02T15:41:38.461Z",
@@ -269,6 +282,12 @@
       ],
       "messages": [
         {
+          "content": "Ahsahshahsa",
+          "sender": 3
+        },
+        {
+          "content": "sdsdsdsd",
+          "sender": 3
           "content": "REPORT: mensagem reportada de 4 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"test\"",
           "sender": 1
         }
