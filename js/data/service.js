@@ -33,8 +33,20 @@ export const login = async (email, password) => {
   });
   if (!res.ok) return { ok: false };
   const data = await res.json();
-  console.log(data);
   return { ok: true, token: data.accessToken, user: data.user };
+};
+
+export const updateUserPassword = async (userId, token, password) => {
+  const res = await fetch(`${API}/users/${userId}`, {
+    method: 'PATCH',
+    headers: authHeaders(token),
+    body: JSON.stringify({ password }),
+  });
+  if (!res.ok) {
+    const errorBody = await res.text();
+    return { ok: false, status: res.status, message: errorBody || 'Erro no servidor.' };
+  }
+  return { ok: true };
 };
 
 //admin user mngmt
