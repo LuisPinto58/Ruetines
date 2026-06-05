@@ -1,8 +1,12 @@
+@import url('https://fonts.cdnfonts.com/css/open-dyslexic');
+
 :root {
-  --primary-color: #8a9e83;
+  --primary-color: #6B5FA0;
   --secondary-color: #fff;
   --terciary-color: #a8a89e;
+  --accessory-color: #8a9e83;
   --highlight-color: #8A38F5;
+  --danger-color: #c07a56;
 }
 
 /*------------------------------Body-------------------------------*/
@@ -10,8 +14,38 @@ body {
   margin-top: 0;
   margin-bottom: 0;
   padding: 20px;
-  font-family: 'DCSans', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   background-color: #fdfbf7;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #e8e8e8;
+}
+
+body.dark-mode .navbar,
+body.dark-mode .modal-content,
+body.dark-mode .login-modal-content {
+  background-color: #1e1e29 !important;
+  color: #e8e8e8;
+}
+
+body.dark-mode .navbar-items a,
+body.dark-mode .navbar-login,
+body.dark-mode .signup-button,
+body.dark-mode .login-form-button,
+body.dark-mode .btn-secondary,
+body.dark-mode .form-control {
+  color: #e8e8e8;
+}
+
+body.dark-mode .navbar-items a.active {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+body.open-dyslexic {
+  font-family: 'Open-Dyslexic', sans-serif !important;
 }
 
 
@@ -90,8 +124,8 @@ body {
 }
 
 .login-button {
-  background-color: var(--primary-color);
-  border: 1px solid var(--primary-color);
+  background-color: var(--accessory-color);
+  border: 1px solid var(--accessory-color);
   color: var(--secondary-color);
 }
 
@@ -191,7 +225,8 @@ body {
 }
 
 .navbar-items a.disabled {
-  color: var(--tertiary-color);
+  color: var(--secondary-color);
+  background-color:var(--terciary-color);
 }
 
 

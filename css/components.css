@@ -1,24 +1,28 @@
 :root {
-  --primary-color: #8a9e83;
+  --primary-color: #6B5FA0;
   --secondary-color: #fff;
   --terciary-color: #a8a89e;
+  --accessory-color: #8a9e83;
+  --highlight-color: #8A38F5;
+  --danger-color: #c07a56;
 }
+
 
 /* Botões */
 /* botão primário */
 .btn-primary {
-  background-color: var(--primary-color);
+  background-color: var(--accessory-color);
   border-color: transparent;
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-color);
+  background-color: var(--accessory-color);
   border-color: transparent;
   opacity: 0.9;
 }
 
 .btn-primary:active {
-  background-color: var(--primary-color);
+  background-color: var(--accessory-color);
   border-color: transparent;
   opacity: 0.8;
 }
