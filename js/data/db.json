@@ -17,303 +17,80 @@
       "password": "$2a$10$wvUhuTfISZoYV.plLh3MF.BpZORHtQExqn9bqe5oe5sIqe7dg74.G",
       "role": "user",
       "id": 3
-      "email": "admin@test.com",
-      "password": "$2a$10$RLeQb2axKOjUbACDJ5zf1OXY0F4JEaHruH4h6liA8GHYKE76SQJom",
-      "role": "admin",
-      "id": 3
     },
     {
-      "email": "test2@test.pt",
-      "password": "$2a$10$hDTb8yxfksxFhZWO3DOpVepW2THxAvDM2S915Jbztu4.JISK8MRfu",
+      "email": "thiago@gmail.com",
+      "password": "$2a$10$dj9K8wfez9ZmmV/3JqTv7exAPXBMoCbE7.uW6oD18B7pP/wDhsoRm",
       "role": "user",
-      "id": 4,
-      "warnings": 3
+      "id": 4
     }
   ],
-  "tasks": [],
+  "tasks": [
+    {
+      "userid": "user1",
+      "title": "fdsfddsfslkjfdlkjsdfsdlkjf",
+      "description": ".nmgdfgdfgdfgnmd,fdg,m",
+      "status": true,
+      "schedules": [
+        "12:30"
+      ],
+      "id": 1
+    },
+    {
+      "id": "abc6c77f-dbcb-4153-b4fc-8185dfe0c7dc",
+      "title": "Arrumar a cama Mudar mas nao elimina o me progresso eu acredito",
+      "description": "Arrumar a cama é sempre importante",
+      "userid": 4,
+      "schedules": [
+        "09:30",
+        "11:00",
+        "18:00"
+      ],
+      "timeStamp": "2026-06-04T17:04:11.883Z",
+      "status": false,
+      "completedHistory": [
+        "2026-06-06",
+        "2026-06-07"
+      ],
+      "isAdmin": false
+    },
+    {
+      "id": "af4c8dd9-ace7-47d0-86bc-5b139484fd84",
+      "title": "Qualquer coisa 2",
+      "description": "asdasdassaasa",
+      "userid": 4,
+      "schedules": [
+        "19:00"
+      ],
+      "timeStamp": "2026-06-06T18:56:30.726Z",
+      "status": false,
+      "completedHistory": [
+        "2026-06-07"
+      ],
+      "isAdmin": false
+    }
+  ],
   "chats": [
     {
-      "id": "c859d59b-276a-48bf-9f9e-08955dbc8140",
-      "type": "group",
-      "timeStamp": "2026-06-01T09:30:05.454Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "hello",
-          "sender": 1
-        }
-      ]
-    },
-    {
-      "id": "5fd2fa70-1c90-499d-8880-580c12607b29",
+      "id": "e1311c22-8ecb-450a-b29f-a6e6b6c4ff7e",
       "type": "individual",
-      "timeStamp": "2026-06-01T09:35:28.554Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": []
-    },
-    {
-      "id": "f72f95a7-b4af-4ed5-be8a-2353f024f5e3",
-      "type": "group",
-      "timeStamp": "2026-06-01T09:37:19.248Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": []
-    },
-    {
-      "id": "b28421e7-98f1-4f51-8f33-c74c7d755ec0",
-      "type": "individual",
-      "timeStamp": "2026-06-02T13:13:13.989Z",
-      "status": "active",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 4,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "olá",
-          "sender": 1
-        },
-        {
-          "content": "olá",
-          "sender": 1
-        },
-        {
-          "content": "hello",
-          "sender": 1
-        },
-        {
-          "content": "teste",
-          "sender": 1
-        },
-        {
-          "content": "test",
-          "sender": 4
-        },
-        {
-          "content": "olá",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 4
-        },
-        {
-          "content": "ola",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 4
-        },
-        {
-          "content": "ola",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 4
-        },
-        {
-          "content": "ola",
-          "sender": 4
-        },
-        {
-          "content": "ola",
-          "sender": 1
-        }
-      ]
-    },
-    {
-      "id": "0d39e25f-83c8-42d4-a8dc-de938d0dde6d",
-      "type": "admin",
-      "timeStamp": "2026-06-02T14:32:08.588Z",
+      "timeStamp": "2026-06-05T12:00:42.782Z",
       "status": "expired",
       "users": [
         {
           "id": 4,
           "identifier": "#8a9e83",
           "textColor": "#ffffff"
-        },
-        {
-          "id": 3,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
         }
       ],
       "messages": [
         {
-          "content": "REPORT: mensagem reportada de 1 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"olá\"",
+          "content": "Oi",
           "sender": 4
         },
         {
-          "content": "hello",
-          "sender": 3
-        }
-      ]
-    },
-    {
-      "id": "3e4ec887-5b8f-4f9d-b7c4-6e12c0cae0ec",
-      "type": "group",
-      "timeStamp": "2026-06-02T15:38:33.811Z",
-      "status": "active",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 4,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": []
-    },
-    {
-      "id": "90c6b2ac-6beb-4d2a-9711-5d95ceb18615",
-      "type": "individual",
-      "timeStamp": "2026-06-02T14:22:40.423Z",
-      "status": "active",
-      "users": [
-        {
-          "id": 3,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-      "id": "ae6bc85a-1d2a-4b50-8b09-79b0078bad3e",
-      "type": "admin",
-      "timeStamp": "2026-06-02T15:41:38.461Z",
-      "status": "active",
-      "users": [
-        {
-          "id": 4,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 3,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "REPORT: mensagem reportada de 1 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"teste\"",
+          "content": "Tudo bem",
           "sender": 4
-        }
-      ]
-    },
-    {
-      "id": "242983af-7482-4666-8901-d947759828ec",
-      "type": "admin",
-      "timeStamp": "2026-06-02T17:54:21.175Z",
-      "status": "active",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 3,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "REPORT: mensagem reportada de 4 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"test\"",
-          "sender": 1
-        }
-      ]
-    },
-    {
-      "id": "3e17fdb2-1aee-4f18-b9c8-67a56fe828b8",
-      "type": "admin",
-      "timeStamp": "2026-06-02T17:54:45.392Z",
-      "status": "active",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 3,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "Ahsahshahsa",
-          "sender": 3
-        },
-        {
-          "content": "sdsdsdsd",
-          "sender": 3
-          "content": "REPORT: mensagem reportada de 4 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"test\"",
-          "sender": 1
-        }
-      ]
-    },
-    {
-      "id": "89fddb3f-a8f8-4fcb-ba14-b7a70b4c305d",
-      "type": "admin",
-      "timeStamp": "2026-06-02T17:54:51.700Z",
-      "status": "active",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 3,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "REPORT: mensagem reportada de 4 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"test\"",
-          "sender": 1
         }
       ]
     }

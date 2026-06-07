@@ -23,6 +23,10 @@
   opacity: 0.8;
 }
 
+.invisible-button {
+  background-color: transparent;
+  border: transparent;
+}
 
 /* botão secundário */
 .btn-secondary {
@@ -64,17 +68,7 @@
   opacity: 0.5;
 }
 
-.modal {
-  display: none;
-  height: 100%;
-  width: 100%;
-  border-radius: 20px;
-  padding: 20vh;
-  z-index: 1000;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  /* preto com 50% de opacidade */
+.badge {
+  background-color: var(--terciary-color);
+  color: #fff;
 }

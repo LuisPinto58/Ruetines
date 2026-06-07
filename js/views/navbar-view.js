@@ -195,7 +195,7 @@ function getNavItems() {
   if ((JSON.parse(localStorage.getItem('user'))).role === 'user') {
     return [
       { label: 'Perfil', href: '../html/user.html', icon: '👤' },
-      { label: 'Painel principal', href: '../html/loggedTasks.html', icon: '🏠' },
+      { label: 'Painel principal', href: '../html/tasks.html', icon: '🏠' },
       { label: 'Chat', href: '../html/chat.html', icon: '📧' }
     ];
   }
@@ -279,7 +279,7 @@ function changeModalContent(modal, type) {
 
         sessionStorage.setItem('token', result.token);
         localStorage.setItem('user', JSON.stringify(result.user));
-        location.href = "loggedTasks.html";
+        location.href = "tasks.html";
 
         closeModal();
         renderNavbar('both', getNavItems());

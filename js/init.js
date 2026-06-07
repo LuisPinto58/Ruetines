@@ -6,7 +6,7 @@ function init(){
         if(localStorage.getItem("userRole") === "admin"){
             window.location.href = 'html/adminTasks.html';
         }else{
-            window.location.href = 'html/loggedTasks.html';
+            window.location.href = 'html/tasks.html';
         }
     }
 }
