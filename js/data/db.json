@@ -2,7 +2,7 @@
   "users": [
     {
       "email": "test@test.pt",
-      "password": "$2a$10$KV3g8KCep9zxDgbeCvwtl.CsNUB0v6fqyrIrsjoRp5/jOpovSymtW",
+      "password": "$2a$10$arcBi2tHm2hvKRrEhqsLMOzcA3veGIEgBawYYHg1utj9pMrURAXLW",
       "role": "user",
       "id": 1
     },
@@ -13,81 +13,74 @@
       "id": 2
     },
     {
-      "email": "admin@test.com",
-      "password": "$2a$10$RLeQb2axKOjUbACDJ5zf1OXY0F4JEaHruH4h6liA8GHYKE76SQJom",
-      "role": "admin",
+      "email": "thiago-teste@esmad.ipp.pt",
+      "password": "$2a$10$wvUhuTfISZoYV.plLh3MF.BpZORHtQExqn9bqe5oe5sIqe7dg74.G",
+      "role": "user",
       "id": 3
     },
     {
       "email": "thiago@gmail.com",
       "password": "$2a$10$dj9K8wfez9ZmmV/3JqTv7exAPXBMoCbE7.uW6oD18B7pP/wDhsoRm",
       "role": "user",
-      "id": 4,
-      "warnings": 3
-    },
-    {
-      "email": "thiago-teste@esmad.ipp.pt",
-      "password": "$2a$10$wvUhuTfISZoYV.plLh3MF.BpZORHtQExqn9bqe5oe5sIqe7dg74.G",
-      "role": "user",
-      "id": 5
+      "id": 4
     }
   ],
   "tasks": [
     {
-      "id": "b28421e7-98f1-4f51-8f33-c74c7d755ec0",
-      "type": "individual",
-      "timeStamp": "2026-06-02T13:13:13.989Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 4,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
+      "userid": "user1",
+      "title": "fdsfddsfslkjfdlkjsdfsdlkjf",
+      "description": ".nmgdfgdfgdfgnmd,fdg,m",
+      "status": true,
+      "schedules": [
+        "12:30"
       ],
-      "isAdmin": false
+      "id": 1
     },
     {
       "id": "af4c8dd9-ace7-47d0-86bc-5b139484fd84",
-      "title": "Qualquer coisa 2",
+      "title": "Qualquer coisa 23",
       "description": "asdasdassaasa",
       "userid": 4,
       "schedules": [
         "19:00"
       ],
-      "messages": [
-        {
-          "content": "REPORT: mensagem reportada de 1 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"olá\"",
-          "sender": 4
-        },
-        {
-          "content": "hello",
-          "sender": 3
-        }
-      ]
+      "timeStamp": "2026-06-06T18:56:30.726Z",
+      "status": false,
+      "completedHistory": [
+        "2026-06-01",
+        "2026-06-02",
+        "2026-06-03",
+        "2026-06-04",
+        "2026-06-05",
+        "2026-06-06",
+        "2026-06-07"
+      ],
+      "isAdmin": false
     },
     {
-      "id": "3e4ec887-5b8f-4f9d-b7c4-6e12c0cae0ec",
-      "type": "group",
-      "timeStamp": "2026-06-02T15:38:33.811Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 4,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
+      "id": "6771191c-6bac-4c40-aa20-76a26828a80b",
+      "title": "aads",
+      "description": "asdds",
+      "userid": 4,
+      "schedules": [],
+      "timeStamp": "2026-06-07T12:18:01.744Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": false
+    },
+    {
+      "id": "d32c728c-752d-4a24-95bb-9ed2b3ade7b9",
+      "title": "Nome extremamente criativo",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "userid": 4,
+      "schedules": [
+        "15:00",
+        "20:00",
+        "23:00"
       ],
+      "timeStamp": "2026-06-08T15:37:56.045Z",
+      "status": false,
+      "completedHistory": [],
       "isAdmin": false
     }
   ],

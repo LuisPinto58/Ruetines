@@ -103,9 +103,9 @@ function showTaskDetails(task) {
                 ${task.title}
                 <span class="task-badge ${task.completed ? "status-completed" : "status-pending"}">
                   ${task.completed ? "Concluída hoje" : "Pendente"}
-                </span>
+                </span> 
               </h3>
-            </div>
+            </div>  
             
           </div>
           <div class="d-flex align-items-center gap-2">
@@ -121,21 +121,19 @@ function showTaskDetails(task) {
           </div>
         </div>
         <div class="task-detail-body">
-        
-          <p class="task-desc">${task.description || "Sem descrição."}</p>
-
+            <p class="task-desc">${task.description || "Sem descrição."}</p>
           <!-- Experience Progress Bar (dentro do tier) -->
           <div class="task-meta mb-3">
             <div class="meta-item">
-              <span class="meta-label">Experiência — Tier ${task.tier.charAt(0).toUpperCase() + task.tier.slice(1)}</span>
+              <span class="meta-label"> TIER: ${task.tier.charAt(0).toUpperCase() + task.tier.slice(1)}</span>
               <div class="d-flex align-items-center gap-2" style="margin-top: 5px;">
+                <p style="font-size: 1.60rem; color: #888; margin: 0;">${task.tier == "bronze" ? "🥉" : task.tier == "prata" ? "🥈" : "🥇"}</p>
                 <div class="exp-bar-container">
-                  <div class="exp-bar-fill exp-tier-${task.tier}" style="width: ${progressPct}%;"></div>
+                  <div class="exp-bar-fill exp-tier-${task.tier}" style="width: ${task.tier == "ouro" ? 100 : progressPct}%;"></div>
                 </div>
-                <p style="font-size: 0.75rem; color: #888; margin: 0;">${task.tier}</p>
+                <p style="font-size: 1.60rem; color: #888; margin: 0;">${task.tier == "bronze" ? "🥈" : task.tier == "prata" ? "🥇" : ""}</p>
               </div>
               <div class="d-flex justify-content-between" style="font-size: 0.75rem; color: #888; margin-top: 2px;">
-                
               </div>
             </div>
           </div>
@@ -232,6 +230,7 @@ function buildModal(task, onSave) {
             <label for="task-description">Descrição</label>
             <textarea class="form-control" id="task-description" rows="3" placeholder="Descrição">${descValue}</textarea>
           </div>
+          
           <div class="form-group">
             <label for="task-schedule-input">Horários</label>
             <div class="d-flex gap-2 mb-2">

@@ -98,10 +98,10 @@
 }
 
 .task-detail-header {
-  display: flex;
+  display: flex;  
   justify-content: space-between;
   align-items: flex-start;
-  border-bottom: 1px solid #f0f0ee;
+  /*border-bottom: 1px solid #f0f0ee; */
   padding-bottom: 1rem;
   margin-bottom: 1rem;
 }
@@ -120,14 +120,14 @@
   font-weight: 600;
   white-space: nowrap;
 }
-
+/* Ajustar a cor depois */
 .status-completed {
-  background-color: #e2ede0;
+  background-color: #51fd3330;
   color: #4a6b42;
 }
 
 .status-pending {
-  background-color: #fcf1e3;
+  background-color: #ffcd5893;
   color: #a06a28;
 }
 
@@ -179,7 +179,7 @@
 
 
 .modal-content {
-  background: #fff;
+  /*background: #fff;  */
   border-radius: 1rem;
   padding: 2rem;
   width: min(500px, 90%);
@@ -254,6 +254,11 @@
   letter-spacing: 0.05em;
   padding: 0.15rem 0.5rem;
   border-radius: 6px;
+}
+
+.task-desc {
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .exp-tier-label.exp-tier-bronze {

@@ -1,34 +1,37 @@
 :root {
-  --primary-color: #6B5FA0;
+  --primary-color: #6b5fa0;
   --secondary-color: #fff;
   --terciary-color: #a8a89e;
   --accessory-color: #8a9e83;
-  --highlight-color: #8A38F5;
+  --highlight-color: #8a38f5;
   --danger-color: #c07a56;
 }
-
 
 /* Botões */
 /* botão primário */
 .btn-primary {
-  background-color: var(--accessory-color);
+  background-color: var(--primary-color);
+  border-radius: 100px;
   border-color: transparent;
 }
 
 .btn-primary:hover {
-  background-color: var(--accessory-color);
+  background-color: var(--primary-color);
+  border-radius: 100px;
   border-color: transparent;
   opacity: 0.9;
 }
 
 .btn-primary:active {
   background-color: var(--accessory-color);
+  border-radius: 100px;
   border-color: transparent;
   opacity: 0.8;
 }
 
 .invisible-button {
   background-color: transparent;
+  border-radius: 100px;
   border: transparent;
 }
 
@@ -36,12 +39,16 @@
 .btn-secondary {
   background-color: transparent;
   border: 1px solid var(--terciary-color);
+  border-radius: 100px;
+
   color: var(--terciary-color);
 }
 
 .btn-secondary:hover {
   background-color: transparent;
   border: 1px solid var(--terciary-color);
+  border-radius: 100px;
+
   color: var(--terciary-color);
   opacity: 0.9;
 }
@@ -49,6 +56,8 @@
 .btn-secondary:active {
   background-color: transparent;
   border: 1px solid var(--terciary-color);
+  border-radius: 100px;
+
   color: var(--terciary-color);
   opacity: 0.8;
 }
@@ -65,7 +74,11 @@
   border: 1px solid var(--terciary-color);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
-  height: min(600px, 60vh);
+  
+}
+
+body.dark-mode .container {
+  background-color: #1e1e29;
 }
 
 .card:active {
