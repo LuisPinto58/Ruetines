@@ -48,6 +48,10 @@ export const createChat = async (type) => {
         throw new Error("Falha ao criar novo chat.");
     }
 
+    if (response.chat) {
+        return Chat.fromObject(response.chat);
+    }
+
     return chat;
 };
 

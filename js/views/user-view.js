@@ -6,6 +6,7 @@ import {
     initializeUserPage,
     toggleDarkMode,
     toggleDyslexic,
+    handleDeleteAccount
 } from '../controller/user-controller.js';
 import { getSettings } from '../data/settings.js';
 
@@ -51,3 +52,17 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+document.getElementById("edit-button").addEventListener("click",()=>{
+    document.getElementById("current-password").removeAttribute("disabled")
+    document.getElementById("new-password").removeAttribute("disabled")
+    document.getElementById("confirm-password").removeAttribute("disabled")
+    document.getElementById("btn-submit").classList.remove("d-none")
+    document.getElementById("edit-button").classList.add("d-none")
+})
+
+
+document.getElementById("delete-btn").addEventListener("click", async ()=>{
+    await handleDeleteAccount();
+})
+

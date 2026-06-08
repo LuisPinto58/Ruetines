@@ -49,6 +49,18 @@ export const updateUserPassword = async (userId, token, password) => {
   return { ok: true };
 };
 
+export const deleteAccount = async (userId, token) => {
+  const res = await fetch(`${API}/users/${userId}`, {
+    method: 'DELETE',
+    headers: authHeaders(token),
+  });
+  if (!res.ok) {
+    const errorBody = await res.text();
+    return { ok: false, status: res.status, message: errorBody || 'Erro no servidor.' };
+  }
+  return { ok: true };
+};
+
 //admin user mngmt
 
 export const warnUser = async (userId) => {
@@ -134,7 +146,13 @@ export const addChats = async (data) => {
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  return { ok: res.ok, joined: false, chat: data };
+
+  if (!res.ok) {
+    return { ok: false, joined: false, chat: null };
+  }
+
+  const createdChat = await res.json();
+  return { ok: res.ok, joined: false, chat: createdChat };
 };
 
 
