@@ -1,5 +1,5 @@
 
-import { login, updateUserPassword } from '../data/service.js';
+import { login, updateUserPassword, deleteAccount } from '../data/service.js';
 import { getSettings, saveSettings, applySettings, toggleDarkMode, toggleDyslexic } from '../data/settings.js';
 
 export const getUserSettings = getSettings;
@@ -51,3 +51,17 @@ export const handleChangePassword = async ({ currentPassword, newPassword, confi
 
     return { ok: true, message: 'Password atualizada com sucesso!' };
 };
+
+export const handleDeleteAccount = async () => {
+    if (confirm('Tem certeza de que deseja eliminar a sua conta? Esta ação é irreversível.')) {
+        await deleteAccount(JSON.parse(localStorage.getItem("user")).id, sessionStorage.getItem('token')).then(result => {
+            if (!result.ok) {
+                alert('Não foi possível eliminar a conta. Tente novamente.');
+                return;
+            }else{
+                alert('Conta eliminada com sucesso!');
+                handleLogout();
+            }
+        })
+    }
+}

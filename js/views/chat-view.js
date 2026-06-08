@@ -18,9 +18,13 @@ window.onload = async function () {
 };
 
 const loadChatList = async () => {
+    const previousChatId = currentChat?.id;
     chats = await getChat();
     console.log(chats)
     renderChatList();
+    if (previousChatId) {
+        currentChat = chats.find(c => c.id === previousChatId) || currentChat;
+    }
 };
 
 const renderChatList = () => {
@@ -56,6 +60,10 @@ function renderChatElement(chat) {
     chatElement.classList.add("chat-container", `${chat.type}-chat`);
     chatElement.style.opacity = chat.status === "active" ? "1" : "0.5";
 
+    if (currentChat?.id === chat.id) {
+        chatElement.classList.add('active-chat');
+    }
+
     chatElement.innerHTML = `
             <h5>${chat.type === "individual" ? "Chat individual" : chat.type === "group" ? "Chat em Grupo" : "Chat administrativo"}</h5>
             <h6>Participantes: ${chat.users.length} <h6>
@@ -63,6 +71,12 @@ function renderChatElement(chat) {
         `;
 
     chatSelector.appendChild(chatElement);
+
+    if (currentChat?.id === chat.id) {
+        requestAnimationFrame(() => {
+            chatElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+    }
 
     chatElement.addEventListener("click", () => {
         if (flag === 0) {
