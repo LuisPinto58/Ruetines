@@ -19,8 +19,8 @@
       "id": 3
     },
     {
-      "email": "test2@test.pt",
-      "password": "$2a$10$hDTb8yxfksxFhZWO3DOpVepW2THxAvDM2S915Jbztu4.JISK8MRfu",
+      "email": "thiago@gmail.com",
+      "password": "$2a$10$dj9K8wfez9ZmmV/3JqTv7exAPXBMoCbE7.uW6oD18B7pP/wDhsoRm",
       "role": "user",
       "id": 4,
       "warnings": 3
@@ -32,8 +32,7 @@
       "id": 5
     }
   ],
-  "tasks": [],
-  "chats": [
+  "tasks": [
     {
       "id": "b28421e7-98f1-4f51-8f33-c74c7d755ec0",
       "type": "individual",
@@ -51,85 +50,15 @@
           "textColor": "#ffffff"
         }
       ],
-      "messages": [
-        {
-          "content": "olá",
-          "sender": 1
-        },
-        {
-          "content": "olá",
-          "sender": 1
-        },
-        {
-          "content": "hello",
-          "sender": 1
-        },
-        {
-          "content": "teste",
-          "sender": 1
-        },
-        {
-          "content": "test",
-          "sender": 4
-        },
-        {
-          "content": "olá",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 4
-        },
-        {
-          "content": "ola",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 4
-        },
-        {
-          "content": "ola",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 4
-        },
-        {
-          "content": "ola",
-          "sender": 4
-        },
-        {
-          "content": "ola",
-          "sender": 1
-        }
-      ]
+      "isAdmin": false
     },
     {
-      "id": "0d39e25f-83c8-42d4-a8dc-de938d0dde6d",
-      "type": "admin",
-      "timeStamp": "2026-06-02T14:32:08.588Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 4,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 3,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
+      "id": "af4c8dd9-ace7-47d0-86bc-5b139484fd84",
+      "title": "Qualquer coisa 2",
+      "description": "asdasdassaasa",
+      "userid": 4,
+      "schedules": [
+        "19:00"
       ],
       "messages": [
         {
@@ -159,10 +88,12 @@
           "textColor": "#ffffff"
         }
       ],
-      "messages": []
-    },
+      "isAdmin": false
+    }
+  ],
+  "chats": [
     {
-      "id": "90c6b2ac-6beb-4d2a-9711-5d95ceb18615",
+      "id": "e1311c22-8ecb-450a-b29f-a6e6b6c4ff7e",
       "type": "individual",
       "timeStamp": "2026-06-02T14:22:40.423Z",
       "status": "expired",
@@ -185,30 +116,12 @@
           "id": 4,
           "identifier": "#8a9e83",
           "textColor": "#ffffff"
-        },
-        {
-          "id": 3,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
         }
       ],
       "messages": [
         {
-          "content": "REPORT: mensagem reportada de 1 no chat b28421e7-98f1-4f51-8f33-c74c7d755ec0 - \"teste\"",
+          "content": "Oi",
           "sender": 4
-        }
-      ]
-    },
-    {
-      "id": "242983af-7482-4666-8901-d947759828ec",
-      "type": "admin",
-      "timeStamp": "2026-06-02T17:54:21.175Z",
-      "status": "active",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
         },
         {
           "id": 3,

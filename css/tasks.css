@@ -176,3 +176,97 @@
     transform: translateY(0);
   }
 }
+
+
+.modal-content {
+  background: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+  width: min(500px, 90%);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: none;
+  background: transparent;
+  color: #333;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* === Experience Progress Bar === */
+.exp-bar-container {
+  position: relative;
+  width: 100%;
+  height: 12px;
+  background-color: #f0f0ee;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 0.4rem;
+}
+
+.exp-bar-fill {
+  height: 100%;
+  border-radius: 12px;
+  transition: width 0.4s ease;
+  min-width: 0;
+}
+
+.exp-bar-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #333;
+  pointer-events: none;
+}
+
+/* Tier colours */
+.exp-tier-bronze {
+  background: linear-gradient(90deg, #cd7f32, #e8a65a);
+  color: #fff;
+}
+
+.exp-tier-prata {
+  background: linear-gradient(90deg, #b0b0b0, #d8d8d8);
+  color: #333;
+}
+
+.exp-tier-ouro {
+  background: linear-gradient(90deg, #d4a017, #f5d742);
+  color: #333;
+}
+
+.exp-tier-label {
+  display: inline-block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+}
+
+.exp-tier-label.exp-tier-bronze {
+  background: #f5e6d3;
+  color: #8b5a2b;
+}
+
+.exp-tier-label.exp-tier-prata {
+  background: #eaeaea;
+  color: #555;
+}
+
+.exp-tier-label.exp-tier-ouro {
+  background: #fcf3d6;
+  color: #8a6d1b;
+}
