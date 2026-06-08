@@ -1,5 +1,6 @@
 // Create desktop navbar with 3 text items
 import { login, register } from '../data/service.js';
+import { applySettings } from '../data/settings.js';
 
 function createDesktopNavbar(navItems) {
   const navbar = document.createElement('nav');
@@ -128,9 +129,9 @@ function createMobileNavbar(navItems) {
 }
 
 
-function createLoginModal() {
+function  createLoginModal() {
   const modal = document.createElement('div');
-  modal.className = 'modal fade show';
+  modal.className = 'modal fade show login-modal';
   modal.style.display = 'block';
   modal.tabIndex = -1;
 
@@ -150,12 +151,9 @@ function createLoginModal() {
 
   changeModalContent(modal, 'login');
 
-  const backdrop = document.createElement('div');
-  backdrop.className = 'modal-backdrop fade show';
 
   const closeModal = () => {
     modal.remove();
-    backdrop.remove();
     document.body.classList.remove('modal-open');
   };
 
@@ -170,7 +168,6 @@ function createLoginModal() {
     }
   });
 
-  document.body.appendChild(backdrop);
   document.body.classList.add('modal-open');
   return modal;
 }
@@ -323,8 +320,29 @@ function renderNavbar(type, navItems) {
 
 // init navbar
 document.addEventListener('DOMContentLoaded', function () {
+  applySettings();
   const navbarContainer = document.createElement('div');
   navbarContainer.id = 'navbar-container';
   document.body.insertBefore(navbarContainer, document.body.firstChild);
   renderNavbar('both', getNavItems());
+  let fonts = [document.createElement("link"),document.createElement("link"),document.createElement("link"),document.createElement("link")]
+  fonts[0].href= "https://fonts.googleapis.com"
+  fonts[0].rel= "preconnect"
+  fonts[1].href= "https://fonts.gstatic.com"
+  fonts[1].rel= "preconnect"
+  fonts[1].crossOrigin= ""
+  fonts[2].href= "https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+  fonts[2].rel= "stylesheet"
+  fonts[3].href= "https://fonts.cdnfonts.com/css/open-dyslexic"
+  fonts[3].rel= "stylesheet"
+  document.head.appendChild(fonts[0])
+  document.head.appendChild(fonts[1])
+  document.head.appendChild(fonts[2])
+  document.head.appendChild(fonts[3])
+  const url = new URLSearchParams(location.search);
+  if (url.has('loggedOut')) {
+    if (!document.querySelector('.login-modal')) {
+        document.body.appendChild(createLoginModal());
+      }
+  }
 });

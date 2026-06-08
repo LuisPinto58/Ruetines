@@ -1,0 +1,97 @@
+@import url('https://fonts.cdnfonts.com/css/open-dyslexic');
+
+:root {
+  --primary-color: #6B5FA0;
+  --secondary-color: #fff;
+  --terciary-color: #a8a89e;
+  --accessory-color: #8a9e83;
+  --highlight-color: #8A38F5;
+  --danger-color: #c07a56;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #e8e8e8;
+}
+
+body.dark-mode .flex-container {
+  color: #e8e8e8;
+}
+
+body.dark-mode #badge-container {
+  background-color: #181823;
+  border-color: #4b4b5c;
+}
+
+body.dark-mode #logout-btn,
+body.dark-mode .btn-primary {
+  background-color: #6f5df7;
+  border-color: #6f5df7;
+  color: #ffffff;
+}
+
+body.dark-mode .modal-content {
+  background-color: #1f1f2a;
+  color: #e8e8e8;
+}
+
+body.dark-mode .form-control,
+body.dark-mode .form-check-input {
+  background-color: #262635;
+  border-color: #4b4b5c;
+  color: #e8e8e8;
+}
+
+body.dark-mode .form-check-label,
+body.dark-mode .form-label,
+body.dark-mode .modal-title {
+  color: #e8e8e8;
+}
+
+body.open-dyslexic {
+  font-family: 'Open-Dyslexic', sans-serif !important;
+}
+
+.flex-container{
+    display:flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    margin-right: 1rem;
+}
+
+#user-email{
+    padding: 0.5rem;
+    font-size: 1.2rem;
+}
+
+#badge-container{
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  gap: 1rem;
+  padding: 20px;
+  border: 2px solid var(--terciary-color);
+  border-radius: 20px;
+  min-height: calc(100vh - 500px);
+  max-height: calc(100vh - 500px);
+  box-sizing: border-box;
+}
+
+#logout-btn{
+    background-color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+    color: var(--secondary-color);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    margin-top:2rem;
+    transition: all 0.3s ease;
+}
+
+.btn-submit{
+    background-color: var(--accessory-color);
+    border: 1px solid var(--accessory-color);
+    color: var(--secondary-color);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
