@@ -219,7 +219,12 @@ function changeModalContent(modal, type) {
   const modalBody = modal.querySelector('.modal-body');
   if (type === 'signup') {
     modal.querySelector('.modal-content').style.backgroundColor = '#fdfbf7';
-    modalTitle.textContent = 'Registar';
+    modalTitle.innerHTML = `
+    <button type="button" class="btn p-0 border-0 back-to-login me-2">
+    ←
+    </button>
+    Registar
+    `;
     modalBody.innerHTML = `
       <form class="signup-form">
         <div class="mb-3">
@@ -260,6 +265,14 @@ function changeModalContent(modal, type) {
         changeModalContent(modal, 'login');
       });
     }
+
+        const backButton = modal.querySelector('.back-to-login');
+      if (backButton) {
+        backButton.addEventListener('click', function() {
+          changeModalContent(modal, 'login');
+        });
+      }
+
   } else if (type === 'login') {
     modalTitle.textContent = 'Log in';
     modal.querySelector('.modal-content').style.backgroundColor = '#fdfbf7';

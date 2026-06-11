@@ -177,12 +177,14 @@ body.open-dyslexic {
   background-color: var(--Verde-Loureiro);
   border: 1px solid var(--Verde-Loureiro);
   color: var(--Papel-Cru);
+  border-radius: 100px;
 }
 
 .signup-button {
   background-color: var(--Papel-Cru);
   color: var(--Violeta-Profundo);
   border: 1px solid var(--Violeta-Profundo);
+  border-radius: 100px;
 }
 
 .login-button:hover,

@@ -15,6 +15,11 @@
   }
 }
 
+#retrieve-tasks-btn {
+  background-color: #ede9f5;
+  color: #3d3d3d;
+}
+
 .tasks-body {
   display: flex;
   flex-direction: row;
