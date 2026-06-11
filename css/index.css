@@ -311,6 +311,7 @@ body.open-dyslexic {
   border-top: 1px solid var(--border-color);
   background-color: var(--terciary-color);
   z-index: 1000;
+  padding-top: 12px;
 }
 
 .navbar-icons {

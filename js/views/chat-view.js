@@ -148,7 +148,7 @@ export async function renderChats(chat) {
         adminButtonDiv.classList.add("admin-button-div")
         adminButtonDiv.innerHTML = `
     <button id="warn-user-btn" class="btn btn-warning warn-btn">Warn User</button>
-    <div id="warning-count>Avisos: ${await getUserWarnings(chat.users[0].id)}</div>
+    <div id="warning-count">Avisos: ${await getUserWarnings(chat.users[0].id)}</div>
     <button id="expire-chat-btn" class="btn btn-secondary expire-btn">Expire Chat</button>
     <button id="ban-user-btn" class="btn btn-danger ban-btn">Ban User</button>
     `;
