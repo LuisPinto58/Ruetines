@@ -1,29 +1,30 @@
 :root {
-  --primary-color: #6b5fa0;
-  --secondary-color: #fff;
-  --terciary-color: #a8a89e;
-  --accessory-color: #8a9e83;
+  --Violeta-Profundo: #6b5fa0;
+  --Papel-Cru: #fdfbf7;
+  --Pedra: #a8a89e;
+  --Verde-Loureiro: #8a9e83;
   --highlight-color: #8a38f5;
-  --danger-color: #c07a56;
+  --Terracota: #c07a56;
+
 }
 
 /* Botões */
 /* botão primário */
 .btn-primary {
-  background-color: var(--primary-color);
+  background-color: var(--Violeta-Profundo);
   border-radius: 100px;
   border-color: transparent;
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-color);
+  background-color: var(--Violeta-Profundo);
   border-radius: 100px;
   border-color: transparent;
   opacity: 0.9;
 }
 
 .btn-primary:active {
-  background-color: var(--accessory-color);
+  background-color: var(--Verde-Loureiro);
   border-radius: 100px;
   border-color: transparent;
   opacity: 0.8;
@@ -38,27 +39,27 @@
 /* botão secundário */
 .btn-secondary {
   background-color: transparent;
-  border: 1px solid var(--terciary-color);
+  border: 1px solid var(--Pedra);
   border-radius: 100px;
 
-  color: var(--terciary-color);
+  color: var(--Pedra);
 }
 
 .btn-secondary:hover {
   background-color: transparent;
-  border: 1px solid var(--terciary-color);
+  border: 1px solid var(--Pedra);
   border-radius: 100px;
 
-  color: var(--terciary-color);
+  color: var(--Pedra);
   opacity: 0.9;
 }
 
 .btn-secondary:active {
   background-color: transparent;
-  border: 1px solid var(--terciary-color);
+  border: 1px solid var(--Pedra);
   border-radius: 100px;
 
-  color: var(--terciary-color);
+  color: var(--Pedra);
   opacity: 0.8;
 }
 
@@ -71,7 +72,7 @@
   padding-left: 32px;
   padding-top: 24px;
   padding-bottom: 24px;
-  border: 1px solid var(--terciary-color);
+  border: 1px solid var(--Pedra);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   
@@ -86,6 +87,6 @@ body.dark-mode .container {
 }
 
 .badge {
-  background-color: var(--terciary-color);
+  background-color: var(--Pedra);
   color: #fff;
 }

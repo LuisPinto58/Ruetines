@@ -218,6 +218,7 @@ function changeModalContent(modal, type) {
   const modalTitle = modal.querySelector('.modal-title');
   const modalBody = modal.querySelector('.modal-body');
   if (type === 'signup') {
+    modal.querySelector('.modal-content').style.backgroundColor = '#fdfbf7';
     modalTitle.textContent = 'Registar';
     modalBody.innerHTML = `
       <form class="signup-form">
@@ -261,6 +262,7 @@ function changeModalContent(modal, type) {
     }
   } else if (type === 'login') {
     modalTitle.textContent = 'Log in';
+    modal.querySelector('.modal-content').style.backgroundColor = '#fdfbf7';
     modalBody.innerHTML = `
       <form class="login-form">
         <div class="mb-3">

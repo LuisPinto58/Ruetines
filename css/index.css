@@ -1,12 +1,12 @@
 @import url("https://fonts.cdnfonts.com/css/open-dyslexic");
 
 :root {
-  --primary-color: #6b5fa0;
-  --secondary-color: #fff;
-  --terciary-color: #a8a89e;
-  --accessory-color: #8a9e83;
+  --Violeta-Profundo: #6b5fa0;
+  --Papel-Cru: #fdfbf7;
+  --Pedra: #a8a89e;
+  --Verde-Loureiro: #8a9e83;
   --highlight-color: #8a38f5;
-  --danger-color: #c07a56;
+  --Terracota: #c07a56;
 }
 
 /*------------------------------Body-------------------------------*/
@@ -174,15 +174,15 @@ body.open-dyslexic {
 }
 
 .login-button {
-  background-color: var(--accessory-color);
-  border: 1px solid var(--accessory-color);
-  color: var(--secondary-color);
+  background-color: var(--Verde-Loureiro);
+  border: 1px solid var(--Verde-Loureiro);
+  color: var(--Papel-Cru);
 }
 
 .signup-button {
-  background-color: var(--secondary-color);
-  color: var(--primary-color);
-  border: 1px solid var(--primary-color);
+  background-color: var(--Papel-Cru);
+  color: var(--Violeta-Profundo);
+  border: 1px solid var(--Violeta-Profundo);
 }
 
 .login-button:hover,
@@ -192,8 +192,8 @@ body.open-dyslexic {
 
 /* General Navbar Styles */
 .navbar {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
+  background-color: var(--Violeta-Profundo);
+  color: var(--Papel-Cru);
   padding: 20px;
   margin: 20px;
   border-radius: 32px;
@@ -235,10 +235,10 @@ body.open-dyslexic {
 }
 
 .navbar-login {
-  color: var(--secondary-color);
+  color: var(--Papel-Cru);
   text-decoration: none;
   background-color: transparent;
-  border: 1px solid var(--secondary-color);
+  border: 1px solid var(--Papel-Cru);
   border-radius: 20px;
   padding: 0.5rem 1rem;
   transition: all 0.3s ease;
@@ -254,7 +254,7 @@ body.open-dyslexic {
 }
 
 .navbar-items a {
-  color: var(--secondary-color);
+  color: var(--Papel-Cru);
   text-decoration: none;
   font-size: 1rem;
   padding: 0.5rem 1rem;
@@ -263,19 +263,19 @@ body.open-dyslexic {
 }
 
 .navbar-items a:hover {
-  background-color: var(--terciary-color);
+  background-color: var(--Pedra);
   transform: translateY(-2px);
 }
 
 .navbar-items a.active {
   font-weight: bold;
-  background-color: var(--secondary-color);
+  background-color: var(--Papel-Cru);
   color: #000;
 }
 
 .navbar-items a.disabled {
-  color: var(--secondary-color);
-  background-color: var(--terciary-color);
+  color: var(--Papel-Cru);
+  background-color: var(--Pedra);
 }
 
 /* MOBILE */
@@ -309,7 +309,7 @@ body.open-dyslexic {
   align-items: center;
   height: 70px;
   border-top: 1px solid var(--border-color);
-  background-color: var(--terciary-color);
+  background-color: var(--Pedra);
   z-index: 1000;
   padding-top: 12px;
 }
@@ -331,7 +331,7 @@ body.open-dyslexic {
 }
 
 .navbar-icons a {
-  color: var(--secondary-color);
+  color: var(--Papel-Cru);
   text-decoration: none;
   font-size: 1.5rem;
   padding: 0.5rem;
@@ -345,7 +345,7 @@ body.open-dyslexic {
 }
 
 .navbar-icons a:hover {
-  background-color: var(--terciary-color);
+  background-color: var(--Pedra);
   transform: scale(1.1);
 }
 

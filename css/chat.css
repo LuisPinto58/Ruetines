@@ -1,9 +1,9 @@
 :root {
-  --primary-color: #8a9e83;
-  --secondary-color: #fff;
-  --terciary-color: #a8a89e;
+  --Verde-Loureiro: #8a9e83;
+  --Papel-Cru: #fdfbf7;
+  --Pedra: #a8a89e;
   --highlight-color: #8A38F5;
-  --danger-color: #c07a56;
+  --Terracota: #c07a56;
 }
 
 html, body {
@@ -23,7 +23,7 @@ body {
 .btn-highlight{
   background-color: var(--highlight-color);
   border: 1px solid var(--highlight-color);
-  color: var(--secondary-color);
+  color: var(--Papel-Cru);
   border-radius: 20px;
   padding: 0.5rem 1rem;
   transition: all 0.3s ease;
@@ -39,7 +39,7 @@ body {
   overflow-y: scroll;
   gap: 1rem;
   padding: 20px;
-  border: 2px solid var(--terciary-color);
+  border: 2px solid var(--Pedra);
   border-radius: 20px;
   min-height: calc(100vh - 230px);
   max-height: calc(100vh - 230px);
@@ -90,8 +90,8 @@ body {
 
 .chat-bubble.mine {
   align-self: flex-end;
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
+  background-color: var(--Verde-Loureiro);
+  color: var(--Papel-Cru);
 }
 
 .chat-bubble.other {
@@ -135,16 +135,16 @@ body {
 .warn-btn{
   background-color: var(--highlight-color);
   border: none;
-  color: var(--secondary-color);
+  color: var(--Papel-Cru);
   border-radius: 20px;
   padding: 0.5rem 1rem;
   transition: all 0.3s ease;
 }
 
 .ban-btn{
-  background-color: var(--danger-color);
+  background-color: var(--Terracota);
   border: none;
-  color: var(--secondary-color);
+  color: var(--Papel-Cru);
   border-radius: 20px;
   padding: 0.5rem 1rem;
   transition: all 0.3s ease;
@@ -175,15 +175,15 @@ body {
 }
 
 .group-chat{
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--Verde-Loureiro);
 }
 
 .individual-chat{
-  border: 2px solid var(--terciary-color);
+  border: 2px solid var(--Pedra);
 }
 
 .admin-chat{
-  border: 2px solid var(--danger-color);
+  border: 2px solid var(--Terracota);
 }
 
 
