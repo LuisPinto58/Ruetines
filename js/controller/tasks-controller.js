@@ -1,11 +1,8 @@
 import Task from "../models/tasks-model.js";
+import User from "../models/users-model.js";
 
 function _getCurrentUser() {
-    try {
-        return JSON.parse(localStorage.getItem("user"));
-    } catch (e) {
-        return null;
-    }
+    return User.fromStorage();
 }
 
 function _matchesUser(taskUserid, userId) {

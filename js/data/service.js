@@ -2,15 +2,46 @@
 // Os controllers nunca constroem pedidos fetch nem acedem diretamente aos headers ou ao token.
 
 import Chat from "../models/chat-model.js";
+import User from "../models/users-model.js";
 
 const API = 'http://localhost:3000';
 
-const authHeaders = () => ({
-  'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+const authHeaders = (token = sessionStorage.getItem('token')) => ({
+  'Authorization': token ? `Bearer ${token}` : '',
   'Content-Type': 'application/json',
 });
 
 const jsonHeaders = () => ({ 'Content-Type': 'application/json' });
+
+const logoutUser = () => {
+  User.saveToStorage(null);
+  sessionStorage.removeItem('token');
+  if (typeof window !== 'undefined') {
+    window.location.href = '../html/tasks.html?loggedOut=true';
+  }
+};
+
+const getErrorMessage = async (res) => {
+  const text = await res.text();
+  if (!text) return 'Erro no servidor.';
+
+  try {
+    const parsed = JSON.parse(text);
+    return parsed?.message || parsed?.error || text;
+  } catch {
+    return text;
+  }
+};
+
+const handleApiError = async (res) => {
+  if (res.status === 401 || res.status === 403) {
+    logoutUser();
+    return { ok: false, status: res.status, message: 'Sessão expirada. Faça login novamente.' };
+  }
+
+  const message = await getErrorMessage(res);
+  return { ok: false, status: res.status, message: message || 'Erro no servidor.' };
+};
 
 
 
@@ -42,10 +73,7 @@ export const updateUserPassword = async (userId, token, password) => {
     headers: authHeaders(token),
     body: JSON.stringify({ password }),
   });
-  if (!res.ok) {
-    const errorBody = await res.text();
-    return { ok: false, status: res.status, message: errorBody || 'Erro no servidor.' };
-  }
+  if (!res.ok) return await handleApiError(res);
   return { ok: true };
 };
 
@@ -54,20 +82,36 @@ export const deleteAccount = async (userId, token) => {
     method: 'DELETE',
     headers: authHeaders(token),
   });
-  if (!res.ok) {
-    const errorBody = await res.text();
-    return { ok: false, status: res.status, message: errorBody || 'Erro no servidor.' };
-  }
+  if (!res.ok) return await handleApiError(res);
   return { ok: true };
 };
 
-//admin user mngmt
+export const getUserById = async (userId) => {
+  const res = await fetch(`${API}/users/${userId}`, {
+    headers: authHeaders(),
+  });
 
+  if (!res.ok) {
+    const message = await getErrorMessage(res);
+
+    if (res.status === 401 || res.status === 403) {
+      logoutUser();
+      return { ok: false, status: res.status, message: 'Sessão expirada. Faça login novamente.' };
+    }
+      alert('Utilizador não encontrado. A sessão foi encerrada.');
+      logoutUser();
+      return { ok: false, status: res.status, message: message || 'Utilizador não encontrado.' };
+    }
+
+  return { ok: true, user: await res.json() };
+};
+
+//admin user mngmt
 export const warnUser = async (userId) => {
   const userRes = await fetch(`${API}/users/${userId}`, {
     headers: authHeaders(),
   });
-  if (!userRes.ok) return { ok: false };
+  if (!userRes.ok) return await handleApiError(userRes);
 
   const user = await userRes.json();
   const warnings = (user.warnings || 0) + 1;
@@ -77,7 +121,8 @@ export const warnUser = async (userId) => {
     headers: authHeaders(),
     body: JSON.stringify({ warnings }),
   });
-  return { ok: res.ok, warnings };
+  if (!res.ok) return await handleApiError(res);
+  return { ok: true, warnings };
 };
 
 export const banUser = async (userId) => {
@@ -85,20 +130,32 @@ export const banUser = async (userId) => {
     method: 'DELETE',
     headers: authHeaders(),
   });
-  return { ok: res.ok };
+  if (!res.ok) return await handleApiError(res);
+  return { ok: true };
 };
 
 export const getUserWarnings = async (userId) => {
   const res = await fetch(`${API}/users/${userId}`, {
     headers: authHeaders(),
   });
-  if (!res.ok) return 0;
+  if (!res.ok) {
+    await handleApiError(res);
+    return 0;
+  }
   const user = await res.json();
   return user.warnings || 0;
 };
 
 //chats
 export const getChats = async (userId) => {
+  const userResult = await getUserById(userId);
+
+  if (!userResult.ok || !userResult.user) {
+    return { ok: false, message: userResult.message || 'Utilizador não encontrado.', chat: null };
+  }
+
+  const user = userResult.user;
+
   const res = await fetch(`${API}/chats`, { headers: authHeaders() });
   if (!res.ok) return [];
 
@@ -108,7 +165,7 @@ export const getChats = async (userId) => {
     .filter(Boolean)
     .filter(chat => chat.users?.some(userObj => userObj.id === userId))
 
-  if(userId === 3){
+  if (user.role == 'admin') {
     return processed
   }else{
     return processed.filter(chat => chat.type !== "admin" || chat.messages?.length > 1);
@@ -116,6 +173,13 @@ export const getChats = async (userId) => {
 };
 
 export const addChats = async (data) => {
+  const userResult = await getUserById(data.users?.[0]?.id);
+  if (!userResult.ok || !userResult.user) {
+    return { ok: false, message: userResult.message || 'Utilizador não encontrado.', chat: null };
+  }
+
+  const user = userResult.user;
+
   const getChat = await fetch(`${API}/chats`, { headers: authHeaders() });
   if (!getChat.ok) {
     throw new Error("Falha ao obter chats existentes.");
@@ -162,28 +226,44 @@ export const addChatUser = async (chatId, data) => {
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  return { ok: res.ok };
+  if (!res.ok) return await handleApiError(res);
+  return { ok: true };
 };
 
-export const addChatMessage = async (chatId, data) => {
+export const addChatMessage = async (chatId, data, userId) => {
+  const userResult = await getUserById(userId);
+  if (!userResult.ok || !userResult.user) {
+    return { ok: false, message: userResult.message || 'Utilizador não encontrado.', chat: null };
+  }
+
   const res = await fetch(`${API}/chats/${chatId}`, {
     method: 'PATCH',
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  return { ok: res.ok };
+  if (!res.ok) return await handleApiError(res);
+  return { ok: true };
 };
 
-export const reportMessage = async (message, reporterId, chatId) => {
-  const adminUserId = 3;
+export const reportMessage = async (message, chatId) => {
+  const adminRes = await fetch(`${API}/users?role=admin`, { headers: authHeaders() });
+  if (!adminRes.ok) {
+    throw new Error("Falha ao obter administradores.");
+  }
+
+  const [adminUser] = await adminRes.json();
+  if (!adminUser?.id) {
+    throw new Error("Nenhum administrador encontrado.");
+  }
+
   const reportChat = new Chat('admin');
-  reportChat.addUser({ id: reporterId });
-  if (adminUserId !== reporterId) {
-    reportChat.addUser({ id: adminUserId });
+  reportChat.addUser({ id: message.sender });
+  if (adminUser.id !== message.sender) {
+    reportChat.addUser({ id: adminUser.id });
   }
 
   const reportedContent = `REPORT: mensagem reportada de ${message.sender} no chat ${chatId} - "${message.content ?? ''}"`;
-  reportChat.addMessage(reportedContent, reporterId);
+  reportChat.addMessage(reportedContent, message.sender);
 
   const res = await fetch(`${API}/chats`, {
     method: 'POST',
@@ -191,7 +271,8 @@ export const reportMessage = async (message, reporterId, chatId) => {
     body: JSON.stringify(reportChat.toJSON()),
   });
 
-  return { ok: res.ok };
+  if (!res.ok) return await handleApiError(res);
+  return { ok: true };
 };
 
 export const expireChat = async (chatId) => {
@@ -200,7 +281,8 @@ export const expireChat = async (chatId) => {
     headers: authHeaders(),
     body: JSON.stringify({ status: 'expired' }),
   });
-  return { ok: res.ok };
+  if (!res.ok) return await handleApiError(res);
+  return { ok: true };
 }
 
 const DAY_MS = 24 * 60 * 60 * 1000;

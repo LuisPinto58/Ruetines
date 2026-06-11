@@ -1,12 +1,13 @@
 import { getChats, addChats, addChatMessage, reportMessage } from "../data/service.js";
 import Chat from "../models/chat-model.js";
+import User from "../models/users-model.js";
 import socket from "../data/socket.js";
 
 let currentRoomId = null;
 let refreshHandler = null;
 
 export async function getChat() {
-    const userId = JSON.parse(localStorage.getItem("user"))?.id;
+    const userId = User.fromStorage()?.id;
     const chats = await getChats(userId);
     return chats.map(chat => Chat.fromObject(chat));
 }
@@ -34,7 +35,7 @@ export const joinChatRoom = (chatId) => {
 };
 
 export const createChat = async (type) => {
-    const currentUser = JSON.parse(localStorage.getItem("user"));
+    const currentUser = User.fromStorage();
     if (!currentUser?.id) {
         throw new Error("Utilizador não autenticado.");
     }
@@ -56,32 +57,28 @@ export const createChat = async (type) => {
 };
 
 export const sendMessage = async (chat, text) => {
-    const updatedChat = await handleSendMessage(chat, text);
+    const currentUser = User.fromStorage();
+    const updatedChat = await handleSendMessage(chat, text, currentUser?.id);
 
     if (updatedChat?.id) {
         socket.emit("new_chat_message", {
             chatId: updatedChat.id,
             message: updatedChat.messages?.[updatedChat.messages.length - 1],
-            sender: JSON.parse(localStorage.getItem("user"))?.id,
+            sender: currentUser?.id,
         });
     }
 
     return updatedChat;
 };
 
-export const handleSendMessage = async (chat, text) => {
+export const handleSendMessage = async (chat, text, userId) => {
     if (!text?.trim()) return chat;
 
-    const currentUserId = JSON.parse(localStorage.getItem("user"))?.id;
-    if (!currentUserId) {
-        throw new Error("Utilizador não autenticado.");
-    }
-
     const chatInstance = chat instanceof Chat ? chat : Chat.fromObject(chat);
-    chatInstance.addMessage(text.trim(), currentUserId);
+    chatInstance.addMessage(text.trim(), userId);
 
     try {
-        await addChatMessage(chatInstance.id, { messages: chatInstance.messages });
+        await addChatMessage(chatInstance.id, { messages: chatInstance.messages }, userId);
     } catch (error) {
         console.error("Falha ao enviar mensagem:", error);
     }
@@ -90,16 +87,13 @@ export const handleSendMessage = async (chat, text) => {
 };
 
 export const handleReportMessage = async (message, chat) => {
-    const currentUserId = JSON.parse(localStorage.getItem("user"))?.id;
-    if (!currentUserId) {
-        throw new Error("Utilizador não autenticado.");
-    }
-
     try {
-        const result = await reportMessage(message, currentUserId, chat.id);
+        const result = await reportMessage(message, chat.id);
         return result;
     } catch (error) {
         console.error("Falha ao reportar mensagem:", error);
         return { ok: false };
     }
 };
+
+

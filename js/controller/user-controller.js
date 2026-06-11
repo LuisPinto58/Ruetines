@@ -1,13 +1,14 @@
 
 import { login, updateUserPassword, deleteAccount } from '../data/service.js';
 import { getSettings, saveSettings, applySettings, toggleDarkMode, toggleDyslexic } from '../data/settings.js';
+import User from '../models/users-model.js';
 
 export const getUserSettings = getSettings;
 export const saveUserSettings = saveSettings;
 export const applyUserSettings = applySettings;
 
 export const initializeUserPage = () => {
-    const user = JSON.parse(localStorage.getItem("user")) || {};
+    const user = User.fromStorage();
     const userEmail = document.getElementById('user-email');
     if (userEmail) {
         userEmail.textContent = `Email: ${user.email || 'Desconhecido'}`;
@@ -23,7 +24,7 @@ export const handleLogout = () => {
 export { toggleDarkMode, toggleDyslexic };
 
 export const handleChangePassword = async ({ currentPassword, newPassword, confirmPassword }) => {
-    const user = JSON.parse(localStorage.getItem("user")) || null;
+    const user = User.fromStorage();
     if (!user) {
         return { ok: false, message: 'Não foi possível encontrar o utilizador. Faça login novamente.' };
     }
@@ -54,7 +55,8 @@ export const handleChangePassword = async ({ currentPassword, newPassword, confi
 
 export const handleDeleteAccount = async () => {
     if (confirm('Tem certeza de que deseja eliminar a sua conta? Esta ação é irreversível.')) {
-        await deleteAccount(JSON.parse(localStorage.getItem("user")).id, sessionStorage.getItem('token')).then(result => {
+        const user = User.fromStorage();
+        await deleteAccount(user?.id, sessionStorage.getItem('token')).then(result => {
             if (!result.ok) {
                 alert('Não foi possível eliminar a conta. Tente novamente.');
                 return;
