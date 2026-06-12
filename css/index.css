@@ -7,6 +7,8 @@
   --Verde-Loureiro: #8a9e83;
   --highlight-color: #8a38f5;
   --Terracota: #c07a56;
+  --Lavanda-Suave: #ede9f5;
+  --Carvao: #3d3d3d;
 }
 
 /*------------------------------Body-------------------------------*/
@@ -264,20 +266,19 @@ body.open-dyslexic {
   border-radius: 20px;
 }
 
-.navbar-items a:hover {
-  background-color: var(--Pedra);
+.navbar-items a:not(.disabled):hover {
+  background-color: var(--Lavanda-Suave);
+  color: var(--Carvao);
   transform: translateY(-2px);
 }
 
 .navbar-items a.active {
-  font-weight: bold;
-  background-color: var(--Papel-Cru);
-  color: #000;
+  background-color: var(--Lavanda-Suave);
+  color: var(--Carvao);
 }
 
 .navbar-items a.disabled {
   color: var(--Papel-Cru);
-  background-color: var(--Pedra);
 }
 
 /* MOBILE */
@@ -311,7 +312,7 @@ body.open-dyslexic {
   align-items: center;
   height: 70px;
   border-top: 1px solid var(--border-color);
-  background-color: var(--Pedra);
+  background-color: var(--Violeta-Profundo);
   z-index: 1000;
   padding-top: 12px;
 }
@@ -346,8 +347,14 @@ body.open-dyslexic {
   border-radius: 50%;
 }
 
+.navbar-icons a.active {
+  background-color: var(--Lavanda-Suave);
+  color: var(--Violeta-Profundo);
+}
+
 .navbar-icons a:hover {
-  background-color: var(--Pedra);
+  background-color: var(--Lavanda-Suave);
+  color: var(--Violeta-Profundo);
   transform: scale(1.1);
 }
 

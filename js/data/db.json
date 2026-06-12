@@ -29,6 +29,12 @@
       "password": "$2a$10$EV1S4t7vVJcYMuKGKl1rReySCP0M1oheuNbh88gjclu2OZlTPk.iy",
       "role": "admin",
       "id": 6
+    },
+    {
+      "email": "test@email.com",
+      "password": "$2a$10$uTh754iKvR94fuRh.QPuAOul9B0If2Z4VKEJ4zWfQ.gzO1gR02ism",
+      "role": "user",
+      "id": 7
     }
   ],
   "tasks": [
@@ -92,193 +98,10 @@
   ],
   "chats": [
     {
-      "id": "db531c9c-69b1-42ec-9797-3824683c5aca",
-      "type": "individual",
-      "timeStamp": "2026-06-08T15:21:01.509Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 6,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 1,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "test",
-          "sender": 6
-        },
-        {
-          "content": "test",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 6
-        },
-        {
-          "content": "test",
-          "sender": 1
-        },
-        {
-          "content": "test",
-          "sender": 6
-        },
-        {
-          "content": "ola",
-          "sender": 6
-        }
-      ]
-    },
-    {
-      "id": "4b84b2a9-403a-43cb-b5da-aedb751635f2",
-      "type": "individual",
-      "timeStamp": "2026-06-08T16:36:22.440Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 6,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "ola",
-          "sender": 1
-        }
-      ]
-    },
-    {
-      "id": "443c7fd2-73d9-40fe-90d7-99868e2eae55",
-      "type": "individual",
-      "timeStamp": "2026-06-08T16:36:38.564Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 6,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 1,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "ola",
-          "sender": 6
-        }
-      ]
-    },
-    {
-      "id": "d12d691e-d69f-4194-b480-69ebeea6a3c5",
-      "type": "individual",
-      "timeStamp": "2026-06-08T16:38:00.108Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 6,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "ola",
-          "sender": 1
-        }
-      ]
-    },
-    {
-      "id": "c99ae57d-3451-4828-9acf-c72418172931",
-      "type": "individual",
-      "timeStamp": "2026-06-08T16:39:08.815Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 6,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": []
-    },
-    {
-      "id": "7fa80ce4-0b25-4a8b-a98d-2730973fdf10",
-      "type": "individual",
-      "timeStamp": "2026-06-08T16:41:14.784Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 6,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "ola",
-          "sender": 1
-        }
-      ]
-    },
-    {
-      "id": "ab378d90-7960-4dcf-939f-8ce26e83ada9",
-      "type": "individual",
-      "timeStamp": "2026-06-08T16:44:26.230Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 6,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 1,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "ola",
-          "sender": 6
-        }
-      ]
-    },
-    {
       "id": "5184bb3e-2df0-434c-8ded-445b885ff697",
       "type": "individual",
       "timeStamp": "2026-06-11T09:18:53.798Z",
-      "status": "active",
+      "status": "expired",
       "users": [
         {
           "id": 1,
@@ -314,7 +137,7 @@
       "id": "b1db1f02-178c-4199-95dd-f03914d8bd72",
       "type": "individual",
       "timeStamp": "2026-06-11T09:42:49.556Z",
-      "status": "active",
+      "status": "expired",
       "users": [
         {
           "id": 5,
@@ -338,7 +161,7 @@
       "id": "8980e9d9-89c9-42c7-93bb-6c109347bc22",
       "type": "individual",
       "timeStamp": "2026-06-11T09:52:36.636Z",
-      "status": "active",
+      "status": "expired",
       "users": [
         {
           "id": 7,
@@ -567,7 +390,7 @@
       "id": "ca9cb7bf-24c4-4af7-8b44-e1f1b26f9f4a",
       "type": "individual",
       "timeStamp": "2026-06-11T11:02:00.604Z",
-      "status": "active",
+      "status": "expired",
       "users": [
         {
           "id": 6,
