@@ -1,3 +1,16 @@
+:root{
+    --Papel-Cru: #FDFBF7;
+    --Branco-Eucalipto: #EEF2EB;
+    --Lavanda-Suave: #EDE9F5;
+    --Carvao: #3D3D3D;
+    --Violeta-Profundo: #6B5FA0;
+    --Verde-Loureiro: #8A9E83;
+    --White: #FFFFFF;
+    --Gray: #79747E;
+    --Terracota: #c07a56;
+    --Pessego: #F4C7AB;
+}
+
 #titlebar {
   display: flex;
   flex-direction: row;
@@ -15,9 +28,19 @@
   }
 }
 
+body.dark-mode .status-pending {
+  background-color: var(--Pessego);
+  color: var(--Carvao);
+}
+
+body.dark-mode #delete-task-btn ion-icon {
+  filter: saturate(50%) brightness(110%);
+}
+
+
 #retrieve-tasks-btn {
-  background-color: #ede9f5;
-  color: #3d3d3d;
+  background-color: var(--Lavanda-Suave);
+  color: var(--Carvao);
 }
 
 .tasks-body {
@@ -42,8 +65,9 @@
   padding: 10px 15px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-  border: 1px solid #e9e9e6;
+  border: 1px solid var(--Verde-Loureiro);
   border-radius: 12px;
+  background-color: var(--Papel-Cru);
 }
 
 .task .card:hover {
@@ -69,6 +93,30 @@
   height: 100%;
   overflow-y: auto;
 }
+
+.task.task-completed .card {
+  background-color: var(--Branco-Eucalipto);
+  border-color: transparent;
+}
+
+
+/* DARK MODE TASK */
+body.dark-mode .task .card,
+body.dark-mode .task.task-completed .card {
+  background-color: #262635 !important;
+  border-color: #4b4b5c !important;
+}
+
+body.dark-mode .task.selected .card {
+  background-color: #3a3a50 !important;
+  border-color: var(--Verde-Loureiro) !important;  
+}
+
+body.dark-mode ion-icon[name="checkmark-circle-outline"] {
+  color: #e8e8e8 !important;
+}
+
+
 
 /* Responsive behavior */
 @media (min-width: 768px) {
@@ -125,6 +173,11 @@
   font-weight: 600;
   white-space: nowrap;
 }
+
+
+
+
+
 /* Ajustar a cor depois */
 .status-completed {
   background-color: #51fd3330;
@@ -132,8 +185,8 @@
 }
 
 .status-pending {
-  background-color: #ffcd5893;
-  color: #a06a28;
+  background-color: var(--Pessego);
+  color: var(--Carvao);
 }
 
 .task-desc {

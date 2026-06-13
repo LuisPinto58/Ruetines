@@ -31,6 +31,7 @@ function expProgress(task) {
   return exp / 100;
 }
 
+
 // função para carregar as tarefas no painel esquerdo
 async function loadTasks() {
   const tasks = (await getTasks()) || [];
@@ -44,18 +45,28 @@ async function loadTasks() {
     const taskElement = document.createElement("div");
     taskElement.classList.add("task");
 
-    taskElement.innerHTML = `
+    if (task.completed) {
+      taskElement.classList.add("task-completed")
+    }
+
+taskElement.innerHTML = `
       <div class="card mb-3" style="padding: 10px 15px; cursor: pointer;">
         <div class="d-flex justify-content-between align-items-center">
-          <div class="d-flex align-items-center gap-2 flex-grow-1">
+          
+          <div class="d-flex align-items-center gap-2 flex-grow-1" style="min-width: 0;">
             <div class="task-toggle" style="cursor: pointer; user-select: none; font-size: 1.5rem; display: flex; align-items: center;">
-              ${task.completed ? '<ion-icon name="checkmark-circle"></ion-icon>' : '<ion-icon name="checkmark-circle-outline"></ion-icon>'}
+              ${task.completed ? '<ion-icon name="checkmark-circle" style="color: var(--Verde-Loureiro);"></ion-icon>' : '<ion-icon name="checkmark-circle-outline"></ion-icon>'}
             </div>
-            <h5 style="margin: 0; flex-grow: 1;"> 
+            <h5 class="text-truncate" style="margin: 0; padding-right: 10px;"> 
               ${task.title}
             </h5>
           </div>
-          <div> → ${task.schedules && task.schedules[0] ? task.schedules[0] : ""}</div>
+
+          <div class="d-flex align-items-center flex-shrink-0 ms-2" style="color: var(--Gray); font-size: 0.9rem;">
+            ${task.schedules && task.schedules[0] ? `<span class="me-2">${task.schedules[0]}</span>` : ""}
+            <ion-icon name="chevron-forward-outline" style="font-size: 1.2rem; color: var(--Pedra);"></ion-icon>
+          </div>
+
         </div>
       </div>
     `;
@@ -75,6 +86,11 @@ async function loadTasks() {
     tasksContainer.appendChild(taskElement);
   });
 }
+
+
+
+
+
 
 // Função para mostrar detalhes da tarefa no painel direito
 function showTaskDetails(task) {
@@ -110,13 +126,13 @@ function showTaskDetails(task) {
           </div>
           <div class="d-flex align-items-center gap-2">
             <button id="edit-task-btn" class="invisible-button" title="Editar tarefa">
-              <ion-icon name="pencil-outline" style="color: #8a9e83; font-size: 22px;"></ion-icon>
+              <ion-icon name="pencil-outline" style="color: var(--Verde-Loureiro); font-size: 24px;"></ion-icon>
             </button>
-            <button id="delete-task-btn" class="invisible-button">
+            <button id="delete-task-btn" class="invisible-button" title="Apagar tarefa">
               <ion-icon name="trash-outline" style="color: red; font-size: 24px;"></ion-icon>
             </button>
              <button id="close-detail-btn" class="invisible-button" title="Fechar detalhes">
-              <ion-icon name="close-outline" style="color: #888; font-size: 24px;"></ion-icon>
+              <ion-icon name="close-outline" style="color: var(Papel-Cru); font-size: 24px;"></ion-icon>
             </button>
           </div>
         </div>

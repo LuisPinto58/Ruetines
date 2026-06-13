@@ -43,22 +43,44 @@ body.dark-mode .delete-btn {
   color: #e8e8e8;
 }
 
+
+.body.dark-mode, #edit-button {
+  background-color: var(--Violeta-Profundo);
+}
+
+
+
 body.dark-mode .form-check-label,
 body.dark-mode .form-label,
 body.dark-mode .modal-title {
   color: #e8e8e8;
 }
 
+
+
 body.open-dyslexic {
   font-family: 'Open-Dyslexic', sans-serif !important;
 }
 
+
 .flex-container{
     display:flex;
     justify-content: space-between;
-    padding: 0.5rem;
+    padding: 20px;
     margin-right: 1rem;
+    align-items: center;
 }
+
+.bi.bi-gear-wide {
+  cursor: pointer;
+}
+
+
+body.dark-mode .btn-close {
+  filter: invert(1) grayscale(100%) brightness(300%);
+}
+
+
 
 #user-email{
     padding: 0.5rem;

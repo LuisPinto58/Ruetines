@@ -203,7 +203,7 @@ function getNavItems() {
   if (!User.fromStorage()) {
     return [
       { label: 'Perfil', href: 'nan', icon: userIcon },
-      { label: 'Painel principal', href: '../html/tasks.html', icon: taskIcon },
+      { label: 'Tarefas', href: '../html/tasks.html', icon: taskIcon },
       { label: 'Chat', href: 'nan', icon: chatIcon }
     ];
   }
@@ -211,7 +211,7 @@ function getNavItems() {
   if (User.fromStorage().role === 'admin') {
     return [
       { label: 'Perfil', href: '../html/user.html', icon: userIcon },
-      { label: 'Painel principal', href: '../html/adminTasks.html', icon: taskIcon },
+      { label: 'Tarefas', href: '../html/adminTasks.html', icon: taskIcon },
       { label: 'Chat', href: '../html/chat.html', icon: chatIcon }
     ];
   }
@@ -220,7 +220,7 @@ function getNavItems() {
   if (User.fromStorage().role === 'user') {
     return [
       { label: 'Perfil', href: '../html/user.html', icon: userIcon },
-      { label: 'Painel principal', href: '../html/tasks.html', icon: taskIcon },
+      { label: 'Tarefas', href: '../html/tasks.html', icon: taskIcon },
       { label: 'Chat', href: '../html/chat.html', icon: chatIcon }
     ];
   }
