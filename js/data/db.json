@@ -94,6 +94,17 @@
       "status": false,
       "completedHistory": [],
       "isAdmin": false
+    },
+    {
+      "id": "d81dcc10-7fd1-4d2e-afde-e595dcb04916",
+      "title": "Beber 2L de água",
+      "description": "Mantém-te hidratado ao longo do dia.",
+      "userid": 7,
+      "schedules": [],
+      "timeStamp": "2026-06-13T23:39:45.885Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": false
     }
   ],
   "chats": [

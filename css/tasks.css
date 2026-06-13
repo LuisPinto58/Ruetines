@@ -237,12 +237,21 @@ body.dark-mode ion-icon[name="checkmark-circle-outline"] {
 
 
 .modal-content {
-  /*background: #fff;  */
+  background: var(--Branco-Eucalipto);
   border-radius: 1rem;
   padding: 2rem;
   width: min(500px, 90%);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
   position: relative;
+}
+
+
+.time-input::-webkit-datetime-edit-fields-wrapper,
+.time-input::-webkit-datetime-edit-text,
+.time-input::-webkit-datetime-edit-hour-field,
+.time-input::-webkit-datetime-edit-minute-field,
+.time-input::-webkit-datetime-edit-ampm-field {
+  color: var(--Gray);
 }
 
 
@@ -332,4 +341,75 @@ body.dark-mode ion-icon[name="checkmark-circle-outline"] {
 .exp-tier-label.exp-tier-ouro {
   background: #fcf3d6;
   color: #8a6d1b;
+}
+
+
+
+/* Premade Tasks - Tarefas Sugeridas  */
+#premade-titlebar {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.premade-task-card {
+  display: flex;
+  align-items: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex: 1 1 220px;
+  padding: 10px 15px;
+  border: 1px solid var(--Verde-Loureiro);
+  border-radius: 12px;
+  background-color: var(--Papel-Cru);
+  transition: all 0.2s ease-in-out;
+}
+
+.premade-task-card:hover {
+  background-color: #f6f5f0;
+  transform: translateY(-1px);
+}
+
+.premade-task-info h6 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.premade-task-info small {
+  color: var(--Gray);
+}
+
+.premade-add-btn {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--Verde-Loureiro);
+  color: var(--White);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out
+}
+
+.premade-add-btn:hover {
+  opacity: 0.85;
+}
+
+.premade-add-btn[disabled] {
+  background-color: var(--Branco-Eucalipto);
+  color: var(--Verde-Loureiro);
+  cursor: pointer;
+}
+
+body.dark-mode .premade-task-card {
+  background-color: #262635 !important;
+  border-color: #4b4b5c !important;
+}
+
+body.dark-mode .premade-add-btn[disabled] {
+  background-color: #3a3a50 !important;
+  color: var(--Verde-Loureiro);
 }

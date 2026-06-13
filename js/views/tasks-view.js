@@ -207,6 +207,7 @@ function showTaskDetails(task) {
           }
           detailedTasksContainer.innerHTML = "";
           await loadTasks();
+          await loadPremadeTasks();
         }
       });
     }
@@ -214,6 +215,7 @@ function showTaskDetails(task) {
 }
 
 loadTasks();
+loadPremadeTasks();
 
 /** Cria a estrutura da modal (reutilizável para criar e editar) */
 function buildModal(task, onSave) {
@@ -240,17 +242,17 @@ function buildModal(task, onSave) {
         <form>
           <div class="form-group">
             <label for="task-title">Título</label>
-            <input type="text" class="form-control" id="task-title" placeholder="Título" value="${titleValue}">
+            <input type="text" class="form-control" id="task-title" placeholder="Título" value="${titleValue}" style="background-color: var(--Papel-Cru);">
           </div>
           <div class="form-group">
             <label for="task-description">Descrição</label>
-            <textarea class="form-control" id="task-description" rows="3" placeholder="Descrição">${descValue}</textarea>
+            <textarea class="form-control" id="task-description" rows="3" placeholder="Descrição" style="background-color: var(--Papel-Cru);">${descValue}</textarea>
           </div>
           
           <div class="form-group">
             <label for="task-schedule-input">Horários</label>
             <div class="d-flex gap-2 mb-2">
-              <input type="time" class="form-control" id="task-schedule-input" placeholder="HH:MM">
+              <input type="time" class="form-control time-input" id="task-schedule-input" placeholder="HH:MM" style="background-color: var(--Papel-Cru);">
               <button type="button" class="btn btn-success" id="add-schedule-btn">Adicionar</button>
             </div>
             <div id="schedules-list" class="d-flex flex-wrap gap-2"></div>
@@ -324,6 +326,7 @@ function buildModal(task, onSave) {
     await onSave(taskTitle, taskDescription, schedulesList);
     modal.remove();
     await loadTasks();
+    await loadPremadeTasks();
   });
 
   return modal;
@@ -362,3 +365,61 @@ document
 document
   .getElementById("retrieve-tasks-btn")
   .addEventListener("click", loadTasks);
+
+
+  // Premade Tasks - Tarefas Sugeridas
+
+  const PREMADE_TASKS = [
+    { title: "Beber 2L de água", description: "Mantém-te hidratado ao longo do dia."},
+    { title: "Fazer exercício", description: "Mantém-te em forma."},
+    { title: "Meditar 10 minutos", description: "Momento para relaxar."},
+    { title: "Ler um livro", description: "Reserva tempo para a leitura."},
+    { title: "Dormir 8 horas", description: "Tem uma boa noite de desscanso."},
+    { title: "Arrumar o quarto", description: "Mantém-te o teu espaço organizado."},
+  ];
+
+  async function loadPremadeTasks() {
+    const container = document.getElementById("premade-tasks-container");
+    if (!container) return;
+
+    const existingTasks = (await getTasks()) || [];
+    const existingTitles = new Set(
+      existingTasks.map((t) => (t.title || "").trim().toLowerCase()),
+    );
+
+    container.innerHTML = "";
+
+    PREMADE_TASKS.forEach((premade) => {
+      const alreadyAdded = existingTitles.has(premade.title.trim().toLowerCase());
+
+      const card = document.createElement("div");
+      card.classList.add("premade-task-card");
+
+      card.innerHTML = `
+        <div class="premade-task-info">
+          <h6>${premade.title}</h6>
+          <small>${premade.description}</small>
+        </div>
+        <button type="button" class="premade-add-btn" title="${alreadyAdded ? "Já está nas tuas tarefas" : "Adicionar às minhas tarefas"}" ${alreadyAdded ? "disabled" : ""}>
+        <ion-icon name="${alreadyAdded ? "checkmark-outline" : "add-outline"}"></ion-icon>
+        </button>
+      `;
+
+      if (!alreadyAdded) {
+        const addBtn = card.querySelector(".premade-add-btn");
+        addBtn.addEventListener("click", async() => {
+          addBtn.disabled = true;
+          await createTasks({
+            title: premade.title,
+            description: premade.description,
+            status: false,
+            schedules: [],
+          });
+          await loadTasks();
+          await loadPremadeTasks();
+        });
+      }
+
+      container.appendChild(card);
+    });
+  }
