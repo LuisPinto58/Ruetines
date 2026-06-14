@@ -336,12 +336,6 @@ function changeModalContent(modal, type) {
 }
 
 // Render navbar based on type
-function updateLoginButtonVisibility() {
-  const buttons = document.querySelectorAll('.navbar-login, .btn-login');
-  buttons.forEach((button) => {
-    button.style.display = navigator.onLine ? '' : 'none';
-  });
-}
 
 function renderNavbar(type, navItems) {
   const container = document.getElementById('navbar-container');
@@ -375,9 +369,6 @@ document.addEventListener('DOMContentLoaded', function () {
   navbarContainer.id = 'navbar-container';
   document.body.insertBefore(navbarContainer, document.body.firstChild);
   renderNavbar('both', getNavItems());
-  updateLoginButtonVisibility();
-  window.addEventListener('online', updateLoginButtonVisibility);
-  window.addEventListener('offline', updateLoginButtonVisibility);
   let fonts = [document.createElement("link"), document.createElement("link"), document.createElement("link"), document.createElement("link")]
   fonts[0].href = "https://fonts.googleapis.com"
   fonts[0].rel = "preconnect"

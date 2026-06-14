@@ -105,93 +105,20 @@
       "status": false,
       "completedHistory": [],
       "isAdmin": false
+    },
+    {
+      "id": "db128fc8-529e-4b62-a42f-12728a31d96b",
+      "title": "Fazer exercício",
+      "description": "Mantém-te em forma.",
+      "userid": 1,
+      "schedules": [],
+      "timeStamp": "2026-06-14T14:47:30.452Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": false
     }
   ],
   "chats": [
-    {
-      "id": "5184bb3e-2df0-434c-8ded-445b885ff697",
-      "type": "individual",
-      "timeStamp": "2026-06-11T09:18:53.798Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 5,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "ola",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 5
-        },
-        {
-          "content": "ola",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 5
-        }
-      ]
-    },
-    {
-      "id": "b1db1f02-178c-4199-95dd-f03914d8bd72",
-      "type": "individual",
-      "timeStamp": "2026-06-11T09:42:49.556Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 5,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 1,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "ola",
-          "sender": 5
-        }
-      ]
-    },
-    {
-      "id": "8980e9d9-89c9-42c7-93bb-6c109347bc22",
-      "type": "individual",
-      "timeStamp": "2026-06-11T09:52:36.636Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 7,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 5,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "ola",
-          "sender": 5
-        }
-      ]
-    },
     {
       "id": "fbfee28a-352e-4008-9cc3-70e9e63d42a4",
       "type": "admin",
@@ -396,20 +323,6 @@
           "sender": 6
         }
       ]
-    },
-    {
-      "id": "ca9cb7bf-24c4-4af7-8b44-e1f1b26f9f4a",
-      "type": "individual",
-      "timeStamp": "2026-06-11T11:02:00.604Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 6,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": []
     },
     {
       "id": "e900293c-c9cf-4ddf-b5ab-1bcb35aed61c",
