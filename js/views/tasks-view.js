@@ -6,6 +6,7 @@ import {
 } from "../controller/tasks-controller.js";
 
 let selectedTask = null;
+let tarefasApagadasSessao = [];
 
 // função para alternar o estado de conclusão da tarefa (modelo cuida do histórico e XP)
 async function toggleTaskStatus(task) {
@@ -198,8 +199,14 @@ function showTaskDetails(task) {
     if (deleteBtn) {
       deleteBtn.addEventListener("click", async () => {
         if (
-          confirm(`Tem a certeza que deseja eliminar a tarefa "${task.title}"?`)
-        ) {
+          confirm(`Tem a certeza que deseja eliminar a tarefa "${task.title}"?`)) {
+
+          tarefasApagadasSessao.push({
+            title: task.title,
+            description: task.description,
+            schedules: task.schedules || []
+          });
+
           await deleteTasks(task);
 
           if (container) {
@@ -292,9 +299,7 @@ function buildModal(task, onSave) {
   updateSchedulesList();
 
   const closeModalBtn = modal.querySelector(".modal-close");
-  closeModalBtn.addEventListener("click", () => {
-    modal.remove();
-  });
+  closeModalBtn.addEventListener("click", () => modal.remove());
 
   const addScheduleBtn = modal.querySelector("#add-schedule-btn");
   addScheduleBtn.addEventListener("click", () => {
@@ -309,9 +314,7 @@ function buildModal(task, onSave) {
   });
 
   const cancelTaskBtn = modal.querySelector("#cancel-task-btn");
-  cancelTaskBtn.addEventListener("click", () => {
-    modal.remove();
-  });
+  cancelTaskBtn.addEventListener("click", () => modal.remove());
 
   const saveTaskBtn = modal.querySelector("#save-task-btn");
   saveTaskBtn.addEventListener("click", async () => {
@@ -362,9 +365,8 @@ function editTaskModal(task) {
 document
   .getElementById("add-task-btn")
   .addEventListener("click", createTaskModal);
-document
-  .getElementById("retrieve-tasks-btn")
-  .addEventListener("click", loadTasks);
+
+
 
 
   // Premade Tasks - Tarefas Sugeridas
@@ -396,9 +398,9 @@ document
     const token = sessionStorage.getItem('token');
     if (!token) {
       container.innerHTML = `
-      <div class="premade-login-notice">
+      <div class="premade-login-notice d-flex justify-content-center align-items-center gap-2" style="padding: 2rem; color: var(--Gray);">
         <ion-icon name="lock-closed-outline"></ion-icon>
-        <p>Faz login para ver as tarefas sugeridas.</p>
+        <p class="m-0">Faz log in para ver as tarefas sugeridas.</p>
       </div>
       `;
       return;
@@ -453,3 +455,107 @@ document
       container.appendChild(card);
     });
   }
+
+
+
+
+ // --- Modal: Catálogo de Todas as Tarefas Sugeridas no Recuperar ---
+async function showAllSuggestedTasksModal() {
+
+  const token = sessionStorage.getItem('token');
+  if (!token) {
+    alert("Faz log in para recuperares tarefas sugeridas");
+    return;
+  }
+
+ 
+  const existingTasks = (await getTasks()) || [];
+  const existingTitles = new Set(
+    existingTasks.map((t) => (t.title || "").trim().toLowerCase()),
+  );
+
+
+  const modal = document.createElement("div");
+  modal.classList.add("modal", "d-flex", "justify-content-center", "align-items-center");
+  
+  modal.style.position = "fixed";
+  modal.style.top = "0";
+  modal.style.left = "0";
+  modal.style.width = "100vw";
+  modal.style.height = "100vh";
+  modal.style.backgroundColor = "rgba(0,0,0,0.4)";
+  modal.style.zIndex = "9999";
+
+  
+  let listHtml = PREMADE_TASKS.map((t, index) => {
+    const alreadyAdded = existingTitles.has(t.title.trim().toLowerCase());
+    
+    return `
+    <div class="card mb-2" style="background-color: var(--Papel-Cru); border: 1px solid var(--Verde-Loureiro);">
+      <div class="card-body d-flex justify-content-between align-items-center p-2">
+        <div style="min-width: 0;">
+          <h6 class="m-0 text-truncate">${t.title}</h6>
+          <small class="text-muted d-block text-truncate">${t.description}</small>
+        </div>
+        <button type="button" class="btn btn-sm add-from-catalog-btn ms-2" data-index="${index}" title="${alreadyAdded ? "Já está nas tuas tarefas" : "Adicionar tarefa"}"
+          style="border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border: none; transition: 0.2s; background-color: ${alreadyAdded ? 'var(--Branco-Eucalipto)' : 'var(--Verde-Loureiro)'}; color: ${alreadyAdded ? 'var(--Verde-Loureiro)' : 'white'};" 
+          ${alreadyAdded ? "disabled" : ""}>
+          <ion-icon name="${alreadyAdded ? "checkmark-outline" : "add-outline"}" style="font-size: 1.2rem;"></ion-icon>
+        </button>
+      </div>
+    </div>
+  `}).join("");
+
+  modal.innerHTML = `
+    <div class="modal-content" style="max-height: 80vh; width: min(500px, 90%); display: flex; flex-direction: column;">
+      <div class="modal-header pb-2 border-bottom d-flex justify-content-between align-items-center">
+        <h3 class="m-0" style="font-size: 1.4rem;">Todas as Sugestões</h3>
+        <button type="button" class="modal-close" style="position: static; border: none; background: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      </div>
+      <div class="modal-body mt-3" style="overflow-y: auto;">
+        <p class="text-muted small mb-3">Escolhe as tarefas que queres adicionar à tua lista:</p>
+        <div>
+          ${listHtml}
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  
+  modal.querySelector(".modal-close").addEventListener("click", () => modal.remove());
+
+
+  modal.querySelectorAll(".add-from-catalog-btn").forEach(btn => {
+    btn.addEventListener("click", async (e) => {
+      const button = e.currentTarget;
+      const index = parseInt(button.getAttribute("data-index"), 10);
+      const taskToAdd = PREMADE_TASKS[index];
+
+
+      button.disabled = true;
+      button.style.backgroundColor = "var(--Branco-Eucalipto)";
+      button.style.color = "var(--Verde-Loureiro)";
+      button.innerHTML = '<ion-icon name="checkmark-outline" style="font-size: 1.2rem;"></ion-icon>';
+
+     
+      await createTasks({
+        userid: "user1",
+        title: taskToAdd.title,
+        description: taskToAdd.description,
+        status: false,
+        schedules: [],
+      });
+
+      
+      await loadTasks();
+      await loadPremadeTasks();
+    });
+  });
+}
+
+
+document
+  .getElementById("retrieve-tasks-btn")
+  .addEventListener("click", showAllSuggestedTasksModal);
