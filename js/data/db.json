@@ -109,90 +109,6 @@
   ],
   "chats": [
     {
-      "id": "5184bb3e-2df0-434c-8ded-445b885ff697",
-      "type": "individual",
-      "timeStamp": "2026-06-11T09:18:53.798Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 5,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "ola",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 5
-        },
-        {
-          "content": "ola",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 5
-        }
-      ]
-    },
-    {
-      "id": "b1db1f02-178c-4199-95dd-f03914d8bd72",
-      "type": "individual",
-      "timeStamp": "2026-06-11T09:42:49.556Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 5,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 1,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "ola",
-          "sender": 5
-        }
-      ]
-    },
-    {
-      "id": "8980e9d9-89c9-42c7-93bb-6c109347bc22",
-      "type": "individual",
-      "timeStamp": "2026-06-11T09:52:36.636Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 7,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 5,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "ola",
-          "sender": 5
-        }
-      ]
-    },
-    {
       "id": "fbfee28a-352e-4008-9cc3-70e9e63d42a4",
       "type": "admin",
       "timeStamp": "2026-06-11T10:40:00.756Z",
@@ -398,24 +314,10 @@
       ]
     },
     {
-      "id": "ca9cb7bf-24c4-4af7-8b44-e1f1b26f9f4a",
-      "type": "individual",
-      "timeStamp": "2026-06-11T11:02:00.604Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 6,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": []
-    },
-    {
       "id": "e900293c-c9cf-4ddf-b5ab-1bcb35aed61c",
       "type": "admin",
       "timeStamp": "2026-06-11T13:34:16.816Z",
-      "status": "active",
+      "status": "expired",
       "users": [
         {
           "id": 5,
@@ -436,6 +338,96 @@
         {
           "content": "ola",
           "sender": 6
+        }
+      ]
+    },
+    {
+      "id": "82f581e1-67fa-479b-812f-e24d3beae50f",
+      "type": "individual",
+      "timeStamp": "2026-06-14T16:48:35.367Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 1,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 8,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "ola",
+          "sender": 1
+        },
+        {
+          "content": "ola",
+          "sender": 8
+        }
+      ]
+    },
+    {
+      "id": "f806df08-c21d-4862-9f64-fc0bda86d9f6",
+      "type": "individual",
+      "timeStamp": "2026-06-14T16:48:59.081Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 1,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "hello",
+          "sender": 1
+        }
+      ]
+    },
+    {
+      "id": "334317b7-7da1-4ab4-86a3-f8aa3b442c11",
+      "type": "individual",
+      "timeStamp": "2026-06-14T16:51:40.056Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 8,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "ola",
+          "sender": 8
+        }
+      ]
+    },
+    {
+      "id": "3ecbc149-3f5d-4c62-baf1-69e7c70b5130",
+      "type": "admin",
+      "timeStamp": "2026-06-14T16:53:56.236Z",
+      "status": "expired",
+      "users": [
+        {
+          "id": 8,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 6,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "REPORT: mensagem reportada de 8 no chat 82f581e1-67fa-479b-812f-e24d3beae50f - \"ola\"",
+          "sender": 8
         }
       ]
     }

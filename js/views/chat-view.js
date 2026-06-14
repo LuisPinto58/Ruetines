@@ -89,7 +89,7 @@ function renderChatElement(chat) {
     });
 }
 
-export const bindChatSend = (handler) => {
+const bindChatSend = async (handler) => {
     const chatInput = document.getElementById("chat-input");
     const chatSendBtn = document.getElementById("chat-send-btn");
     if (!chatInput || !chatSendBtn) return;
@@ -163,33 +163,19 @@ export async function renderChats(chat) {
         warnBtn.addEventListener("click", async () => {
             if (!reportedUser?.id) return;
             const result = await sendWarning(reportedUser.id);
-            if (result?.ok) {
-                alert(`User ${reportedUser.id} warned! Total warnings: ${result.warnings || 0}`);
-                document.getElementById("warning-count").textContent = `Avisos: ${result.warnings || 0}`;
-            } else {
-                alert('Falha ao avisar usuário.');
+            if(result) {
+                document.getElementById("warning-count").textContent = `Avisos: ${result || 0}`;
             }
         });
 
         banBtn.addEventListener("click", async () => {
             if (!reportedUser?.id) return;
-            const result = await banUser(reportedUser.id);
-            if (result?.ok) {
-                alert(`User ${reportedUser.id} banned!`);
-            } else {
-                alert('Falha ao banir usuário.');
-            }
+            await banUser(reportedUser.id);
         });
 
         expireBtn.addEventListener("click", async () => {
             if (!reportedUser?.id) return;
-            console.log(chat.id);
-            const result = await expireChat(chat.id);
-            if (result?.ok) {
-                alert(`Chat ${chat.id} expired!`);
-            } else {
-                alert('Falha ao expirar chat.');
-            }
+            await expireChat(chat.id);
         });
     }
 
