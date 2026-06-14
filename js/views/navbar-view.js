@@ -335,14 +335,18 @@ function changeModalContent(modal, type) {
   }
 }
 
-// Render navbar based on type
-function updateLoginButtonVisibility() {
+// show and hide login button when lost status
+function updateOfflineVisibility() {
   const buttons = document.querySelectorAll('.navbar-login, .btn-login');
+  if(!navigator.onLine){
+    alert("Offline: Algumas funcionalidades podem não estar disponíveis até reestabelecer a ligação.");
+  }
   buttons.forEach((button) => {
     button.style.display = navigator.onLine ? '' : 'none';
   });
 }
 
+// Render navbar based on type
 function renderNavbar(type, navItems) {
   const container = document.getElementById('navbar-container');
   if (!container) return;
@@ -375,9 +379,10 @@ document.addEventListener('DOMContentLoaded', function () {
   navbarContainer.id = 'navbar-container';
   document.body.insertBefore(navbarContainer, document.body.firstChild);
   renderNavbar('both', getNavItems());
-  updateLoginButtonVisibility();
-  window.addEventListener('online', updateLoginButtonVisibility);
-  window.addEventListener('offline', updateLoginButtonVisibility);
+  //to check online status and hide functionalities
+  updateOfflineVisibility();
+  window.addEventListener('online', updateOfflineVisibility);
+  window.addEventListener('offline', updateOfflineVisibility);
   let fonts = [document.createElement("link"), document.createElement("link"), document.createElement("link"), document.createElement("link")]
   fonts[0].href = "https://fonts.googleapis.com"
   fonts[0].rel = "preconnect"

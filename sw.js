@@ -1,13 +1,13 @@
 const CACHE_NAME = "ruetines-v2";
 const APP_SHELL = [
-  "../html/tasks.html",
-  "../css/index.css",
-  "../css/tasks.css",
-  "../css/components.css",
-  "../js/views/navbar-view.js",
-  "../js/views/tasks-view.js",
-  "../js/controller/tasks-controller.js",
-  "../js/models/tasks-model.js"
+  "./html/tasks.html",
+  "./css/index.css",
+  "./css/tasks.css",
+  "./css/components.css",
+  "./js/views/navbar-view.js",
+  "./js/views/tasks-view.js",
+  "./js/controller/tasks-controller.js",
+  "./js/models/tasks-model.js"
 ];
 
 self.addEventListener("install", (event) => {
@@ -34,7 +34,8 @@ self.addEventListener("fetch", (event) => {
   if (request.mode === "navigate") {
     event.respondWith(
       fetch(request)
-        .catch(() => caches.match("../html/tasks.html"))
+        .catch(() =>{ 
+          return caches.match("./html/tasks.html")})
     );
     return;
   }
@@ -49,7 +50,8 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
           return response;
         })
-        .catch(() => caches.match("../html/tasks.html"));
+        .catch(() =>{ 
+          return caches.match("./html/tasks.html")});
     })
   );
 });
