@@ -105,6 +105,17 @@
       "status": false,
       "completedHistory": [],
       "isAdmin": false
+    },
+    {
+      "id": "db128fc8-529e-4b62-a42f-12728a31d96b",
+      "title": "Fazer exercício",
+      "description": "Mantém-te em forma.",
+      "userid": 1,
+      "schedules": [],
+      "timeStamp": "2026-06-14T14:47:30.452Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": false
     }
   ],
   "chats": [
