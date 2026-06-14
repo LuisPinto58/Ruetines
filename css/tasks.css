@@ -413,3 +413,50 @@ body.dark-mode .premade-add-btn[disabled] {
   background-color: #3a3a50 !important;
   color: var(--Verde-Loureiro);
 }
+
+.premade-login-notice {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px dashed var(--Verde-Loureiro);
+  background-color: var(--Papel-Cru);
+  color: var(--Gray);
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+.premade-login-notice ion-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  color: var(--Violeta-Profundo);
+}
+
+.premade-login-notice a {
+  color: var(--Violeta-Profundo);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.premade-login-notice a:hover {
+  text-decoration: underline;
+}
+
+body.dark-mode .premade-login-notice {
+  background-color: #262635;
+  border-color: #4b4b5c;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

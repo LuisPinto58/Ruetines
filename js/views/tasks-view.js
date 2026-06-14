@@ -374,13 +374,35 @@ document
     { title: "Fazer exercício", description: "Mantém-te em forma."},
     { title: "Meditar 10 minutos", description: "Momento para relaxar."},
     { title: "Ler um livro", description: "Reserva tempo para a leitura."},
-    { title: "Dormir 8 horas", description: "Tem uma boa noite de desscanso."},
+    { title: "Dormir 8 horas", description: "Tem uma boa noite de descanso."},
     { title: "Arrumar o quarto", description: "Mantém-te o teu espaço organizado."},
+    { title: "Evitar alimentos picantes/salgados", description: "São ricos em sódio e podem causar doenças."},
+    { title: "Fazer um plano de consumo mensal", description: "Evita gastos desnecessários."},
+    { title: "Lavar a roupa", description: "Não deixes a roupa acumular."},
+    { title: "Preparar roupa de amanhã", description: "Reduz o tempo de preparação matinal."},    
+    { title: "Andar de bicicleta", description: "Sente a brisa."},
+    { title: "Planear o dia", description: "Organiza o que tens para fazer."},
+    { title: "Comer 3 peças de fruta", description: "Faz um lanche simples e saudável."},
+    { title: "Lavar o cabelo", description: "Faz a tua rotina capilar."},
+    { title: "Regar as plantas", description: "Dá água às tuas plantas."},
+    { title: "Ouvir um podcast", description: "Ouve algo interessante."},
+    { title: "Limpar e-mail", description: "Apaga os e-mails antigos."},
   ];
 
   async function loadPremadeTasks() {
     const container = document.getElementById("premade-tasks-container");
     if (!container) return;
+
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      container.innerHTML = `
+      <div class="premade-login-notice">
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        <p>Faz login para ver as tarefas sugeridas.</p>
+      </div>
+      `;
+      return;
+    }
 
     const existingTasks = (await getTasks()) || [];
     const existingTitles = new Set(
@@ -389,7 +411,15 @@ document
 
     container.innerHTML = "";
 
-    PREMADE_TASKS.forEach((premade) => {
+
+    const randomTasks = [...PREMADE_TASKS]
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 4);
+
+
+
+
+    randomTasks.forEach((premade) => {
       const alreadyAdded = existingTitles.has(premade.title.trim().toLowerCase());
 
       const card = document.createElement("div");
