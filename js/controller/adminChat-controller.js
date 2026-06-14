@@ -1,11 +1,23 @@
 import { warnUser, banUser as banUserService, getUserWarnings as getUserWarningsService, expireChat as expireChatService } from "../data/service.js";
 
 export const sendWarning = async (userId) => {
-  return warnUser(userId);
+  const result = await warnUser(userId);
+  if (result?.ok) {
+                alert(`Utilizador ${userId} avisado! Total: ${result.warnings || 0}`);
+                return result.warnings || 0;
+            } else {
+                return alert('Falha ao avisar utilizador.');
+  }
 };
 
 export const banUser = async (userId) => {
-  return banUserService(userId);
+  const result = await banUserService(userId);
+  if (result?.ok) {
+                alert(`Utilizador ${userId} banido!`);
+                return result
+            } else {
+                return alert('Falha ao banir utilizador.');
+  }
 };
 
 export const getUserWarnings = async (userId) => {
@@ -13,5 +25,10 @@ export const getUserWarnings = async (userId) => {
 };
 
 export const expireChat = async (chatId) => {
-    return expireChatService(chatId);
+    const result = await expireChatService(chatId);
+    if (result?.ok) {
+        alert(`Chat ${chatId} expired!`);
+    } else {
+        alert('Falha ao expirar chat.');
+    }
 };

@@ -337,6 +337,7 @@ function changeModalContent(modal, type) {
 
 // Render navbar based on type
 
+// Render navbar based on type
 function renderNavbar(type, navItems) {
   const container = document.getElementById('navbar-container');
   if (!container) return;
