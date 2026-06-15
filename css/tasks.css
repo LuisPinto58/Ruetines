@@ -43,6 +43,17 @@ body.dark-mode #delete-task-btn ion-icon {
   color: var(--Carvao);
 }
 
+#premade-tasks-container {
+  background-color: yellow; 
+  gap: 16;
+}
+
+.premade-tasks-body {
+  gap: 1.5rem;
+  min-height: 0;
+  max-height: 48;
+}
+
 .tasks-body {
   display: flex;
   flex-direction: row;

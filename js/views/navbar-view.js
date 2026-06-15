@@ -211,7 +211,7 @@ function getNavItems() {
   if (User.fromStorage().role === 'admin') {
     return [
       { label: 'Perfil', href: '../html/user.html', icon: userIcon },
-      { label: 'Tarefas', href: '../html/adminTasks.html', icon: taskIcon },
+      { label: 'Tarefas', href: '../html/tasks.html', icon: taskIcon },
       { label: 'Chat', href: '../html/chat.html', icon: chatIcon }
     ];
   }

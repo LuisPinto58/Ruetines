@@ -22,7 +22,8 @@
       "email": "thiago@gmail.com",
       "password": "$2a$10$dj9K8wfez9ZmmV/3JqTv7exAPXBMoCbE7.uW6oD18B7pP/wDhsoRm",
       "role": "user",
-      "id": 4
+      "id": 4,
+      "warnings": 12
     },
     {
       "email": "admin@email.com",
@@ -116,6 +117,65 @@
       "status": false,
       "completedHistory": [],
       "isAdmin": false
+    },
+    {
+      "id": "38af2529-c123-4cbd-9351-1ae356a3e1e1",
+      "title": "Arrumar o quarto",
+      "description": "Mantém-te o teu espaço organizado.",
+      "userid": 4,
+      "schedules": [
+        "18:00"
+      ],
+      "timeStamp": "2026-06-15T13:43:04.852Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": false
+    },
+    {
+      "id": "26b7ab93-3ce1-4056-a733-476ecc495800",
+      "title": "Beber 2L de água",
+      "description": "Mantém-te hidratado ao longo do dia.",
+      "userid": 4,
+      "schedules": [],
+      "timeStamp": "2026-06-15T13:45:13.262Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": false
+    },
+    {
+      "id": "287bd6d8-cd8b-487b-9df7-125662892b88",
+      "title": "Fazer exercício",
+      "description": "Mantém-te em forma.",
+      "userid": 4,
+      "schedules": [],
+      "timeStamp": "2026-06-15T13:45:14.682Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": false
+    },
+    {
+      "id": "25c68163-62aa-4567-b668-39c810accc23",
+      "title": "Dormir 8 horas",
+      "description": "Tem uma boa noite de descanso.",
+      "userid": 4,
+      "schedules": [],
+      "timeStamp": "2026-06-15T13:50:17.017Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": false
+    },
+    {
+      "id": "8b7412bc-e985-4b44-b30f-247235e759c6",
+      "title": "teste adimn budapeste",
+      "description": "dfdssfdfsd",
+      "userid": 6,
+      "schedules": [
+        "10:20"
+      ],
+      "timeStamp": "2026-06-15T13:54:36.412Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": true
     }
   ],
   "chats": [
@@ -390,11 +450,28 @@
           "id": 1,
           "identifier": "#8a9e83",
           "textColor": "#ffffff"
+        },
+        {
+          "id": 4,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
         }
       ],
       "messages": [
         {
           "content": "hello",
+          "sender": 1
+        },
+        {
+          "content": "kljdfdslkjfdslkjfdslkjdslkjlkjlksjdlfjsdlfjs",
+          "sender": 4
+        },
+        {
+          "content": "kjfdlkjdsflkjsfsdljfslkfdjsjdlkfskjdfl",
+          "sender": 1
+        },
+        {
+          "content": "lkfdlkdsfçfsd",
           "sender": 1
         }
       ]
@@ -439,6 +516,34 @@
         {
           "content": "REPORT: mensagem reportada de 8 no chat 82f581e1-67fa-479b-812f-e24d3beae50f - \"ola\"",
           "sender": 8
+        }
+      ]
+    },
+    {
+      "id": "070a6450-607e-485b-9d86-dc844a1ca106",
+      "type": "admin",
+      "timeStamp": "2026-06-15T14:04:11.024Z",
+      "status": "expired",
+      "users": [
+        {
+          "id": 4,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 6,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
+        }
+      ],
+      "messages": [
+        {
+          "content": "REPORT: mensagem reportada de 4 no chat f806df08-c21d-4862-9f64-fc0bda86d9f6 - \"kljdfdslkjfdslkjfdslkjdslkjlkjlksjdlfjsdlfjs\"",
+          "sender": 4
+        },
+        {
+          "content": "fdslkjsdlkjfslkjdflkjdsfsfdlkj",
+          "sender": 6
         }
       ]
     }
