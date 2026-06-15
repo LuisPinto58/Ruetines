@@ -77,11 +77,29 @@ export const updateUserPassword = async (userId, token, password) => {
   return { ok: true };
 };
 
-export const deleteAccount = async (userId, token) => {
+export const deleteAccount = async (userId) => {
+  const chats = await getChats(userId);
+  chats.forEach(async (chat) => {
+    chat.users = chat.users.filter(user => user.id !== userId);
+    if (chat.users.length === 0) {
+      await fetch(`${API}/chats/${chat.id}`, {
+        method: 'DELETE',
+        headers: authHeaders(),
+      });
+    } else {
+      await fetch(`${API}/chats/${chat.id}`, {
+        method: 'PATCH',
+        headers: authHeaders(),
+        body: JSON.stringify({ users: chat.users }),
+      });
+    }
+  });
+  
   const res = await fetch(`${API}/users/${userId}`, {
     method: 'DELETE',
-    headers: authHeaders(token),
+    headers: authHeaders(),
   });
+  
   if (!res.ok) return await handleApiError(res);
   return { ok: true };
 };
@@ -123,15 +141,6 @@ export const warnUser = async (userId) => {
   });
   if (!res.ok) return await handleApiError(res);
   return { ok: true, warnings };
-};
-
-export const banUser = async (userId) => {
-  const res = await fetch(`${API}/users/${userId}`, {
-    method: 'DELETE',
-    headers: authHeaders(),
-  });
-  if (!res.ok) return await handleApiError(res);
-  return { ok: true };
 };
 
 export const getUserWarnings = async (userId) => {

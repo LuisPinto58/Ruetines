@@ -1,4 +1,4 @@
-import { warnUser, banUser as banUserService, getUserWarnings as getUserWarningsService, expireChat as expireChatService } from "../data/service.js";
+import { warnUser, deleteAccount, getUserWarnings as getUserWarningsService, expireChat as expireChatService } from "../data/service.js";
 
 export const sendWarning = async (userId) => {
   const result = await warnUser(userId);
@@ -11,7 +11,7 @@ export const sendWarning = async (userId) => {
 };
 
 export const banUser = async (userId) => {
-  const result = await banUserService(userId);
+  const result = await deleteAccount(userId);
   if (result?.ok) {
                 alert(`Utilizador ${userId} banido!`);
                 return result
