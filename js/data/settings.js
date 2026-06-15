@@ -1,3 +1,4 @@
+//for local storage dark mode and dyslexic settings
 const defaultSettings = {
     darkMode: false,
     dyslexic: false,
