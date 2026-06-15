@@ -32,6 +32,7 @@ function expProgress(task) {
   return exp / 100;
 }
 
+
 // função para carregar as tarefas no painel esquerdo
 async function loadTasks() {
   const tasks = (await getTasks()) || [];
@@ -46,10 +47,10 @@ async function loadTasks() {
     taskElement.classList.add("task");
 
     if (task.completed) {
-      taskElement.classList.add("task-completed");
+      taskElement.classList.add("task-completed")
     }
 
-    taskElement.innerHTML = `
+taskElement.innerHTML = `
       <div class="card mb-3" style="padding: 10px 15px; cursor: pointer;">
         <div class="d-flex justify-content-between align-items-center">
           
@@ -86,6 +87,11 @@ async function loadTasks() {
     tasksContainer.appendChild(taskElement);
   });
 }
+
+
+
+
+
 
 // Função para mostrar detalhes da tarefa no painel direito
 function showTaskDetails(task) {
@@ -193,12 +199,12 @@ function showTaskDetails(task) {
     if (deleteBtn) {
       deleteBtn.addEventListener("click", async () => {
         if (
-          confirm(`Tem a certeza que deseja eliminar a tarefa "${task.title}"?`)
-        ) {
+          confirm(`Tem a certeza que deseja eliminar a tarefa "${task.title}"?`)) {
+
           tarefasApagadasSessao.push({
             title: task.title,
             description: task.description,
-            schedules: task.schedules || [],
+            schedules: task.schedules || []
           });
 
           await deleteTasks(task);
@@ -360,79 +366,68 @@ document
   .getElementById("add-task-btn")
   .addEventListener("click", createTaskModal);
 
-// Premade Tasks - Tarefas Sugeridas
 
-const PREMADE_TASKS = [
-  {
-    title: "Beber 2L de água",
-    description: "Mantém-te hidratado ao longo do dia.",
-  },
-  { title: "Fazer exercício", description: "Mantém-te em forma." },
-  { title: "Meditar 10 minutos", description: "Momento para relaxar." },
-  { title: "Ler um livro", description: "Reserva tempo para a leitura." },
-  { title: "Dormir 8 horas", description: "Tem uma boa noite de descanso." },
-  {
-    title: "Arrumar o quarto",
-    description: "Mantém-te o teu espaço organizado.",
-  },
-  {
-    title: "Evitar alimentos picantes/salgados",
-    description: "São ricos em sódio e podem causar doenças.",
-  },
-  {
-    title: "Fazer um plano de consumo mensal",
-    description: "Evita gastos desnecessários.",
-  },
-  { title: "Lavar a roupa", description: "Não deixes a roupa acumular." },
-  {
-    title: "Preparar roupa de amanhã",
-    description: "Reduz o tempo de preparação matinal.",
-  },
-  { title: "Andar de bicicleta", description: "Sente a brisa." },
-  { title: "Planear o dia", description: "Organiza o que tens para fazer." },
-  {
-    title: "Comer 3 peças de fruta",
-    description: "Faz um lanche simples e saudável.",
-  },
-  { title: "Lavar o cabelo", description: "Faz a tua rotina capilar." },
-  { title: "Regar as plantas", description: "Dá água às tuas plantas." },
-  { title: "Ouvir um podcast", description: "Ouve algo interessante." },
-  { title: "Limpar e-mail", description: "Apaga os e-mails antigos." },
-];
 
-async function loadPremadeTasks() {
-  const container = document.getElementById("premade-tasks-container");
-  if (!container) return;
 
-  const token = sessionStorage.getItem("token");
-  if (!token) {
-    container.innerHTML = `
+  // Premade Tasks - Tarefas Sugeridas
+
+  const PREMADE_TASKS = [
+    { title: "Beber 2L de água", description: "Mantém-te hidratado ao longo do dia."},
+    { title: "Fazer exercício", description: "Mantém-te em forma."},
+    { title: "Meditar 10 minutos", description: "Momento para relaxar."},
+    { title: "Ler um livro", description: "Reserva tempo para a leitura."},
+    { title: "Dormir 8 horas", description: "Tem uma boa noite de descanso."},
+    { title: "Arrumar o quarto", description: "Mantém-te o teu espaço organizado."},
+    { title: "Evitar alimentos picantes/salgados", description: "São ricos em sódio e podem causar doenças."},
+    { title: "Fazer um plano de consumo mensal", description: "Evita gastos desnecessários."},
+    { title: "Lavar a roupa", description: "Não deixes a roupa acumular."},
+    { title: "Preparar roupa de amanhã", description: "Reduz o tempo de preparação matinal."},    
+    { title: "Andar de bicicleta", description: "Sente a brisa."},
+    { title: "Planear o dia", description: "Organiza o que tens para fazer."},
+    { title: "Comer 3 peças de fruta", description: "Faz um lanche simples e saudável."},
+    { title: "Lavar o cabelo", description: "Faz a tua rotina capilar."},
+    { title: "Regar as plantas", description: "Dá água às tuas plantas."},
+    { title: "Ouvir um podcast", description: "Ouve algo interessante."},
+    { title: "Limpar e-mail", description: "Apaga os e-mails antigos."},
+  ];
+
+  async function loadPremadeTasks() {
+    const container = document.getElementById("premade-tasks-container");
+    if (!container) return;
+
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      container.innerHTML = `
       <div class="premade-login-notice d-flex justify-content-center align-items-center gap-2" style="padding: 2rem; color: var(--Gray);">
         <ion-icon name="lock-closed-outline"></ion-icon>
         <p class="m-0">Faz log in para ver as tarefas sugeridas.</p>
       </div>
       `;
-    return;
-  }
+      return;
+    }
 
-  const existingTasks = (await getTasks()) || [];
-  const existingTitles = new Set(
-    existingTasks.map((t) => (t.title || "").trim().toLowerCase()),
-  );
+    const existingTasks = (await getTasks()) || [];
+    const existingTitles = new Set(
+      existingTasks.map((t) => (t.title || "").trim().toLowerCase()),
+    );
 
-  container.innerHTML = "";
+    container.innerHTML = "";
 
-  const randomTasks = [...PREMADE_TASKS]
-    .sort(() => 0.5 - Math.random())
-    .slice(0, 4);
 
-  randomTasks.forEach((premade) => {
-    const alreadyAdded = existingTitles.has(premade.title.trim().toLowerCase());
+    const randomTasks = [...PREMADE_TASKS]
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 4);
 
-    const card = document.createElement("div");
-    card.classList.add("premade-task-card");
 
-    card.innerHTML = `
+
+
+    randomTasks.forEach((premade) => {
+      const alreadyAdded = existingTitles.has(premade.title.trim().toLowerCase());
+
+      const card = document.createElement("div");
+      card.classList.add("premade-task-card");
+
+      card.innerHTML = `
         <div class="premade-task-info">
           <h6>${premade.title}</h6>
           <small>${premade.description}</small>
@@ -442,45 +437,47 @@ async function loadPremadeTasks() {
         </button>
       `;
 
-    if (!alreadyAdded) {
-      const addBtn = card.querySelector(".premade-add-btn");
-      addBtn.addEventListener("click", async () => {
-        addBtn.disabled = true;
-        await createTasks({
-          title: premade.title,
-          description: premade.description,
-          status: false,
-          schedules: [],
+      if (!alreadyAdded) {
+        const addBtn = card.querySelector(".premade-add-btn");
+        addBtn.addEventListener("click", async() => {
+          addBtn.disabled = true;
+          await createTasks({
+            title: premade.title,
+            description: premade.description,
+            status: false,
+            schedules: [],
+          });
+          await loadTasks();
+          await loadPremadeTasks();
         });
-        await loadTasks();
-        await loadPremadeTasks();
-      });
-    }
-    container.appendChild(card);
-  });
-}
+      }
 
-// --- Modal: Catálogo de Todas as Tarefas Sugeridas no Recuperar ---
+      container.appendChild(card);
+    });
+  }
+
+
+
+
+ // --- Modal: Catálogo de Todas as Tarefas Sugeridas no Recuperar ---
 async function showAllSuggestedTasksModal() {
-  const token = sessionStorage.getItem("token");
+
+  const token = sessionStorage.getItem('token');
   if (!token) {
     alert("Faz log in para recuperares tarefas sugeridas");
     return;
   }
 
+ 
   const existingTasks = (await getTasks()) || [];
   const existingTitles = new Set(
     existingTasks.map((t) => (t.title || "").trim().toLowerCase()),
   );
 
-  const modal = document.createElement("div");
-  modal.classList.add(
-    "modal",
-    "d-flex",
-    "justify-content-center",
-    "align-items-center",
-  );
 
+  const modal = document.createElement("div");
+  modal.classList.add("modal", "d-flex", "justify-content-center", "align-items-center");
+  
   modal.style.position = "fixed";
   modal.style.top = "0";
   modal.style.left = "0";
@@ -489,25 +486,25 @@ async function showAllSuggestedTasksModal() {
   modal.style.backgroundColor = "rgba(0,0,0,0.4)";
   modal.style.zIndex = "9999";
 
+  
   let listHtml = PREMADE_TASKS.map((t, index) => {
     const alreadyAdded = existingTitles.has(t.title.trim().toLowerCase());
-
+    
     return `
-    <div class="card mb-2" style="background-color: var(--Papel-Cru); border: 1px solid var(--Verde-Loureiro);">
-      <div class="card-body d-flex justify-content-between align-items-center p-2">
+    <div class="card mb-2" style="flex: unset; width: 100%;">
+      <div class="card-body d-flex justify-content-between align-items-center p-2" style="width: 100%;">
         <div style="min-width: 0;">
           <h6 class="m-0 text-truncate">${t.title}</h6>
           <small class="text-muted d-block text-truncate">${t.description}</small>
         </div>
         <button type="button" class="btn btn-sm add-from-catalog-btn ms-2" data-index="${index}" title="${alreadyAdded ? "Já está nas tuas tarefas" : "Adicionar tarefa"}"
-          style="border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border: none; transition: 0.2s; background-color: ${alreadyAdded ? "var(--Branco-Eucalipto)" : "var(--Verde-Loureiro)"}; color: ${alreadyAdded ? "var(--Verde-Loureiro)" : "white"};" 
+          style="border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border: none; transition: 0.2s; background-color: ${alreadyAdded ? 'var(--Branco-Eucalipto)' : 'var(--Verde-Loureiro)'}; color: ${alreadyAdded ? 'var(--Verde-Loureiro)' : 'white'};" 
           ${alreadyAdded ? "disabled" : ""}>
           <ion-icon name="${alreadyAdded ? "checkmark-outline" : "add-outline"}" style="font-size: 1.2rem;"></ion-icon>
         </button>
       </div>
     </div>
-  `;
-  }).join("");
+  `}).join("");
 
   modal.innerHTML = `
     <div class="modal-content" style="max-height: 80vh; width: min(500px, 90%); display: flex; flex-direction: column;">
@@ -526,22 +523,23 @@ async function showAllSuggestedTasksModal() {
 
   document.body.appendChild(modal);
 
-  modal
-    .querySelector(".modal-close")
-    .addEventListener("click", () => modal.remove());
+  
+  modal.querySelector(".modal-close").addEventListener("click", () => modal.remove());
 
-  modal.querySelectorAll(".add-from-catalog-btn").forEach((btn) => {
+
+  modal.querySelectorAll(".add-from-catalog-btn").forEach(btn => {
     btn.addEventListener("click", async (e) => {
       const button = e.currentTarget;
       const index = parseInt(button.getAttribute("data-index"), 10);
       const taskToAdd = PREMADE_TASKS[index];
 
+
       button.disabled = true;
       button.style.backgroundColor = "var(--Branco-Eucalipto)";
       button.style.color = "var(--Verde-Loureiro)";
-      button.innerHTML =
-        '<ion-icon name="checkmark-outline" style="font-size: 1.2rem;"></ion-icon>';
+      button.innerHTML = '<ion-icon name="checkmark-outline" style="font-size: 1.2rem;"></ion-icon>';
 
+     
       await createTasks({
         userid: "user1",
         title: taskToAdd.title,
@@ -550,11 +548,13 @@ async function showAllSuggestedTasksModal() {
         schedules: [],
       });
 
+      
       await loadTasks();
       await loadPremadeTasks();
     });
   });
 }
+
 
 document
   .getElementById("retrieve-tasks-btn")
