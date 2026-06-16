@@ -77,14 +77,17 @@ function renderChatElement(chat) { //rendering each chat selector card
         });
     }
 
-    chatElement.addEventListener("click", () => { //open chat window and render messages, flag checks if the chat window is already open to avoid unnecessary re-rendering
+    chatElement.addEventListener("click", async () => { //open chat window and render messages, flag checks if the chat window is already open to avoid unnecessary re-rendering
+        await loadChatList();
+        const freshChat = chats.find(c => c.id === chat.id) || chat;
+
         if (flag === 0) {
             openChatWindow();
             flag = 1;
         }
-        currentChat = chat;
-        joinChatRoom(chat.id);
-        renderChats(chat);
+        currentChat = freshChat;
+        joinChatRoom(freshChat.id);
+        renderChats(freshChat);
     });
 }
 
@@ -365,5 +368,3 @@ function closeChatWindow() { //close chat window and adjust layout for mobile an
 
     flag = 0;
 }
-
-
