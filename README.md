@@ -32,11 +32,9 @@ O projeto foi construído usando as seguintes tecnologias:
 
 * *Front-end*: HTML5, CSS3, JavaScript
 
-* *Back-end*: 
+* *Back-end*: Json Server, Json Server Auth, Socket.io, Express
 
-* *Base de Dados*: 
-
-* *Design & UI/UX*: Figma
+* *Design & UI/UX*: Figma, Bootstrap
 
 
 
@@ -57,6 +55,22 @@ Este projeto foi desenvolvido no âmbito de um projeto intercalar de 2º semestr
 1. Faz clone deste repositório:
     git clone https://github.com/LuisPinto58/Ruetines.git
 
-2. Abre a pasta do projeto, clica na pasta HTML e depois em ...
+2. Faça npm install para instalar as dependências necessárias
 
-3. ...
+3. Npm start para rodar o servidor e sockets
+
+4. Rode o index.html com uma extensão como o live server (recomendado: Desative atualização do liveserver na atualização de ficheiros .json ou novas tarefas e mensagens irão fazer refresh da pagina)
+
+# Testagem extra
+
+A visualiazção do funcionamento das sockets é possível através da abertura do front end de localhost em dois browsers diferentes (para evitar reposição do local storage)
+
+# Contas de teste
+
+Admin:
+email: admin@email.com
+password: admin
+
+Utilizador:
+email: test@test.pt
+password: test
