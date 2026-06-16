@@ -10,7 +10,7 @@ import {
 } from '../controller/user-controller.js';
 import { getSettings } from '../data/settings.js';
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => { //setting up page and listeners
     applyUserSettings();
     initializeUserPage();
 
@@ -18,7 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', handleLogout);
     }
-
+    //accessibility preferences setup
     const darkModeToggle = document.getElementById('dark-mode-toggle');
     const dyslexicToggle = document.getElementById('dyslexic-toggle');
     const currentSettings = getSettings();
@@ -33,7 +33,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const form = document.getElementById('edit-user-form');
     if (form) {
-        form.addEventListener('submit', async (event) => {
+        form.addEventListener('submit', async (event) => { //change password form sdubmission
             event.preventDefault();
             const currentPassword = document.getElementById('current-password').value.trim();
             const newPassword = document.getElementById('new-password').value.trim();
@@ -52,7 +52,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
+//password fields are disabled by default to prevent accidents, this listener enables them
 document.getElementById("edit-button").addEventListener("click",()=>{
     document.getElementById("current-password").removeAttribute("disabled")
     document.getElementById("new-password").removeAttribute("disabled")
@@ -61,7 +61,7 @@ document.getElementById("edit-button").addEventListener("click",()=>{
     document.getElementById("edit-button").classList.add("d-none")
 })
 
-
+//account delete listener
 document.getElementById("delete-btn").addEventListener("click", async ()=>{
     await handleDeleteAccount();
 })

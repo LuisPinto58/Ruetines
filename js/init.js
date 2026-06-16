@@ -1,4 +1,4 @@
-function init(){
+function init(){ 
     if(!sessionStorage.getItem('token') && localStorage.getItem("user")){
         localStorage.removeItem("user");
         window.location.href = 'html/tasks.html?loggedOut=true';

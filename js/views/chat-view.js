@@ -1,11 +1,11 @@
 import { getChat, createChat, sendMessage, handleReportMessage, joinChatRoom, initializeChatSocket } from "../controller/chat-controller.js";
 import { sendWarning, banUser, getUserWarnings, expireChat } from "../controller/adminChat-controller.js";
 
-let flag = 0;
+let flag = 0; //flag to control chat window state
 let currentChat = null;
 let chats = [];
 
-window.onload = async function () {
+window.onload = async function () { //initializing socket and chat list
     initializeChatSocket(async (payload) => {
         await loadChatList();
         if (currentChat?.id === payload.chatId) {
@@ -17,17 +17,16 @@ window.onload = async function () {
     await loadChatList();
 };
 
-const loadChatList = async () => {
+const loadChatList = async () => { //setting up chat list
     const previousChatId = currentChat?.id;
     chats = await getChat();
-    console.log(chats)
     renderChatList();
-    if (previousChatId) {
+    if (previousChatId) { //if a chat was open before the refresh, try to keep it open
         currentChat = chats.find(c => c.id === previousChatId) || currentChat;
     }
 };
 
-const renderChatList = () => {
+const renderChatList = () => { //rendering chat list with active and expired chats
     const chatSelector = document.getElementById("chat-selector");
     if (!chatSelector) return;
 
@@ -53,14 +52,14 @@ const renderChatList = () => {
 
 };
 
-function renderChatElement(chat) {
+function renderChatElement(chat) { //rendering each chat selector card
 
     const chatSelector = document.getElementById("chat-selector");
     const chatElement = document.createElement("div");
     chatElement.classList.add("chat-container", `${chat.type}-chat`);
-    chatElement.style.opacity = chat.status === "active" ? "1" : "0.5";
+    chatElement.style.opacity = chat.status === "active" ? "1" : "0.5"; //dim expired chats
 
-    if (currentChat?.id === chat.id) {
+    if (currentChat?.id === chat.id) { //highlighting the currently open chat
         chatElement.classList.add('active-chat');
     }
 
@@ -72,13 +71,13 @@ function renderChatElement(chat) {
 
     chatSelector.appendChild(chatElement);
 
-    if (currentChat?.id === chat.id) {
+    if (currentChat?.id === chat.id) { //scroll to the currently open chat
         requestAnimationFrame(() => {
             chatElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
     }
 
-    chatElement.addEventListener("click", () => {
+    chatElement.addEventListener("click", () => { //open chat window and render messages, flag checks if the chat window is already open to avoid unnecessary re-rendering
         if (flag === 0) {
             openChatWindow();
             flag = 1;
@@ -89,19 +88,19 @@ function renderChatElement(chat) {
     });
 }
 
-const bindChatSend = async (handler) => {
+const bindChatSend = async (handler) => { //binding send button and preparing it for controller handling
     const chatInput = document.getElementById("chat-input");
     const chatSendBtn = document.getElementById("chat-send-btn");
     if (!chatInput || !chatSendBtn) return;
 
-    const handleSend = async () => {
+    const handleSend = async () => { //controller handling
         const text = chatInput.value.trim();
         if (!text) return;
         await handler(text);
         chatInput.value = "";
     };
-
-    chatSendBtn.addEventListener("click", handleSend);
+    //binding enter and send button
+    chatSendBtn.addEventListener("click", handleSend); 
     chatInput.addEventListener("keydown", event => {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -110,7 +109,7 @@ const bindChatSend = async (handler) => {
     });
 };
 
-export async function renderChats(chat) {
+export async function renderChats(chat) { //rendering chat window with messages and admin controls if applicable
     const currentUserId = JSON.parse(localStorage.getItem("user"))?.id;
     const chatWindow = document.getElementById("chat-window");
     const chatSelector = document.getElementById("chat-selector");
@@ -143,7 +142,7 @@ export async function renderChats(chat) {
 
     const currentUser = JSON.parse(localStorage.getItem("user"));
 
-    if (currentUser?.role === "admin" && chat.type === "admin") {
+    if (currentUser?.role === "admin" && chat.type === "admin") { //admin controls for admin chats
         const adminButtonDiv = document.createElement("div")
         adminButtonDiv.classList.add("admin-button-div")
         adminButtonDiv.innerHTML = `
@@ -160,7 +159,7 @@ export async function renderChats(chat) {
         const expireBtn = document.getElementById("expire-chat-btn");
         const reportedUser = chat.users.find(user => user.id !== currentUser.id) || chat.users[0];
 
-        warnBtn.addEventListener("click", async () => {
+        warnBtn.addEventListener("click", async () => { //give warning to the reported user and update the warning count
             if (!reportedUser?.id) return;
             const result = await sendWarning(reportedUser.id);
             if(result) {
@@ -168,12 +167,12 @@ export async function renderChats(chat) {
             }
         });
 
-        banBtn.addEventListener("click", async () => {
+        banBtn.addEventListener("click", async () => { //ban user
             if (!reportedUser?.id) return;
             await banUser(reportedUser.id);
         });
 
-        expireBtn.addEventListener("click", async () => {
+        expireBtn.addEventListener("click", async () => { //expire chat manually as admin chats stay up until admin intervention
             if (!reportedUser?.id) return;
             await expireChat(chat.id);
         });
@@ -193,7 +192,7 @@ export async function renderChats(chat) {
         chat.messages.forEach(message => {
             const sender = chat.users?.find(userObj => userObj.id === message.sender);
             const messageBubble = document.createElement("div");
-            messageBubble.classList.add("chat-bubble", sender?.id === currentUserId ? "mine" : "other");
+            messageBubble.classList.add("chat-bubble", sender?.id === currentUserId ? "mine" : "other"); //positioning and styling based on sender
 
             if (sender) {
                 messageBubble.style.backgroundColor = sender.identifier;
@@ -205,7 +204,7 @@ export async function renderChats(chat) {
                     <div>${message.content}</div>
                 `;
                 messagesContainer.appendChild(messageBubble);
-            } else {
+            } else { //report button for other user messages
                 messageBubble.innerHTML = `
                     <div class="report-button" style="display:none">⚠</div>
                     <div>${message.content}</div>
@@ -220,7 +219,7 @@ export async function renderChats(chat) {
                 messageBubble.addEventListener('mouseleave', () => {
                     reportButton.style.display = 'none';
                 });
-                messageBubble.addEventListener("mousedown", (event) => {
+                messageBubble.addEventListener("mousedown", (event) => { //show report button on long press since mobile cant hover
                     setTimeout(function () {
                         if (messageBubble.onmousedown = true)
                             if (reportButton.style.display === 'flex') {
@@ -230,7 +229,7 @@ export async function renderChats(chat) {
                             }
                     }, 5000)
                 })
-                reportButton.addEventListener('click', async (event) => {
+                reportButton.addEventListener('click', async (event) => { //report listener
                     event.stopPropagation();
                     try {
                         const result = await handleReportMessage(message, chat);
@@ -251,7 +250,7 @@ export async function renderChats(chat) {
         messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
-    bindChatSend(async (text) => {
+    bindChatSend(async (text) => { //binding send button to controller and refreshing chat list after sending message
         const updatedChat = await sendMessage(chat, text);
         await loadChatList();
         currentChat = chats.find(c => c.id === updatedChat.id) || updatedChat;
@@ -260,7 +259,7 @@ export async function renderChats(chat) {
 }
 
 const newChatButton = document.getElementById("newChatButton");
-if (newChatButton) {
+if (newChatButton) { //chat creating listener and modal creation
     newChatButton.addEventListener("click", function () {
         const modalDiv = document.createElement("div");
         modalDiv.innerHTML = `
@@ -288,7 +287,7 @@ if (newChatButton) {
         const chatModal = new bootstrap.Modal(chatModalElement);
         chatModal.show();
 
-        const createHandler = async (type) => {
+        const createHandler = async (type) => { //handler for chat creation based on type
             try {
                 const newChat = await createChat(type);
                 await loadChatList();
@@ -311,7 +310,7 @@ if (newChatButton) {
 
         individualChatButton?.addEventListener("click", () => createHandler("individual"));
         groupChatButton?.addEventListener("click", () => createHandler("group"));
-
+        // Clean up modal after it's hidden
         chatModalElement.addEventListener("hidden.bs.modal", function () {
             chatModal.dispose();
             modalDiv.remove();
@@ -319,7 +318,7 @@ if (newChatButton) {
     });
 }
 
-function openChatWindow() {
+function openChatWindow() { //open chat window and adjust layout for mobile and desktop
     const chatWindow = document.getElementById("chat-window");
     const chatSelector = document.getElementById("chat-selector");
 
@@ -340,7 +339,7 @@ function openChatWindow() {
     });
 }
 
-function closeChatWindow() {
+function closeChatWindow() { //close chat window and adjust layout for mobile and desktop
     const chatWindow = document.getElementById("chat-window");
     const chatSelector = document.getElementById("chat-selector");
 
