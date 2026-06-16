@@ -364,40 +364,46 @@ document
 
 const PREMADE_TASKS = [
   {
+    premadeId: crypto.randomUUID(),
     title: "Beber 2L de água",
     description: "Mantém-te hidratado ao longo do dia.",
   },
-  { title: "Fazer exercício", description: "Mantém-te em forma." },
-  { title: "Meditar 10 minutos", description: "Momento para relaxar." },
-  { title: "Ler um livro", description: "Reserva tempo para a leitura." },
-  { title: "Dormir 8 horas", description: "Tem uma boa noite de descanso." },
+  { premadeId: crypto.randomUUID(), title: "Fazer exercício", description: "Mantém-te em forma." },
+  { premadeId: crypto.randomUUID(), title: "Meditar 10 minutos", description: "Momento para relaxar." },
+  { premadeId: crypto.randomUUID(), title: "Ler um livro", description: "Reserva tempo para a leitura." },
+  { premadeId: crypto.randomUUID(), title: "Dormir 8 horas", description: "Tem uma boa noite de descanso." },
   {
+    premadeId: crypto.randomUUID(),
     title: "Arrumar o quarto",
     description: "Mantém-te o teu espaço organizado.",
   },
   {
+    premadeId: crypto.randomUUID(),
     title: "Evitar alimentos picantes/salgados",
     description: "São ricos em sódio e podem causar doenças.",
   },
   {
+    premadeId: crypto.randomUUID(),
     title: "Fazer um plano de consumo mensal",
     description: "Evita gastos desnecessários.",
   },
-  { title: "Lavar a roupa", description: "Não deixes a roupa acumular." },
+  { premadeId: crypto.randomUUID(), title: "Lavar a roupa", description: "Não deixes a roupa acumular." },
   {
+    premadeId: crypto.randomUUID(),
     title: "Preparar roupa de amanhã",
     description: "Reduz o tempo de preparação matinal.",
   },
-  { title: "Andar de bicicleta", description: "Sente a brisa." },
-  { title: "Planear o dia", description: "Organiza o que tens para fazer." },
+  { premadeId: crypto.randomUUID(), title: "Andar de bicicleta", description: "Sente a brisa." },
+  { premadeId: crypto.randomUUID(), title: "Planear o dia", description: "Organiza o que tens para fazer." },
   {
+    premadeId: crypto.randomUUID(),
     title: "Comer 3 peças de fruta",
     description: "Faz um lanche simples e saudável.",
   },
-  { title: "Lavar o cabelo", description: "Faz a tua rotina capilar." },
-  { title: "Regar as plantas", description: "Dá água às tuas plantas." },
-  { title: "Ouvir um podcast", description: "Ouve algo interessante." },
-  { title: "Limpar e-mail", description: "Apaga os e-mails antigos." },
+  { premadeId: crypto.randomUUID(), title: "Lavar o cabelo", description: "Faz a tua rotina capilar." },
+  { premadeId: crypto.randomUUID(), title: "Regar as plantas", description: "Dá água às tuas plantas." },
+  { premadeId: crypto.randomUUID(), title: "Ouvir um podcast", description: "Ouve algo interessante." },
+  { premadeId: crypto.randomUUID(), title: "Limpar e-mail", description: "Apaga os e-mails antigos." },
 ];
 
 async function loadPremadeTasks() {
@@ -416,8 +422,8 @@ async function loadPremadeTasks() {
   }
 
   const existingTasks = (await getTasks()) || [];
-  const existingTitles = new Set(
-    existingTasks.map((t) => (t.title || "").trim().toLowerCase()),
+  const existingPremadeIds = new Set(
+    existingTasks.map((t) => t.premadeId).filter(Boolean),
   );
 
   container.innerHTML = "";
@@ -427,7 +433,7 @@ async function loadPremadeTasks() {
     .slice(0, 4);
 
   randomTasks.forEach((premade) => {
-    const alreadyAdded = existingTitles.has(premade.title.trim().toLowerCase());
+    const alreadyAdded = existingPremadeIds.has(premade.premadeId);
 
     const card = document.createElement("div");
     card.classList.add("premade-task-card");
@@ -447,6 +453,7 @@ async function loadPremadeTasks() {
       addBtn.addEventListener("click", async () => {
         addBtn.disabled = true;
         await createTasks({
+          premadeId: premade.premadeId,
           title: premade.title,
           description: premade.description,
           status: false,
@@ -469,8 +476,8 @@ async function showAllSuggestedTasksModal() {
   }
 
   const existingTasks = (await getTasks()) || [];
-  const existingTitles = new Set(
-    existingTasks.map((t) => (t.title || "").trim().toLowerCase()),
+  const existingPremadeIds = new Set(
+    existingTasks.map((t) => t.premadeId).filter(Boolean),
   );
 
   const modal = document.createElement("div");
@@ -490,7 +497,7 @@ async function showAllSuggestedTasksModal() {
   modal.style.zIndex = "9999";
 
   let listHtml = PREMADE_TASKS.map((t, index) => {
-    const alreadyAdded = existingTitles.has(t.title.trim().toLowerCase());
+    const alreadyAdded = existingPremadeIds.has(t.premadeId);
 
     return `
     <div class="card mb-2" style="background-color: var(--Papel-Cru); border: 1px solid var(--Verde-Loureiro);">
@@ -543,7 +550,7 @@ async function showAllSuggestedTasksModal() {
         '<ion-icon name="checkmark-outline" style="font-size: 1.2rem;"></ion-icon>';
 
       await createTasks({
-        userid: "user1",
+        premadeId: taskToAdd.premadeId,
         title: taskToAdd.title,
         description: taskToAdd.description,
         status: false,
