@@ -13,15 +13,15 @@ const authHeaders = (token = sessionStorage.getItem('token')) => ({
 
 const jsonHeaders = () => ({ 'Content-Type': 'application/json' });
 
-const logoutUser = () => {
+const logoutUser = () => { //simple logout to clear session
   User.saveToStorage(null);
   sessionStorage.removeItem('token');
   if (typeof window !== 'undefined') {
-    window.location.href = '../html/tasks.html?loggedOut=true';
+    window.location.href = '../html/tasks.html?loggedOut=true'; 
   }
 };
 
-const getErrorMessage = async (res) => {
+const getErrorMessage = async (res) => { //treating error message
   const text = await res.text();
   if (!text) return 'Erro no servidor.';
 
@@ -33,7 +33,7 @@ const getErrorMessage = async (res) => {
   }
 };
 
-const handleApiError = async (res) => {
+const handleApiError = async (res) => { //centralized error handling to reduce code
   if (res.status === 401 || res.status === 403) {
     logoutUser();
     return { ok: false, status: res.status, message: 'Sessão expirada. Faça login novamente.' };
@@ -67,10 +67,10 @@ export const login = async (email, password) => { //login, returns token and use
   return { ok: true, token: data.accessToken, user: data.user };
 };
 
-export const updateUserPassword = async (userId, token, password) => { //password update
+export const updateUserPassword = async (userId, password) => { //password update
   const res = await fetch(`${API}/users/${userId}`, {
     method: 'PATCH',
-    headers: authHeaders(token),
+    headers: authHeaders(),
     body: JSON.stringify({ password }),
   });
   if (!res.ok) return await handleApiError(res);

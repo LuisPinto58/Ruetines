@@ -3,7 +3,7 @@ import { login, register } from '../data/service.js';
 import { applySettings } from '../data/settings.js';
 import User from '../models/users-model.js';
 
-function createDesktopNavbar(navItems) {
+function createDesktopNavbar(navItems) { //desktop navbar with items on top
   const navbar = document.createElement('nav');
   navbar.className = 'navbar navbar-desktop';
 
@@ -20,7 +20,7 @@ function createDesktopNavbar(navItems) {
     link.href = item.href || '#';
     link.textContent = item.label;
 
-    if (item.href === 'nan') {
+    if (item.href === 'nan') { //nan to identify unauthenticated user
       link.addEventListener('click', function (event) {
         event.preventDefault();
         alert('Funcionalidade não disponível para utilizadores não autenticados!');
@@ -28,7 +28,7 @@ function createDesktopNavbar(navItems) {
       link.classList.add('disabled');
     } else {
       const fileName = item.href.split('/').pop();
-      if (fileName && window.location.pathname.includes(fileName)) {
+      if (fileName && window.location.pathname.includes(fileName)) { //highlight page
         link.classList.add('active');
       }
     }
@@ -37,7 +37,7 @@ function createDesktopNavbar(navItems) {
     navList.appendChild(li);
   });
 
-  if (User.fromStorage()) {
+  if (User.fromStorage()) { //checking if user is logged in to hide login button
     navbar.appendChild(logoContainer);
     navbar.appendChild(navList);
     navbar.style.justifyContent = 'flex-start';
@@ -52,7 +52,7 @@ function createDesktopNavbar(navItems) {
     loginClick.addEventListener('click', function (event) {
       event.preventDefault();
       if (!document.querySelector('.login-modal')) {
-        document.body.appendChild(createLoginModal());
+        document.body.appendChild(createLoginModal()); //login modal is added dynamically
       }
     });
     authContainer.appendChild(loginClick);
@@ -77,7 +77,7 @@ function createMobileNavbar(navItems) {
   logoContainer.className = 'navbar-logo';
   logoContainer.innerHTML = '<img src="../assets/img/logo.svg" width="100" alt="Landing Page button with Ruetines Logo">';
 
-  if (User.fromStorage()) {
+  if (User.fromStorage()) { //hiding login button for logged user
     topBar.className = 'navbar navbar-mobile-top navbar-logged';
     topBar.appendChild(logoContainer);
   } else {
@@ -91,7 +91,7 @@ function createMobileNavbar(navItems) {
     loginClick.textContent = 'Log in';
     loginClick.addEventListener('click', function (event) {
       event.preventDefault();
-      document.body.appendChild(createLoginModal());
+      document.body.appendChild(createLoginModal()); //dynamic modal
     });
 
     topBar.appendChild(logoContainer);
@@ -112,7 +112,7 @@ function createMobileNavbar(navItems) {
     const li = document.createElement('li');
     const link = document.createElement('a');
     link.href = item.href || '#';
-    if (item.href === 'nan') {
+    if (item.href === 'nan') { //nan to identify unauthenticated user
       link.addEventListener('click', function (event) {
         event.preventDefault();
         alert('Funcionalidade não disponível para utilizadores não autenticados!');
@@ -142,7 +142,7 @@ function createMobileNavbar(navItems) {
 }
 
 
-function createLoginModal() {
+function createLoginModal() { //creating login modal dynamically
   const modal = document.createElement('div');
   modal.className = 'modal fade show login-modal';
   modal.style.display = 'block';
@@ -162,9 +162,9 @@ function createLoginModal() {
 
   modal.innerHTML = modalHTML;
 
-  changeModalContent(modal, 'login');
+  changeModalContent(modal, 'login'); //initializing with login forms
 
-
+  //funcionality to close modal since its dynamically created
   const closeModal = () => {
     modal.remove();
     document.body.classList.remove('modal-open');
@@ -185,7 +185,7 @@ function createLoginModal() {
   return modal;
 }
 
-function getNavItems() {
+function getNavItems() { //setting up nav items
     const userIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person"
                 viewBox="0 0 16 16">
                 <path
@@ -198,26 +198,16 @@ function getNavItems() {
             </svg>`
   const chatIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" style="margin-left:0.5rem" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
                 <path  d="M2.678 11.894a1 1 0 0 1 .287.801 11 11 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8 8 0 0 0 8 14c3.996 0 7-2.807 7-6s-3.004-6-7-6-7 2.808-7 6c0 1.468.617 2.83 1.678 3.894m-.493 3.905a22 22 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a10 10 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105"/>
-            </svg>`
+            </svg>` //icons are paths to make for easier styling
 
+  //login to attribute correct links
   if (!User.fromStorage()) {
     return [
       { label: 'Perfil', href: 'nan', icon: userIcon },
       { label: 'Tarefas', href: '../html/tasks.html', icon: taskIcon },
       { label: 'Chat', href: 'nan', icon: chatIcon }
     ];
-  }
-
-  if (User.fromStorage().role === 'admin') {
-    return [
-      { label: 'Perfil', href: '../html/user.html', icon: userIcon },
-      { label: 'Tarefas', href: '../html/tasks.html', icon: taskIcon },
-      { label: 'Chat', href: '../html/chat.html', icon: chatIcon }
-    ];
-  }
-
-
-  if (User.fromStorage().role === 'user') {
+  }else{
     return [
       { label: 'Perfil', href: '../html/user.html', icon: userIcon },
       { label: 'Tarefas', href: '../html/tasks.html', icon: taskIcon },
@@ -226,10 +216,10 @@ function getNavItems() {
   }
 }
 
-function changeModalContent(modal, type) {
+function changeModalContent(modal, type) { //changing modal content dynamically based on type
   const modalTitle = modal.querySelector('.modal-title');
   const modalBody = modal.querySelector('.modal-body');
-  if (type === 'signup') {
+  if (type === 'signup') { //signup form setup
     modal.querySelector('.modal-content').style.backgroundColor = '#fdfbf7';
     modalTitle.innerHTML = `
     <button type="button" class="btn p-0 border-0 back-to-login me-2">
@@ -256,7 +246,7 @@ function changeModalContent(modal, type) {
     `;
 
     const signupForm = modal.querySelector('.signup-form');
-    if (signupForm) {
+    if (signupForm) { //listeners for form
       signupForm.addEventListener('submit', async function (event) {
         event.preventDefault();
         const email = this.querySelector('#signup-email').value;
@@ -274,7 +264,7 @@ function changeModalContent(modal, type) {
         }
 
         alert('Registo realizado! Faça login para continuar');
-        changeModalContent(modal, 'login');
+        changeModalContent(modal, 'login'); //go back to login after register
       });
     }
 
@@ -285,7 +275,7 @@ function changeModalContent(modal, type) {
         });
       }
 
-  } else if (type === 'login') {
+  } else if (type === 'login') { //login form setup
     modalTitle.textContent = 'Log in';
     modal.querySelector('.modal-content').style.backgroundColor = '#fdfbf7';
     modalBody.innerHTML = `
@@ -305,7 +295,7 @@ function changeModalContent(modal, type) {
       </form>
     `;
     const form = modal.querySelector('.login-form');
-    if (form) {
+    if (form) { //listeners for login
       form.addEventListener('submit', async function (event) {
         event.preventDefault();
         const email = form.querySelector('#login-email').value;
@@ -369,6 +359,7 @@ document.addEventListener('DOMContentLoaded', function () {
   navbarContainer.id = 'navbar-container';
   document.body.insertBefore(navbarContainer, document.body.firstChild);
   renderNavbar('both', getNavItems());
+  //linking fonts used in app to make sure they load on every page
   let fonts = [document.createElement("link"), document.createElement("link"), document.createElement("link"), document.createElement("link")]
   fonts[0].href = "https://fonts.googleapis.com"
   fonts[0].rel = "preconnect"
@@ -384,7 +375,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.head.appendChild(fonts[2])
   document.head.appendChild(fonts[3])
   const url = new URLSearchParams(location.search);
-  if (url.has('loggedOut')) {
+  if (url.has('loggedOut')) { //if user is logged out, show login modal
     if (!document.querySelector('.login-modal')) {
       document.body.appendChild(createLoginModal());
     }
