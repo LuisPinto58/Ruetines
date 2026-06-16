@@ -17,7 +17,7 @@ const logoutUser = () => { //simple logout to clear session
   User.saveToStorage(null);
   sessionStorage.removeItem('token');
   if (typeof window !== 'undefined') {
-    window.location.href = '../html/tasks.html?loggedOut=true'; 
+    window.location.href = '../html/tasks.html?loggedOut=true';
   }
 };
 
@@ -79,7 +79,7 @@ export const updateUserPassword = async (userId, password) => { //password updat
 
 export const deleteAccount = async (userId) => { //remove user from other chats and deleting account
   const chats = await getChats(userId); //to check chats
-  chats.forEach(async (chat) => {         
+  chats.forEach(async (chat) => {
     chat.users = chat.users.filter(user => user.id !== userId);
     if (chat.users.length === 0) { //if no user left, delete, else update without user
       await fetch(`${API}/chats/${chat.id}`, {
@@ -99,7 +99,7 @@ export const deleteAccount = async (userId) => { //remove user from other chats 
     method: 'DELETE',
     headers: authHeaders(),
   });
-  
+
   if (!res.ok) return await handleApiError(res);
   return { ok: true };
 };
@@ -116,10 +116,10 @@ export const getUserById = async (userId) => {
       logoutUser();
       return { ok: false, status: res.status, message: 'Sessão expirada. Faça login novamente.' };
     }
-      alert('Utilizador não encontrado. A sessão foi encerrada.');
-      logoutUser();
-      return { ok: false, status: res.status, message: message || 'Utilizador não encontrado.' };
-    }
+    alert('Utilizador não encontrado. A sessão foi encerrada.');
+    logoutUser();
+    return { ok: false, status: res.status, message: message || 'Utilizador não encontrado.' };
+  }
 
   return { ok: true, user: await res.json() };
 };
@@ -176,7 +176,7 @@ export const getChats = async (userId) => {
 
   if (user.role == 'admin') {
     return processed
-  }else{
+  } else {
     return processed.filter(chat => chat.type !== "admin" || chat.messages?.length > 1); //making sure users only see chats when admin responds instead of immediatly seeing he was reported
   }
 };
@@ -298,7 +298,7 @@ const DAY_MS = 24 * 60 * 60 * 1000; //here to change if needed, currently set to
 
 const expireOrDeleteChat = async (chat) => {
   if (!chat?.timeStamp || !chat?.id) return chat;
-  if(chat.type === "admin") return chat; //admin chats arent auto expired or deleted, only manually
+  if (chat.type === "admin") return chat; //admin chats arent auto expired or deleted, only manually
   const ageMs = Date.now() - new Date(chat.timeStamp).getTime();
 
   if (ageMs >= 3 * DAY_MS) { //delete if chat is older than 3 days

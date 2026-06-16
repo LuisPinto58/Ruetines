@@ -23,7 +23,7 @@ export const handleLogout = () => {
 
 export { toggleDarkMode, toggleDyslexic };
 
-export const handleChangePassword = async ({ currentPassword, newPassword, confirmPassword }) => { 
+export const handleChangePassword = async ({ currentPassword, newPassword, confirmPassword }) => {
     const user = User.fromStorage();
     if (!user) {
         return { ok: false, message: 'Não foi possível encontrar o utilizador. Faça login novamente.' };
@@ -60,7 +60,7 @@ export const handleDeleteAccount = async () => { //accout deletion with confirma
             if (!result.ok) {
                 alert('Não foi possível eliminar a conta. Tente novamente.');
                 return;
-            }else{
+            } else {
                 alert('Conta eliminada com sucesso!');
                 handleLogout();
             }

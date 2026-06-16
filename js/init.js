@@ -1,13 +1,9 @@
-function init(){ 
-    if(!sessionStorage.getItem('token') && localStorage.getItem("user")){
+function init() {
+    if (!sessionStorage.getItem('token') && localStorage.getItem("user")) {
         localStorage.removeItem("user");
         window.location.href = 'html/tasks.html?loggedOut=true';
-    }else if(sessionStorage.getItem('token') && localStorage.getItem("userRole")){
-        if(localStorage.getItem("userRole") === "admin"){
-            window.location.href = 'html/adminTasks.html';
-        }else{
-            window.location.href = 'html/tasks.html';
-        }
+    } else if (sessionStorage.getItem('token') && localStorage.getItem("user")) {
+        window.location.href = 'html/tasks.html';
     }
 }
 
@@ -18,19 +14,19 @@ init();
 const menuLinks = document.querySelectorAll('.menu-links a[href^="#"]');
 
 menuLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
+    link.addEventListener('click', function (e) {
         e.preventDefault();
 
         const targetId = this.getAttribute('href');
         const targetSection = document.querySelector(targetId);
 
         if (targetSection) {
-            targetSection.scrollIntoView({ 
+            targetSection.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
         }
-            });
+    });
 });
 
 
