@@ -7,35 +7,10 @@
       "id": 1
     },
     {
-      "email": "email@esmad.ipp.pt",
-      "password": "$2a$10$yFwB9Z8zo24f9Zpw77fH3uQHcpE8KD1sIDD25gRePMyPu20DV1InS",
-      "role": "user",
-      "id": 2
-    },
-    {
-      "email": "thiago-teste@esmad.ipp.pt",
-      "password": "$2a$10$wvUhuTfISZoYV.plLh3MF.BpZORHtQExqn9bqe5oe5sIqe7dg74.G",
-      "role": "user",
-      "id": 3
-    },
-    {
-      "email": "thiago@gmail.com",
-      "password": "$2a$10$dj9K8wfez9ZmmV/3JqTv7exAPXBMoCbE7.uW6oD18B7pP/wDhsoRm",
-      "role": "user",
-      "id": 4,
-      "warnings": 12
-    },
-    {
       "email": "admin@email.com",
       "password": "$2a$10$EV1S4t7vVJcYMuKGKl1rReySCP0M1oheuNbh88gjclu2OZlTPk.iy",
       "role": "admin",
       "id": 6
-    },
-    {
-      "email": "test@email.com",
-      "password": "$2a$10$uTh754iKvR94fuRh.QPuAOul9B0If2Z4VKEJ4zWfQ.gzO1gR02ism",
-      "role": "user",
-      "id": 7
     },
     {
       "email": "test2@test.pt",
@@ -44,174 +19,7 @@
       "id": 8
     }
   ],
-  "tasks": [
-    {
-      "id": 1,
-      "title": "fdsfddsfslkjfdlkjsdfsdlkjf",
-      "description": ".nmgdfgdfgdfgnmd,fdg,m",
-      "userid": "user1",
-      "schedules": [
-        "12:30"
-      ],
-      "timeStamp": "2026-06-17T12:15:22.268Z",
-      "status": true,
-      "completedHistory": [
-        "2026-06-17"
-      ],
-      "isAdmin": false
-    },
-    {
-      "id": "af4c8dd9-ace7-47d0-86bc-5b139484fd84",
-      "title": "Qualquer coisa 2",
-      "description": "asdasdassaasa",
-      "userid": 4,
-      "schedules": [
-        "19:00"
-      ],
-      "timeStamp": "2026-06-06T18:56:30.726Z",
-      "status": false,
-      "completedHistory": [
-        "2026-06-01",
-        "2026-06-02",
-        "2026-06-03",
-        "2026-06-04",
-        "2026-06-05",
-        "2026-06-06",
-        "2026-06-07",
-        "2026-06-16"
-      ],
-      "isAdmin": false
-    },
-    {
-      "id": "d32c728c-752d-4a24-95bb-9ed2b3ade7b9",
-      "title": "Nome extremamente criativo",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "userid": 4,
-      "schedules": [
-        "15:00",
-        "20:00",
-        "23:00"
-      ],
-      "timeStamp": "2026-06-08T15:37:56.045Z",
-      "status": false,
-      "completedHistory": [],
-      "isAdmin": false
-    },
-    {
-      "id": "d81dcc10-7fd1-4d2e-afde-e595dcb04916",
-      "title": "Beber 2L de água",
-      "description": "Mantém-te hidratado ao longo do dia.",
-      "userid": 7,
-      "schedules": [],
-      "timeStamp": "2026-06-13T23:39:45.885Z",
-      "status": false,
-      "completedHistory": [],
-      "isAdmin": false
-    },
-    {
-      "id": "db128fc8-529e-4b62-a42f-12728a31d96b",
-      "title": "Fazer exercício",
-      "description": "Mantém-te em forma.",
-      "priority": 2,
-      "userid": 1,
-      "schedules": [],
-      "timeStamp": "2026-06-14T14:47:30.452Z",
-      "status": false,
-      "completedHistory": [],
-      "isAdmin": false
-    },
-    {
-      "id": "8b7412bc-e985-4b44-b30f-247235e759c6",
-      "title": "teste adimn budapeste",
-      "description": "dfdssfdfsd",
-      "userid": 6,
-      "schedules": [
-        "10:20"
-      ],
-      "timeStamp": "2026-06-15T13:54:36.412Z",
-      "status": false,
-      "completedHistory": [],
-      "isAdmin": true
-    },
-    {
-      "id": "3a4fd8b4-784f-4542-ae47-674a8dc85bfa",
-      "title": "Dormir 8 horas teste",
-      "description": "Tem uma boa noite de descanso.",
-      "userid": 4,
-      "schedules": [],
-      "timeStamp": "2026-06-16T21:43:42.661Z",
-      "status": false,
-      "completedHistory": [
-        "2026-06-16"
-      ],
-      "isAdmin": false,
-      "premadeId": "premade-5"
-    },
-    {
-      "id": "fa673589-da25-4beb-b853-986e3545fc01",
-      "title": "Ouvir um podcast",
-      "description": "Ouve algo interessante.",
-      "userid": 4,
-      "schedules": [],
-      "timeStamp": "2026-06-16T21:43:46.053Z",
-      "status": false,
-      "completedHistory": [
-        "2026-06-16"
-      ],
-      "isAdmin": false,
-      "premadeId": "premade-16"
-    },
-    {
-      "id": "ef5ad6c0-6684-422f-8b4e-d380ffeb2692",
-      "title": "Ler dois livros (editado)",
-      "description": "Reserva tempo para a leitura!!!!!!!.",
-      "userid": 4,
-      "schedules": [],
-      "timeStamp": "2026-06-16T21:46:31.210Z",
-      "status": false,
-      "completedHistory": [],
-      "isAdmin": false,
-      "premadeId": "premade-4"
-    },
-    {
-      "id": "a0b9f0b7-b3f0-40dc-b3cd-583571162247",
-      "title": "Regar as plantas",
-      "description": "Dá água às tuas plantas.",
-      "userid": 4,
-      "schedules": [],
-      "timeStamp": "2026-06-17T09:50:14.266Z",
-      "status": false,
-      "completedHistory": [],
-      "isAdmin": false,
-      "premadeId": "premade-15"
-    },
-    {
-      "id": "41d7bd2c-5668-45a7-ba66-86f7ceac301a",
-      "title": "Ler dois livros (editado)",
-      "description": "Reserva tempo para a leitura!!!!!!!.",
-      "priority": 3,
-      "userid": 1,
-      "schedules": [],
-      "timeStamp": "2026-06-17T15:29:56.567Z",
-      "status": false,
-      "completedHistory": [],
-      "isAdmin": false,
-      "premadeId": "premade-4"
-    },
-    {
-      "id": "83916779-b0a6-4341-85f3-527d73191d8d",
-      "title": "Planear o dia",
-      "description": "Organiza o que tens para fazer.",
-      "priority": 1,
-      "userid": 8,
-      "schedules": [],
-      "timeStamp": "2026-06-17T15:42:22.826Z",
-      "status": false,
-      "completedHistory": [],
-      "isAdmin": false,
-      "premadeId": "premade-12"
-    }
-  ],
+  "tasks": [],
   "chats": [
     {
       "id": "fbfee28a-352e-4008-9cc3-70e9e63d42a4",
@@ -447,89 +255,6 @@
       ]
     },
     {
-      "id": "82f581e1-67fa-479b-812f-e24d3beae50f",
-      "type": "individual",
-      "timeStamp": "2026-06-14T16:48:35.367Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 8,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "ola",
-          "sender": 1
-        },
-        {
-          "content": "ola",
-          "sender": 8
-        }
-      ]
-    },
-    {
-      "id": "f806df08-c21d-4862-9f64-fc0bda86d9f6",
-      "type": "individual",
-      "timeStamp": "2026-06-14T16:48:59.081Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 1,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
-        {
-          "id": 4,
-          "identifier": "#685fa0",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "hello",
-          "sender": 1
-        },
-        {
-          "content": "kljdfdslkjfdslkjfdslkjdslkjlkjlksjdlfjsdlfjs",
-          "sender": 4
-        },
-        {
-          "content": "kjfdlkjdsflkjsfsdljfslkfdjsjdlkfskjdfl",
-          "sender": 1
-        },
-        {
-          "content": "lkfdlkdsfçfsd",
-          "sender": 1
-        }
-      ]
-    },
-    {
-      "id": "334317b7-7da1-4ab4-86a3-f8aa3b442c11",
-      "type": "individual",
-      "timeStamp": "2026-06-14T16:51:40.056Z",
-      "status": "expired",
-      "users": [
-        {
-          "id": 8,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        }
-      ],
-      "messages": [
-        {
-          "content": "ola",
-          "sender": 8
-        }
-      ]
-    },
-    {
       "id": "3ecbc149-3f5d-4c62-baf1-69e7c70b5130",
       "type": "admin",
       "timeStamp": "2026-06-14T16:53:56.236Z",
@@ -559,11 +284,6 @@
       "timeStamp": "2026-06-15T14:04:11.024Z",
       "status": "expired",
       "users": [
-        {
-          "id": 4,
-          "identifier": "#8a9e83",
-          "textColor": "#ffffff"
-        },
         {
           "id": 6,
           "identifier": "#685fa0",
