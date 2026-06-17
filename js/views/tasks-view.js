@@ -297,9 +297,9 @@ function buildModal(task, onSave) {
           <div class="form-group">
             <label for="task-priority">Prioridade</label>
             <select class="form-control" id="task-priority" style="background-color: var(--Papel-Cru);">
-              <option value="1" ${priorityValue == 1 ? "selected" : ""}>1 - Baixa</option>
+              <option value="1" ${priorityValue == 1 ? "selected" : ""}>1 - Alta</option>
               <option value="2" ${priorityValue == 2 ? "selected" : ""}>2 - Média</option>
-              <option value="3" ${priorityValue == 3 ? "selected" : ""}>3 - Alta</option>
+              <option value="3" ${priorityValue == 3 ? "selected" : ""}>3 - Baixa</option>
             </select>
           </div>
           

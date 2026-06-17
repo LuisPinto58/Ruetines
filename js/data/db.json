@@ -197,6 +197,19 @@
       "completedHistory": [],
       "isAdmin": false,
       "premadeId": "premade-4"
+    },
+    {
+      "id": "83916779-b0a6-4341-85f3-527d73191d8d",
+      "title": "Planear o dia",
+      "description": "Organiza o que tens para fazer.",
+      "priority": 1,
+      "userid": 8,
+      "schedules": [],
+      "timeStamp": "2026-06-17T15:42:22.826Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": false,
+      "premadeId": "premade-12"
     }
   ],
   "chats": [
