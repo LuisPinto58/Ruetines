@@ -10,9 +10,13 @@ import {
 } from '../controller/user-controller.js';
 import { getSettings } from '../data/settings.js';
 
-window.addEventListener('DOMContentLoaded', () => { //setting up page and listeners
+window.addEventListener('DOMContentLoaded', async () => { //setting up page and listeners
     applyUserSettings();
-    initializeUserPage();
+    const container = document.getElementById('badge-container');
+    const badgeHtml = await initializeUserPage();
+    if (container) {
+        container.innerHTML = badgeHtml || '<span class="badge-empty">Ainda não tens tarefas para mostrar.</span>';
+    }
 
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {

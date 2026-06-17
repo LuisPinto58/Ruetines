@@ -1,21 +1,71 @@
 
 import { login, updateUserPassword, deleteAccount } from '../data/service.js';
 import { getSettings, saveSettings, applySettings, toggleDarkMode, toggleDyslexic } from '../data/settings.js';
+import { getTasks } from './tasks-controller.js';
 import User from '../models/users-model.js';
 
 export const getUserSettings = getSettings;
 export const saveUserSettings = saveSettings;
 export const applyUserSettings = applySettings;
 
-export const initializeUserPage = () => {
+export const initializeUserPage = async () => { //getting info for page
     const user = User.fromStorage();
     const userEmail = document.getElementById('user-email');
     if (userEmail) {
         userEmail.textContent = `Email: ${user.email || 'Desconhecido'}`;
     }
+
+    return await renderUserBadges(); //get info from tasks to display badges
 };
 
-export const handleLogout = () => {
+export const renderUserBadges = async () => {
+    const container = document.getElementById('badge-container');
+    if (!container) return; //container check
+
+    const tasks = await getTasks(); //gettings tasks from task-controller import
+
+    if (!Array.isArray(tasks) || tasks.length === 0) {
+        return '<span class="badge-empty">Ainda não tens tarefas para mostrar.</span>';
+    } //task empty state
+
+    return tasks
+        .sort((a, b) => Number(b.completed) - Number(a.completed)) //sorting by completed
+        .map((task) => { //mapping to html
+            const title = task.title?.trim() || 'Sem título';
+            const days = task.completedHistory?.length || 0;
+            const tier = task.tier || 'bronze';
+            const exp = task.experience || 0;
+            const progress = exp >= 200
+                ? (exp - 200) / 100
+                : exp >= 100
+                    ? (exp - 100) / 100
+                    : exp / 100;
+            const progressPct = Math.max(0, Math.min(100, Math.round(progress * 100)));
+            const displayPct = tier === 'ouro' ? 100 : progressPct;
+            const tierName = tier.charAt(0).toUpperCase() + tier.slice(1);
+            const statusClass = task.completed ? 'status-completed' : 'status-pending';
+            const statusText = task.completed ? 'Concluída hoje' : 'Pendente';
+            //returning html for each task for view
+            return `
+                <div class="task-badge">
+                    <div class="task-badge-header">
+                        <strong>${title}</strong>
+                        <span class="task-badge-pill ${statusClass}">${statusText}</span>
+                    </div>
+                    <div class="task-badge-progress">
+                        <span class="meta-label">Tier: ${tierName}</span>
+                        <div class="exp-bar-container">
+                            <div class="exp-bar-fill exp-tier-${tier}" style="width: ${displayPct}%;"></div>
+                        </div>
+                    </div>
+                    <small>${days} dia(s) concluído(s)</small>
+                </div>
+            `;
+        })
+        .join('');
+};
+
+export const handleLogout = () => { //logout function, clearing storage and redirecting to tasks page
     localStorage.removeItem("user");
     sessionStorage.removeItem('token');
     window.location.href = '../html/tasks.html';
