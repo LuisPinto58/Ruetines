@@ -4,6 +4,9 @@ import {
   updateTasks,
   deleteTasks,
   getPremadeTasks,
+  setEnergyState,
+  getEnergyState,
+  energyModalCheck
 } from "../controller/tasks-controller.js";
 import User from "../models/users-model.js";
 
@@ -36,6 +39,9 @@ function expProgress(task) {
 
 // função para carregar as tarefas no painel esquerdo
 async function loadTasks() {
+  if(energyModalCheck()){
+    openEnergyModal();
+  }
   const tasks = (await getTasks()) || [];
   const tasksContainer = document.getElementById("tasks-container");
 
@@ -53,6 +59,11 @@ async function loadTasks() {
   }
 
   tasks.forEach((task) => {
+    const energyState = getEnergyState();
+    if(task.priority > energyState){ //só renderiza tarefas dentro dos valroes de energia
+      return; 
+    }
+
     const taskElement = document.createElement("div");
     taskElement.classList.add("task");
 
@@ -264,6 +275,7 @@ function buildModal(task, onSave) {
 
   const titleValue = task ? task.title : "";
   const descValue = task ? task.description : "";
+  const priorityValue = task?.priority ?? 1;
   const modalTitle = task ? "Editar Tarefa" : "Criar Tarefa";
 
   modal.innerHTML = `
@@ -281,6 +293,14 @@ function buildModal(task, onSave) {
           <div class="form-group">
             <label for="task-description">Descrição</label>
             <textarea class="form-control" id="task-description" rows="3" placeholder="Descrição" style="background-color: var(--Papel-Cru);">${descValue}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="task-priority">Prioridade</label>
+            <select class="form-control" id="task-priority" style="background-color: var(--Papel-Cru);">
+              <option value="1" ${priorityValue == 1 ? "selected" : ""}>1 - Baixa</option>
+              <option value="2" ${priorityValue == 2 ? "selected" : ""}>2 - Média</option>
+              <option value="3" ${priorityValue == 3 ? "selected" : ""}>3 - Alta</option>
+            </select>
           </div>
           
           <div class="form-group">
@@ -349,11 +369,14 @@ function buildModal(task, onSave) {
     const taskDescription = modal
       .querySelector("#task-description")
       .value.trim();
+    const taskPriority = Number(
+      modal.querySelector("#task-priority").value,
+    );
     if (!taskTitle) {
       alert("O título da tarefa é obrigatório.");
       return;
     }
-    await onSave(taskTitle, taskDescription, schedulesList);
+    await onSave(taskTitle, taskDescription, schedulesList, taskPriority);
     modal.remove();
     await loadTasks();
     await loadPremadeTasks();
@@ -363,13 +386,14 @@ function buildModal(task, onSave) {
 }
 
 function createTaskModal() {
-  buildModal(null, async (title, description, schedules) => {
+  buildModal(null, async (title, description, schedules, priority) => {
     await createTasks({
       userid: "user1",
       title,
       description,
       status: false,
       schedules,
+      priority,
     });
     selectedTask = null;
     const container = document.querySelector(".container");
@@ -379,10 +403,11 @@ function createTaskModal() {
 }
 
 function editTaskModal(task) {
-  buildModal(task, async (title, description, schedules) => {
+  buildModal(task, async (title, description, schedules, priority) => {
     task.title = title;
     task.description = description;
     task.schedules = schedules;
+    task.priority = priority;
     await updateTasks(task);
     selectedTask = task;
     showTaskDetails(task);
@@ -410,16 +435,7 @@ async function loadPremadeTasks() {
     return;
   }
 
-  const token = sessionStorage.getItem("token");
-  /*if (!token) {
-    container.innerHTML = `
-      <div class="premade-login-notice d-flex justify-content-center align-items-center gap-2" style="padding: 2rem; color: var(--Gray);">
-        <ion-icon name="lock-closed-outline"></ion-icon>
-        <p class="m-0">Faz log in para ver as tarefas sugeridas.</p>
-      </div>
-      `;
-    return;
-  }*/
+  
 
   const existingTasks = (await getTasks()) || [];
   const existingPremadeIds = new Set(
@@ -471,7 +487,6 @@ async function loadPremadeTasks() {
 
 // --- Modal: Catálogo de Todas as Tarefas Sugeridas no Recuperar ---
 async function showAllSuggestedTasksModal() {
-  const token = sessionStorage.getItem("token");
   const existingTasks = (await getTasks()) || [];
   const existingPremadeIds = new Set(
     existingTasks.map((t) => t.premadeId).filter(Boolean),
@@ -562,6 +577,99 @@ async function showAllSuggestedTasksModal() {
   });
 }
 
+function openEnergyModal() {
+  const modal = document.createElement("div");
+  modal.classList.add(
+    "modal",
+    "d-flex",
+    "justify-content-center",
+    "align-items-center",
+  );
+  modal.style.position = "fixed";
+  modal.style.top = "0";
+  modal.style.left = "0";
+  modal.style.width = "100vw";
+  modal.style.height = "100vh";
+  modal.style.backgroundColor = "rgba(0, 0, 0, 0.45)";
+  modal.style.zIndex = "9999";
+
+  modal.innerHTML = `
+    <div class="energy-card" style="position: relative; width: min(620px, 92vw);">
+      <button type="button" class="energy-modal-close invisible-button" title="Fechar" style="position: absolute; top: 16px; right: 16px; font-size: 1.5rem; color: var(--Carvao);">
+        &times;
+      </button>
+      <span class="energy-subtitle">Um momento para ti</span>
+      <h2 class="energy-title">Como está a tua energia hoje ?</h2>
+      <div class="energy-options">
+        <button class="energy-btn burnout" data-estado=1>
+          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="33" viewBox="0 0 60 33" fill="none">
+            <g clip-path="url(#clip0_440_2187)">
+              <path d="M6.66667 26.4V6.6H20V26.4H6.66667ZM56.6667 8.25C57.5868 8.25 58.3724 8.57227 59.0234 9.2168C59.6745 9.86133 60 10.6391 60 11.55V21.45C60 22.3609 59.6745 23.1387 59.0234 23.7832C58.3724 24.4277 57.5868 24.75 56.6667 24.75V28.875C56.6667 30.0094 56.2587 30.9805 55.4427 31.7883C54.6267 32.5961 53.6458 33 52.5 33H4.16667C3.02083 33 2.03993 32.5961 1.22396 31.7883C0.407986 30.9805 0 30.0094 0 28.875V4.125C0 2.99062 0.407986 2.01953 1.22396 1.21172C2.03993 0.403906 3.02083 0 4.16667 0H52.5C53.6458 0 54.6267 0.403906 55.4427 1.21172C56.2587 2.01953 56.6667 2.99062 56.6667 4.125V8.25ZM56.6667 21.45V11.55H53.3333V4.125C53.3333 3.88438 53.2552 3.68672 53.099 3.53203C52.9427 3.37734 52.7431 3.3 52.5 3.3H4.16667C3.92361 3.3 3.72396 3.37734 3.56771 3.53203C3.41146 3.68672 3.33333 3.88438 3.33333 4.125V28.875C3.33333 29.1156 3.41146 29.3133 3.56771 29.468C3.72396 29.6227 3.92361 29.7 4.16667 29.7H52.5C52.7431 29.7 52.9427 29.6227 53.099 29.468C53.2552 29.3133 53.3333 29.1156 53.3333 28.875V21.45H56.6667Z" fill="#C07A56"/>
+            </g>
+            <defs>
+              <clipPath id="clip0_440_2187">
+                <rect width="60" height="33" fill="white"/>
+              </clipPath>
+            </defs>
+          </svg>
+          <span>Má</span>
+        </button>
+
+        <button class="energy-btn baixa" data-estado=2>
+          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="33" viewBox="0 0 60 33" fill="none">
+            <g clip-path="url(#clip0_440_2189)">
+              <path d="M6.66667 26.4V6.6H33.3333V16.5V26.4H6.66667ZM56.6667 8.25C57.5868 8.25 58.3724 8.57227 59.0234 9.2168C59.6745 9.86133 60 10.6391 60 11.55V21.45C60 22.3609 59.6745 23.1387 59.0234 23.7832C58.3724 24.4277 57.5868 24.75 56.6667 24.75V28.875C56.6667 30.0094 56.2587 30.9805 55.4427 31.7883C54.6267 32.5961 53.6458 33 52.5 33H4.16667C3.02083 33 2.03993 32.5961 1.22396 31.7883C0.407986 30.9805 0 30.0094 0 28.875V4.125C0 2.99062 0.407986 2.01953 1.22396 1.21172C2.03993 0.403906 3.02083 0 4.16667 0H52.5C53.6458 0 54.6267 0.403906 55.4427 1.21172C56.2587 2.01953 56.6667 2.99062 56.6667 4.125V8.25ZM56.6667 21.45V11.55H53.3333V4.125C53.3333 3.88438 53.2552 3.68672 53.099 3.53203C52.9427 3.37734 52.7431 3.3 52.5 3.3H4.16667C3.92361 3.3 3.72396 3.37734 3.56771 3.53203C3.41146 3.68672 3.33333 3.88438 3.33333 4.125V28.875C3.33333 29.1156 3.41146 29.3133 3.56771 29.468C3.72396 29.6227 3.92361 29.7 4.16667 29.7H52.5C52.7431 29.7 52.9427 29.6227 53.099 29.468C53.2552 29.3133 53.3333 29.1156 53.3333 28.875V21.45H56.6667Z" fill="#8A9E83"/>
+            </g>
+            <defs>
+              <clipPath id="clip0_440_2189">
+                <rect width="60" height="33" fill="white"/>
+              </clipPath>
+            </defs>
+          </svg>
+          <span>Média</span>
+        </button>
+
+        <button class="energy-btn boa" data-estado=3>
+          <svg xmlns="http://www.w3.org/2000/svg" width="60" height="33" viewBox="0 0 60 33" fill="none">
+            <g clip-path="url(#clip0_440_2191)">
+              <path d="M6.66667 26.4V6.6H50V16.5V26.125L6.66667 26.4ZM56.6667 8.25C57.5868 8.25 58.3724 8.57227 59.0234 9.2168C59.6745 9.86133 60 10.6391 60 11.55V21.45C60 22.3609 59.6745 23.1387 59.0234 23.7832C58.3724 24.4277 57.5868 24.75 56.6667 24.75V28.875C56.6667 30.0094 56.2587 30.9805 55.4427 31.7883C54.6267 32.5961 53.6458 33 52.5 33H4.16667C3.02083 33 2.03993 32.5961 1.22396 31.7883C0.407986 30.9805 0 30.0094 0 28.875V4.125C0 2.99062 0.407986 2.01953 1.22396 1.21172C2.03993 0.403906 3.02083 0 4.16667 0H52.5C53.6458 0 54.6267 0.403906 55.4427 1.21172C56.2587 2.01953 56.6667 2.99062 56.6667 4.125V8.25ZM56.6667 21.45V11.55H53.3333V4.125C53.3333 3.88438 53.2552 3.68672 53.099 3.53203C52.9427 3.37734 52.7431 3.3 52.5 3.3H4.16667C3.92361 3.3 3.72396 3.37734 3.56771 3.53203C3.41146 3.68672 3.33333 3.88438 3.33333 4.125V28.875C3.33333 29.1156 3.41146 29.3133 3.56771 29.468C3.72396 29.6227 3.92361 29.7 4.16667 29.7H52.5C52.7431 29.7 52.9427 29.6227 53.099 29.468C53.2552 29.3133 53.3333 29.1156 53.3333 28.875V21.45H56.6667Z" fill="#6B5FA0"/>
+            </g>
+            <defs>
+              <clipPath id="clip0_440_2191">
+                <rect width="60" height="33" fill="white"/>
+              </clipPath>
+            </defs>
+          </svg>
+          <span>Boa</span>
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const closeModal = () => modal.remove();
+
+  const closeBtn = modal.querySelector(".energy-modal-close");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closeModal);
+  }
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      closeModal();
+    }
+  });
+
+  modal.querySelectorAll(".energy-btn").forEach((button) => {
+    button.addEventListener("click", () => {
+      setEnergyState(parseInt(button.dataset.estado));
+      closeModal();
+    });
+  });
+}
+
 document
   .getElementById("retrieve-tasks-btn")
   .addEventListener("click", showAllSuggestedTasksModal);
+

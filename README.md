@@ -74,3 +74,6 @@ password: admin
 Utilizador:
 email: test@test.pt
 password: test
+
+email: test2@test.pt
+password: test2

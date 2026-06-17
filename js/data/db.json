@@ -36,6 +36,12 @@
       "password": "$2a$10$uTh754iKvR94fuRh.QPuAOul9B0If2Z4VKEJ4zWfQ.gzO1gR02ism",
       "role": "user",
       "id": 7
+    },
+    {
+      "email": "test2@test.pt",
+      "password": "$2a$10$bYJOKREUhQXnbcfKZHBYauhrJZHXRf8NQ6jeusCTaVo3enbSyWr5K",
+      "role": "user",
+      "id": 8
     }
   ],
   "tasks": [
@@ -106,6 +112,7 @@
       "id": "db128fc8-529e-4b62-a42f-12728a31d96b",
       "title": "Fazer exercício",
       "description": "Mantém-te em forma.",
+      "priority": 2,
       "userid": 1,
       "schedules": [],
       "timeStamp": "2026-06-14T14:47:30.452Z",
@@ -177,6 +184,19 @@
       "completedHistory": [],
       "isAdmin": false,
       "premadeId": "premade-15"
+    },
+    {
+      "id": "41d7bd2c-5668-45a7-ba66-86f7ceac301a",
+      "title": "Ler dois livros (editado)",
+      "description": "Reserva tempo para a leitura!!!!!!!.",
+      "priority": 3,
+      "userid": 1,
+      "schedules": [],
+      "timeStamp": "2026-06-17T15:29:56.567Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": false,
+      "premadeId": "premade-4"
     }
   ],
   "chats": [
@@ -685,30 +705,6 @@
       "title": "Limpar e-mail",
       "description": "Apaga os e-mails antigos.",
       "schedules": []
-    },
-    {
-      "id": "705cb725-c6c0-429b-bce9-6af7326177cf",
-      "title": "O HEXA VEM",
-      "description": "",
-      "userid": null,
-      "schedules": [],
-      "timeStamp": "2026-06-16T20:49:28.652Z",
-      "status": false,
-      "completedHistory": [],
-      "isAdmin": false
-    },
-    {
-      "id": "9160daf7-61b5-4cc8-82ec-9fdb9d8abba5",
-      "title": "Se o hexa nao vir eu vou para ny comet***** ******",
-      "description": "Eu estou bem",
-      "userid": null,
-      "schedules": [
-        "12:00"
-      ],
-      "timeStamp": "2026-06-17T10:14:51.438Z",
-      "status": false,
-      "completedHistory": [],
-      "isAdmin": false
     }
   ]
 }
