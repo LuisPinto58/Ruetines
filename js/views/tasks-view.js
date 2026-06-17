@@ -472,11 +472,6 @@ async function loadPremadeTasks() {
 // --- Modal: Catálogo de Todas as Tarefas Sugeridas no Recuperar ---
 async function showAllSuggestedTasksModal() {
   const token = sessionStorage.getItem("token");
-  if (!token) {
-    alert("Faz log in para recuperares tarefas sugeridas");
-    return;
-  }
-
   const existingTasks = (await getTasks()) || [];
   const existingPremadeIds = new Set(
     existingTasks.map((t) => t.premadeId).filter(Boolean),

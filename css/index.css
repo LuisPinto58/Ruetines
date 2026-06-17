@@ -49,9 +49,14 @@ select:focus,
 #task-description,
 #task-title,
 #task-schedule-input {
-  background-color: #262635;
+  background-color: #262635; 
   border-color: #4b4b5c;
   color: #e8e8e8;
+}
+
+input, input:focus, textarea, textarea:focus {
+  background-color: #ffff !important;
+  color: #000 !important;
 }
 
 body.dark-mode .card {

@@ -409,7 +409,7 @@ export const createPremadeTask = async (task) => {
 
   const res = await fetch(`${API}/premadeTasks`, {
     method: "POST",
-    headers: jsonHeaders(),
+    headers: authHeaders(),
     body: JSON.stringify(taskObj.toJSON()),
   });
   if (!res.ok) {
@@ -431,7 +431,7 @@ export const updatePremadeTask = async (task) => {
 
   const res = await fetch(`${API}/premadeTasks/${taskObj.id}`, {
     method: "PUT",
-    headers: jsonHeaders(),
+    headers: authHeaders(),
     body: JSON.stringify(taskObj.toJSON()),
   });
   if (!res.ok) {
@@ -490,6 +490,7 @@ export const updatePremadeTask = async (task) => {
 export const deletePremadeTask = async (task) => {
   const id = task?.id ?? task;
   const res = await fetch(`${API}/premadeTasks/${id}`, {
+    headers: authHeaders(),
     method: "DELETE",
   });
   if (!res.ok) {
@@ -504,7 +505,7 @@ export const deletePremadeTask = async (task) => {
     if (t.premadeId === id) {
       await fetch(`${API}/tasks/${t.id}`, {
         method: "PUT",
-        headers: jsonHeaders(),
+        headers: authHeaders(),
         body: JSON.stringify({ ...t, premadeId: null }),
       });
     }

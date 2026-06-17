@@ -51,7 +51,7 @@
     },
     {
       "id": "af4c8dd9-ace7-47d0-86bc-5b139484fd84",
-      "title": "Qualquer coisa 23",
+      "title": "Qualquer coisa 2",
       "description": "asdasdassaasa",
       "userid": 4,
       "schedules": [
@@ -160,6 +160,18 @@
       "completedHistory": [],
       "isAdmin": false,
       "premadeId": "premade-4"
+    },
+    {
+      "id": "a0b9f0b7-b3f0-40dc-b3cd-583571162247",
+      "title": "Regar as plantas",
+      "description": "Dá água às tuas plantas.",
+      "userid": 4,
+      "schedules": [],
+      "timeStamp": "2026-06-17T09:50:14.266Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": false,
+      "premadeId": "premade-15"
     }
   ],
   "chats": [
@@ -565,9 +577,16 @@
     },
     {
       "id": "premade-7",
-      "title": "Evitar alimentos picantes/salgados",
+      "title": "Evitar alimentos picantes/salgados e gostosos",
       "description": "São ricos em sódio e podem causar doenças.",
-      "schedules": []
+      "userid": null,
+      "schedules": [
+        "19:00"
+      ],
+      "timeStamp": "2026-06-17T10:11:12.013Z",
+      "status": "active",
+      "completedHistory": [],
+      "isAdmin": false
     },
     {
       "id": "premade-8",
@@ -636,6 +655,19 @@
       "userid": null,
       "schedules": [],
       "timeStamp": "2026-06-16T20:49:28.652Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": false
+    },
+    {
+      "id": "9160daf7-61b5-4cc8-82ec-9fdb9d8abba5",
+      "title": "Se o hexa nao vir eu vou para ny comet***** ******",
+      "description": "Eu estou bem",
+      "userid": null,
+      "schedules": [
+        "12:00"
+      ],
+      "timeStamp": "2026-06-17T10:14:51.438Z",
       "status": false,
       "completedHistory": [],
       "isAdmin": false
