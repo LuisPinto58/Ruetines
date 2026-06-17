@@ -3,7 +3,9 @@ import {
   createTasks,
   updateTasks,
   deleteTasks,
+  getPremadeTasks,
 } from "../controller/tasks-controller.js";
+import User from "../models/users-model.js";
 
 let selectedTask = null;
 let tarefasApagadasSessao = [];
@@ -41,11 +43,20 @@ async function loadTasks() {
 
   tasksContainer.innerHTML = "";
 
+  const currentUser = User.fromStorage();
+  const isManagingTemplates = currentUser && (currentUser.role === "admin" || currentUser.role === "guest");
+
+  // Hide retrieve button if managing templates
+  const retrieveBtn = document.getElementById("retrieve-tasks-btn");
+  if (retrieveBtn) {
+    retrieveBtn.style.display = isManagingTemplates ? "none" : "flex";
+  }
+
   tasks.forEach((task) => {
     const taskElement = document.createElement("div");
     taskElement.classList.add("task");
 
-    if (task.completed) {
+    if (task.completed && !isManagingTemplates) {
       taskElement.classList.add("task-completed");
     }
 
@@ -54,12 +65,19 @@ async function loadTasks() {
         <div class="d-flex justify-content-between align-items-center">
           
           <div class="d-flex align-items-center gap-2 flex-grow-1" style="min-width: 0;">
+            ${isManagingTemplates ? `
+            <div style="font-size: 1.5rem; display: flex; align-items: center; color: var(--Pedra);">
+              <ion-icon name="document-text-outline"></ion-icon>
+            </div>
+            ` : `
             <div class="task-toggle" style="cursor: pointer; user-select: none; font-size: 1.5rem; display: flex; align-items: center;">
               ${task.completed ? '<ion-icon name="checkmark-circle" style="color: var(--Verde-Loureiro);"></ion-icon>' : '<ion-icon name="checkmark-circle-outline"></ion-icon>'}
             </div>
+            `}
             <h5 class="text-truncate" style="margin: 0; padding-right: 10px;"> 
               ${task.title}
             </h5>
+            ${task.premadeId ? `<ion-icon name="sparkles" style="color: yellow;"></ion-icon>` : ""}
           </div>
 
           <div class="d-flex align-items-center flex-shrink-0 ms-2" style="color: var(--Gray); font-size: 0.9rem;">
@@ -77,11 +95,15 @@ async function loadTasks() {
       showTaskDetails(task);
     });
 
-    const toggleElement = taskElement.querySelector(".task-toggle");
-    toggleElement.addEventListener("click", (event) => {
-      event.stopPropagation();
-      toggleTaskStatus(task);
-    });
+    if (!isManagingTemplates) {
+      const toggleElement = taskElement.querySelector(".task-toggle");
+      if (toggleElement) {
+        toggleElement.addEventListener("click", (event) => {
+          event.stopPropagation();
+          toggleTaskStatus(task);
+        });
+      }
+    }
 
     tasksContainer.appendChild(taskElement);
   });
@@ -99,6 +121,9 @@ function showTaskDetails(task) {
   }
 
   if (detailedTasksContainer) {
+    const currentUser = User.fromStorage();
+    const isManagingTemplates = currentUser && (currentUser.role === "admin" || currentUser.role === "guest");
+
     const progress = expProgress(task);
     const progressPct = Math.round(progress * 100);
 
@@ -112,9 +137,15 @@ function showTaskDetails(task) {
             <div class="flex-grow-1">
               <h3 class="mb-0 text-wrap" style="word-break: break-word;">
                 ${task.title}
+                ${isManagingTemplates ? `
+                <span class="task-badge status-pending" style="background-color: var(--Branco-Eucalipto); color: var(--Verde-Loureiro); border: 1px solid var(--Verde-Loureiro);">
+                  Template
+                </span>
+                ` : `
                 <span class="task-badge ${task.completed ? "status-completed" : "status-pending"}">
                   ${task.completed ? "Concluída hoje" : "Pendente"}
-                </span> 
+                </span>
+                `}
               </h3>
             </div>  
             
@@ -133,6 +164,7 @@ function showTaskDetails(task) {
         </div>
         <div class="task-detail-body">
             <p class="task-desc">${task.description || "Sem descrição."}</p>
+          ${isManagingTemplates ? "" : `
           <!-- Experience Progress Bar (dentro do tier) -->
           <div class="task-meta mb-3">
             <div class="meta-item">
@@ -156,6 +188,7 @@ function showTaskDetails(task) {
               <span class="meta-value">${task.completedHistory.length > 0 ? task.completedHistory.join(", ") : "Nenhum dia concluído"}</span>
             </div>
           </div>
+          `}
 
           <div class="task-meta mb-3">
             <div class="meta-item">
@@ -362,56 +395,23 @@ document
 
 // Premade Tasks - Tarefas Sugeridas
 
-const PREMADE_TASKS = [
-  {
-    premadeId: crypto.randomUUID(),
-    title: "Beber 2L de água",
-    description: "Mantém-te hidratado ao longo do dia.",
-  },
-  { premadeId: crypto.randomUUID(), title: "Fazer exercício", description: "Mantém-te em forma." },
-  { premadeId: crypto.randomUUID(), title: "Meditar 10 minutos", description: "Momento para relaxar." },
-  { premadeId: crypto.randomUUID(), title: "Ler um livro", description: "Reserva tempo para a leitura." },
-  { premadeId: crypto.randomUUID(), title: "Dormir 8 horas", description: "Tem uma boa noite de descanso." },
-  {
-    premadeId: crypto.randomUUID(),
-    title: "Arrumar o quarto",
-    description: "Mantém-te o teu espaço organizado.",
-  },
-  {
-    premadeId: crypto.randomUUID(),
-    title: "Evitar alimentos picantes/salgados",
-    description: "São ricos em sódio e podem causar doenças.",
-  },
-  {
-    premadeId: crypto.randomUUID(),
-    title: "Fazer um plano de consumo mensal",
-    description: "Evita gastos desnecessários.",
-  },
-  { premadeId: crypto.randomUUID(), title: "Lavar a roupa", description: "Não deixes a roupa acumular." },
-  {
-    premadeId: crypto.randomUUID(),
-    title: "Preparar roupa de amanhã",
-    description: "Reduz o tempo de preparação matinal.",
-  },
-  { premadeId: crypto.randomUUID(), title: "Andar de bicicleta", description: "Sente a brisa." },
-  { premadeId: crypto.randomUUID(), title: "Planear o dia", description: "Organiza o que tens para fazer." },
-  {
-    premadeId: crypto.randomUUID(),
-    title: "Comer 3 peças de fruta",
-    description: "Faz um lanche simples e saudável.",
-  },
-  { premadeId: crypto.randomUUID(), title: "Lavar o cabelo", description: "Faz a tua rotina capilar." },
-  { premadeId: crypto.randomUUID(), title: "Regar as plantas", description: "Dá água às tuas plantas." },
-  { premadeId: crypto.randomUUID(), title: "Ouvir um podcast", description: "Ouve algo interessante." },
-  { premadeId: crypto.randomUUID(), title: "Limpar e-mail", description: "Apaga os e-mails antigos." },
-];
-
 async function loadPremadeTasks() {
   const container = document.getElementById("premade-tasks-container");
   if (!container) return;
 
+  const currentUser = User.fromStorage();
+  const isManagingTemplates = currentUser && (currentUser.role === "admin" || currentUser.role === "guest");
+
+  if (isManagingTemplates) {
+    const parentContainer = container.closest(".container");
+    if (parentContainer) {
+      parentContainer.style.display = "none";
+    }
+    return;
+  }
+
   const token = sessionStorage.getItem("token");
-  if (!token) {
+  /*if (!token) {
     container.innerHTML = `
       <div class="premade-login-notice d-flex justify-content-center align-items-center gap-2" style="padding: 2rem; color: var(--Gray);">
         <ion-icon name="lock-closed-outline"></ion-icon>
@@ -419,7 +419,7 @@ async function loadPremadeTasks() {
       </div>
       `;
     return;
-  }
+  }*/
 
   const existingTasks = (await getTasks()) || [];
   const existingPremadeIds = new Set(
@@ -428,12 +428,14 @@ async function loadPremadeTasks() {
 
   container.innerHTML = "";
 
-  const randomTasks = [...PREMADE_TASKS]
+  const dbPremadeTasks = await getPremadeTasks();
+
+  const randomTasks = [...dbPremadeTasks]
     .sort(() => 0.5 - Math.random())
     .slice(0, 4);
 
   randomTasks.forEach((premade) => {
-    const alreadyAdded = existingPremadeIds.has(premade.premadeId);
+    const alreadyAdded = existingPremadeIds.has(premade.id);
 
     const card = document.createElement("div");
     card.classList.add("premade-task-card");
@@ -453,7 +455,7 @@ async function loadPremadeTasks() {
       addBtn.addEventListener("click", async () => {
         addBtn.disabled = true;
         await createTasks({
-          premadeId: premade.premadeId,
+          premadeId: premade.id,
           title: premade.title,
           description: premade.description,
           status: false,
@@ -470,11 +472,6 @@ async function loadPremadeTasks() {
 // --- Modal: Catálogo de Todas as Tarefas Sugeridas no Recuperar ---
 async function showAllSuggestedTasksModal() {
   const token = sessionStorage.getItem("token");
-  if (!token) {
-    alert("Faz log in para recuperares tarefas sugeridas");
-    return;
-  }
-
   const existingTasks = (await getTasks()) || [];
   const existingPremadeIds = new Set(
     existingTasks.map((t) => t.premadeId).filter(Boolean),
@@ -496,8 +493,10 @@ async function showAllSuggestedTasksModal() {
   modal.style.backgroundColor = "rgba(0,0,0,0.4)";
   modal.style.zIndex = "9999";
 
-  let listHtml = PREMADE_TASKS.map((t, index) => {
-    const alreadyAdded = existingPremadeIds.has(t.premadeId);
+  const dbPremadeTasks = await getPremadeTasks();
+
+  let listHtml = dbPremadeTasks.map((t, index) => {
+    const alreadyAdded = existingPremadeIds.has(t.id);
 
     return `
     <div class="card mb-2" style="background-color: var(--Papel-Cru); border: 1px solid var(--Verde-Loureiro);">
@@ -541,7 +540,7 @@ async function showAllSuggestedTasksModal() {
     btn.addEventListener("click", async (e) => {
       const button = e.currentTarget;
       const index = parseInt(button.getAttribute("data-index"), 10);
-      const taskToAdd = PREMADE_TASKS[index];
+      const taskToAdd = dbPremadeTasks[index];
 
       button.disabled = true;
       button.style.backgroundColor = "var(--Branco-Eucalipto)";
@@ -550,7 +549,7 @@ async function showAllSuggestedTasksModal() {
         '<ion-icon name="checkmark-outline" style="font-size: 1.2rem;"></ion-icon>';
 
       await createTasks({
-        premadeId: taskToAdd.premadeId,
+        premadeId: taskToAdd.id,
         title: taskToAdd.title,
         description: taskToAdd.description,
         status: false,

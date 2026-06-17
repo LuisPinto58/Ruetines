@@ -112,9 +112,8 @@ export default class Task {
     }
 
     toJSON() {
-        return {
+        const json = {
             id: this.id,
-            premadeId: this.premadeId,
             title: this.title,
             description: this.description,
             userid: this.userid,
@@ -124,6 +123,10 @@ export default class Task {
             completedHistory: this.#completedHistory,
             isAdmin: this.#isAdmin,
         };
+        if (this.premadeId !== undefined && this.premadeId !== null) {
+            json.premadeId = this.premadeId;
+        }
+        return json;
     }
 
     static fromObject(obj) {
