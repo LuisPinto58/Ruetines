@@ -1,5 +1,15 @@
 import Task from "../models/tasks-model.js";
 import User from "../models/users-model.js";
+import {
+    getPremadeTasks as serviceGetPremadeTasks,
+    createPremadeTask as serviceCreatePremadeTask,
+    updatePremadeTask as serviceUpdatePremadeTask,
+    deletePremadeTask as serviceDeletePremadeTask,
+    getAllTasks as serviceGetAllTasks,
+    createTask as serviceCreateTask,
+    updateTask as serviceUpdateTask,
+    deleteTask as serviceDeleteTask,
+} from "../data/service.js";
 
 function _getCurrentUser() {
     return User.fromStorage();
@@ -14,8 +24,7 @@ function _matchesUser(taskUserid, userId) {
 
 export async function getPremadeTasks() {
     try {
-        const response = await fetch("http://localhost:3000/premadeTasks");
-        const tasks = await response.json();
+        const tasks = await serviceGetPremadeTasks();
         return Array.isArray(tasks) ? tasks.map(Task.fromObject) : [];
     } catch (error) {
         console.error("Error fetching premade tasks:", error);
@@ -29,15 +38,8 @@ export async function createPremadeTask(task) {
     taskObj.userid = null;
     taskObj.premadeId = null;
     try {
-        const response = await fetch("http://localhost:3000/premadeTasks", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(taskObj.toJSON()),
-        });
-        const data = await response.json();
-        return Task.fromObject(data);
+        const data = await serviceCreatePremadeTask(taskObj);
+        return data ? Task.fromObject(data) : undefined;
     } catch (error) {
         console.error("Error creating premade task:", error);
     }
@@ -46,46 +48,8 @@ export async function createPremadeTask(task) {
 export async function updatePremadeTask(task) {
     const taskObj = task instanceof Task ? task : Task.fromObject(task);
     try {
-        const response = await fetch(`http://localhost:3000/premadeTasks/${taskObj.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(taskObj.toJSON()),
-        });
-        const updatedTemplate = await response.json();
-
-        // Propagation: get all tasks and update matching user tasks
-        const tasksResponse = await fetch("http://localhost:3000/tasks");
-        const allTasks = await tasksResponse.json();
-        
-        for (const t of allTasks) {
-            if (t.premadeId === taskObj.id) {
-                // Keep user-specific fields, update template fields
-                const updatedUserTask = {
-                    ...t,
-                    title: taskObj.title,
-                    description: taskObj.description,
-                    schedules: taskObj.schedules
-                };
-                
-                // Keep other template properties if they exist
-                for (const key of Object.keys(taskObj)) {
-                    if (!['id', 'premadeId', 'userid', 'userId', 'timeStamp', 'status', 'completedHistory', 'isAdmin'].includes(key)) {
-                        updatedUserTask[key] = taskObj[key];
-                    }
-                }
-
-                await fetch(`http://localhost:3000/tasks/${t.id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(updatedUserTask),
-                });
-            }
-        }
-        return Task.fromObject(updatedTemplate);
+        const data = await serviceUpdatePremadeTask(taskObj);
+        return data ? Task.fromObject(data) : undefined;
     } catch (error) {
         console.error("Error updating premade task:", error);
     }
@@ -94,29 +58,7 @@ export async function updatePremadeTask(task) {
 export async function deletePremadeTask(task) {
     const id = task?.id ?? task;
     try {
-        await fetch(`http://localhost:3000/premadeTasks/${id}`, {
-            method: "DELETE",
-        });
-        
-        // Nullify premadeId of user tasks that referenced this template
-        const tasksResponse = await fetch("http://localhost:3000/tasks");
-        const allTasks = await tasksResponse.json();
-        for (const t of allTasks) {
-            if (t.premadeId === id) {
-                const updatedUserTask = {
-                    ...t,
-                    premadeId: null
-                };
-                await fetch(`http://localhost:3000/tasks/${t.id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(updatedUserTask),
-                });
-            }
-        }
-        return { success: true };
+        return await serviceDeletePremadeTask(id);
     } catch (error) {
         console.error("Error deleting premade task:", error);
         return { success: false };
@@ -145,8 +87,7 @@ export async function getTasks() {
     }
 
     try {
-        const response = await fetch("http://localhost:3000/tasks");
-        const tasks = await response.json();
+        const tasks = await serviceGetAllTasks();
         const mapped = Array.isArray(tasks) ? tasks.map(Task.fromObject) : [];
         return mapped.filter(t => _matchesUser(t.userid, currentUser.id));
     } catch (error) {
@@ -182,17 +123,10 @@ export async function createTasks(task) {
 
     taskObj.userid = currentUser.id;
     taskObj.isAdmin = false;
-    
+
     try {
-        const response = await fetch("http://localhost:3000/tasks", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(taskObj.toJSON()),
-        });
-        const data = await response.json();
-        return Task.fromObject(data);
+        const data = await serviceCreateTask(taskObj);
+        return data ? Task.fromObject(data) : undefined;
     } catch (error) {
         console.error("Error creating task:", error);
     }
@@ -220,15 +154,8 @@ export async function updateTasks(task) {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/tasks/${taskObj.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(taskObj.toJSON()),
-        });
-        const data = await response.json();
-        return Task.fromObject(data);
+        const data = await serviceUpdateTask(taskObj);
+        return data ? Task.fromObject(data) : undefined;
     } catch (error) {
         console.error("Error updating task:", error);
     }
@@ -255,11 +182,7 @@ export async function deleteTasks(task) {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/tasks/${id}`, {
-            method: "DELETE",
-        });
-        const data = await response.json().catch(() => ({}));
-        return data;
+        return await serviceDeleteTask(id);
     } catch (error) {
         console.error("Error deleting task:", error);
     }

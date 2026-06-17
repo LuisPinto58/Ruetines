@@ -1,6 +1,6 @@
 {
   "/users*": "/660/users$1",
   "/chats*": "/660/chats$1",
-  "/tasks*": "/660/tasks$1",
+  
   "/premadeTasks*": "/664/premadeTasks$1"
 }
