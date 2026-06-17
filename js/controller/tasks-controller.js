@@ -110,6 +110,7 @@ export function energyModalCheck() { //verificar se modal de energia é para abr
 //receber estado de utilizador
 export function setEnergyState(state){
     localStorage.setItem("energyState", state);
+    window.location.reload()
 }
 
 export function getEnergyState(){
