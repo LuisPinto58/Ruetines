@@ -4,7 +4,7 @@ export default class User {
     #role;
     #warnings;
 
-    constructor(email = '', role = 'user', data = {}) {
+    constructor(email = '', role = 'user', data = {}) { //no password in frontend for security
         this.#id = data.id ?? null;
         this.#email = email?.toString?.() ?? '';
         this.#role = role?.toString?.() ?? 'user';

@@ -32,6 +32,10 @@ body.dark-mode .login-modal-content {
   color: #e8e8e8;
 }
 
+body.dark-mode .signup-button {
+  color: #111111;
+}
+
 body.dark-mode .navbar-items a,
 body.dark-mode .navbar-login,
 body.dark-mode .signup-button,

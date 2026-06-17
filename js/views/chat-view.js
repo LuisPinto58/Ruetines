@@ -77,14 +77,17 @@ function renderChatElement(chat) { //rendering each chat selector card
         });
     }
 
-    chatElement.addEventListener("click", () => { //open chat window and render messages, flag checks if the chat window is already open to avoid unnecessary re-rendering
+    chatElement.addEventListener("click", async () => { //open chat window and render messages, flag checks if the chat window is already open to avoid unnecessary re-rendering
+        await loadChatList();
+        const freshChat = chats.find(c => c.id === chat.id) || chat;
+
         if (flag === 0) {
             openChatWindow();
             flag = 1;
         }
-        currentChat = chat;
-        joinChatRoom(chat.id);
-        renderChats(chat);
+        currentChat = freshChat;
+        joinChatRoom(freshChat.id);
+        renderChats(freshChat);
     });
 }
 
@@ -146,10 +149,10 @@ export async function renderChats(chat) { //rendering chat window with messages 
         const adminButtonDiv = document.createElement("div")
         adminButtonDiv.classList.add("admin-button-div")
         adminButtonDiv.innerHTML = `
-    <button id="warn-user-btn" class="btn btn-warning warn-btn">Warn User</button>
+    <button id="warn-user-btn" class="btn btn-warning warn-btn">Adicionar Aviso</button>
     <div id="warning-count">Avisos: ${await getUserWarnings(chat.users[0].id)}</div>
-    <button id="expire-chat-btn" class="btn btn-secondary expire-btn">Expire Chat</button>
-    <button id="ban-user-btn" class="btn btn-danger ban-btn">Ban User</button>
+    <button id="expire-chat-btn" class="btn btn-secondary expire-btn">Expirar Chat</button>
+    <button id="ban-user-btn" class="btn btn-danger ban-btn">Banir</button>
     `;
 
         document.querySelector(".admin-header").appendChild(adminButtonDiv);
@@ -365,5 +368,3 @@ function closeChatWindow() { //close chat window and adjust layout for mobile an
 
     flag = 0;
 }
-
-

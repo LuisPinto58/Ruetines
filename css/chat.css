@@ -70,6 +70,12 @@ body {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+body.dark-mode #close-chat-btn,
+body.dark-mode .btn-close {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+
 .chat-messages {
   display: flex;
   flex-direction: column;
