@@ -110,6 +110,15 @@ export const deleteAccount = async (userId) => {
     }
   });
 
+  const tasks = await getAllTasks(); //deleting user tasks
+  tasks.filter((task) => task.userid === userId)
+    .forEach(async (task) => {
+      await fetch(`${API}/tasks/${task.id}`, {
+        method: "DELETE",
+        headers: authHeaders(),
+      });
+    });
+
   const res = await fetch(`${API}/users/${userId}`, {
     //delete user
     method: "DELETE",

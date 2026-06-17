@@ -547,6 +547,39 @@
           "sender": 6
         }
       ]
+    },
+    {
+      "id": "a7381ad4-c3b0-4cfc-bd1b-3a5acb4b36d3",
+      "type": "group",
+      "timeStamp": "2026-06-17T13:06:11.921Z",
+      "status": "active",
+      "users": [
+        {
+          "id": 1,
+          "identifier": "#8a9e83",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 7,
+          "identifier": "#685fa0",
+          "textColor": "#ffffff"
+        },
+        {
+          "id": 6,
+          "identifier": "#c07a56",
+          "textColor": "#000000"
+        }
+      ],
+      "messages": [
+        {
+          "content": "ola",
+          "sender": 1
+        },
+        {
+          "content": "ola",
+          "sender": 6
+        }
+      ]
     }
   ],
   "premadeTasks": [
