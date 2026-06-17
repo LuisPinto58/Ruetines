@@ -50,7 +50,6 @@ export const renderUserBadges = async () => {
                 <div class="task-badge">
                     <div class="task-badge-header">
                         <strong>${title}</strong>
-                        <span class="task-badge-pill ${statusClass}">${statusText}</span>
                     </div>
                     <div class="task-badge-progress">
                         <span class="meta-label">Tier: ${tierName}</span>
