@@ -32,7 +32,7 @@ O projeto foi construído usando as seguintes tecnologias:
 
 * *Front-end*: HTML5, CSS3, JavaScript
 
-* *Back-end*: Json Server, Json Server Auth, Socket.io, Express
+* *Back-end/Dependências*: Json Server, Json Server Auth, Socket.io, Express
 
 * *Design & UI/UX*: Figma, Bootstrap
 
@@ -63,7 +63,7 @@ Este projeto foi desenvolvido no âmbito de um projeto intercalar de 2º semestr
 
 # Testagem extra
 
-A visualiazção do funcionamento das sockets é possível através da abertura do front end de localhost em dois browsers diferentes (para evitar reposição do local storage)
+A visualiazação do funcionamento das sockets é possível através da abertura do front end de localhost em dois browsers diferentes (para evitar reposição do local storage)
 
 # Contas de teste
 
