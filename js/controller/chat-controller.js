@@ -59,13 +59,15 @@ export const sendMessage = async (chat, text) => { //sending message and emittin
     const currentUser = User.fromStorage();
     const updatedChat = await handleSendMessage(chat, text, currentUser?.id); //regular db update
 
-    if (updatedChat?.id) {
-        socket.emit("new_chat_message", {
-            chatId: updatedChat.id,
-            message: updatedChat.messages?.[updatedChat.messages.length - 1],
-            sender: currentUser?.id,
-        });
+    if (!updatedChat?.id) {
+        return updatedChat;
     }
+
+    socket.emit("new_chat_message", {
+        chatId: updatedChat.id,
+        message: updatedChat.messages?.[updatedChat.messages.length - 1],
+        sender: currentUser?.id,
+    });
 
     return updatedChat;
 };
@@ -77,9 +79,20 @@ export const handleSendMessage = async (chat, text, userId) => { //sending messa
     chatInstance.addMessage(text.trim(), userId);
 
     try {
-        await addChatMessage(chatInstance.id, { messages: chatInstance.messages }, userId);
+        const result = await addChatMessage(chatInstance.id, { messages: chatInstance.messages }, userId);
+
+        if (result?.ok === false) {
+            const message = result.message?.toLowerCase() || "";
+            if (message.includes("encerrado") || message.includes("expired")) {
+                if (typeof window !== "undefined") {
+                    window.location.reload();
+                }
+            }
+            return null;
+        }
     } catch (error) {
         console.error("Falha ao enviar mensagem:", error);
+        return null;
     }
 
     return chatInstance;
