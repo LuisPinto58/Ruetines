@@ -6,7 +6,8 @@ import {
   getPremadeTasks,
   setEnergyState,
   getEnergyState,
-  energyModalCheck
+  energyModalCheck,
+  getCompletedUsersCount,
 } from "../controller/tasks-controller.js";
 import User from "../models/users-model.js";
 
@@ -207,9 +208,29 @@ function showTaskDetails(task) {
               <span class="meta-value">${task.schedules && task.schedules.length > 0 ? task.schedules.join(", ") : "Sem horários definidos"}</span>
             </div>
           </div>
+          ${!isManagingTemplates && task.premadeId && task.completed ? `<div id="community-count-container" class="task-meta mb-3">
+            <div class="meta-item">
+              <span class="meta-value" id="community-count-text">A carregar...</span>
+            </div>
+          </div>` : ""}
         </div>
       </div>
     `;
+
+    // Fetch community completion count for premade tasks
+    if (!isManagingTemplates && task.premadeId && task.completed) {
+      getCompletedUsersCount(task.premadeId).then(count => {
+        const countText = document.getElementById("community-count-text");
+        if (countText) {
+          const otherUsers = count - 1; // subtract the current user
+          if (otherUsers > 0) {
+            countText.innerHTML = `<span style="color: var(--Verde-Loureiro); font-weight: 500;">&#10003; Tu e mais ${otherUsers} ${otherUsers === 1 ? "pessoa concluiu" : "pessoas concluíram"} esta tarefa</span>`;
+          } else {
+            countText.innerHTML = `<span style="color: var(--Verde-Loureiro); font-weight: 500;">&#10003; Concluíste esta tarefa hoje!</span>`;
+          }
+        }
+      });
+    }
 
     const closeDetailBtn =
       detailedTasksContainer.querySelector("#close-detail-btn");

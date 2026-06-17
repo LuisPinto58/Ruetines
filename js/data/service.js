@@ -472,7 +472,6 @@ export const updatePremadeTask = async (task) => {
             "timeStamp",
             "status",
             "completedHistory",
-            "isAdmin",
           ].includes(key)
         ) {
           updatedUserTask[key] = taskObj[key];
@@ -596,4 +595,26 @@ export const deleteTask = async (task) => {
   }
   const data = await res.json().catch(() => ({}));
   return data;
+};
+
+/**
+ * Conta quantos utilizadores concluíram uma tarefa premade hoje.
+ * @param {string} premadeId
+ * @returns {Promise<number>}
+ */
+export const getCompletedUsersForPremadeTask = async (premadeId) => {
+  if (!premadeId) return 0;
+  const today = new Date().toISOString().split("T")[0];
+  try {
+    const res = await fetch(`${API}/tasks`, { headers: authHeaders() });
+    if (!res.ok) return 0;
+    const tasks = await res.json();
+    return tasks.filter(t =>
+      t.premadeId === premadeId &&
+      Array.isArray(t.completedHistory) &&
+      t.completedHistory.includes(today)
+    ).length;
+  } catch {
+    return 0;
+  }
 };

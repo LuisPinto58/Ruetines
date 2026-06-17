@@ -9,6 +9,7 @@ import {
     createTask as serviceCreateTask,
     updateTask as serviceUpdateTask,
     deleteTask as serviceDeleteTask,
+    getCompletedUsersForPremadeTask as serviceGetCompletedUsersForPremadeTask,
 } from "../data/service.js";
 
 function _getCurrentUser() {
@@ -126,7 +127,6 @@ export async function createTasks(task) {
         const list = guestJson ? (JSON.parse(guestJson) || []) : [];
         if (!taskObj.id) taskObj.id = crypto.randomUUID();
         taskObj.userid = null;
-        taskObj.isAdmin = false;
         list.push(taskObj.toJSON());
         localStorage.setItem("guestTasks", JSON.stringify(list));
         return taskObj;
@@ -143,7 +143,6 @@ export async function createTasks(task) {
     if (!validation.valid) return { success: false, message: validation.message };
 
     taskObj.userid = currentUser.id;
-    taskObj.isAdmin = false;
 
     try {
         const data = await serviceCreateTask(taskObj);
@@ -206,5 +205,20 @@ export async function deleteTasks(task) {
         return await serviceDeleteTask(id);
     } catch (error) {
         console.error("Error deleting task:", error);
+    }
+}
+
+/**
+ * Obtém quantos utilizadores concluíram uma tarefa premade hoje.
+ * @param {string} premadeId
+ * @returns {Promise<number>}
+ */
+export async function getCompletedUsersCount(premadeId) {
+    if (!premadeId) return 0;
+    try {
+        return await serviceGetCompletedUsersForPremadeTask(premadeId);
+    } catch (error) {
+        console.error("Error getting completed users count:", error);
+        return 0;
     }
 }

@@ -4,7 +4,6 @@ export default class Task {
     #completedHistory;
     #schedules;
     #userid;
-    #isAdmin;
 
     constructor(title, description = "") {
         this.id = crypto.randomUUID();
@@ -16,7 +15,6 @@ export default class Task {
         this.#completedHistory = [];
         this.#schedules = [];
         this.#userid = null;
-        this.#isAdmin = false;
         this.priority = 1;
     }
 
@@ -104,14 +102,6 @@ export default class Task {
         this.#completedHistory = Array.isArray(v) ? v.filter(d => typeof d === "string") : [];
     }
 
-    get isAdmin() {
-        return this.#isAdmin;
-    }
-
-    set isAdmin(v) {
-        this.#isAdmin = Boolean(v);
-    }
-
     toJSON() {
         const json = {
             id: this.id,
@@ -123,7 +113,6 @@ export default class Task {
             timeStamp: this.timeStamp?.toISOString?.() ?? this.timeStamp,
             status: this.status,
             completedHistory: this.#completedHistory,
-            isAdmin: this.#isAdmin,
         };
         if (this.premadeId !== undefined && this.premadeId !== null) {
             json.premadeId = this.premadeId;
@@ -140,7 +129,6 @@ export default class Task {
         task.schedules = Array.isArray(obj.schedules) ? obj.schedules.slice() : (obj.schedules ? [obj.schedules] : []);
         task.userid = obj.userid ?? obj.userId ?? null;
         task.completedHistory = obj.completedHistory ?? [];
-        task.isAdmin = obj.isAdmin ?? false;
         task.priority = obj.priority ?? 1;
         return task;
     }
