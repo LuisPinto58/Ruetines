@@ -400,7 +400,7 @@ const expireOrDeleteChat = async (chat) => {
  */
 export const getPremadeTasks = async () => {
   const res = await fetch(`${API}/premadeTasks`);
-  if (!res.ok) return [];
+  if (!res.ok) return await handleApiError(res);
   const tasks = await res.json();
   return Array.isArray(tasks) ? tasks.map(Task.fromObject) : [];
 };
@@ -481,7 +481,7 @@ export const updatePremadeTask = async (task) => {
 
       await fetch(`${API}/tasks/${t.id}`, {
         method: "PUT",
-        headers: jsonHeaders(),
+        headers: authHeaders(),
         body: JSON.stringify(updatedUserTask),
       });
     }
@@ -532,7 +532,7 @@ export const getAllTasks = async () => {
     method: "GET",
     headers: authHeaders(),
   });
-  if (!res.ok) return [];
+  if (!res.ok) return await handleApiError(res);
   const tasks = await res.json();
   return Array.isArray(tasks) ? tasks.map(Task.fromObject) : [];
 };
@@ -588,6 +588,7 @@ export const deleteTask = async (task) => {
   const id = task?.id ?? task;
   const res = await fetch(`${API}/tasks/${id}`, {
     method: "DELETE",
+    headers: authHeaders(),
   });
   if (!res.ok) {
     console.error("Error deleting task:", res.statusText);

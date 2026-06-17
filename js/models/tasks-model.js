@@ -17,6 +17,7 @@ export default class Task {
         this.#schedules = [];
         this.#userid = null;
         this.#isAdmin = false;
+        this.priority = 1;
     }
 
     /** @returns {string} data atual no formato YYYY-MM-DD */
@@ -116,6 +117,7 @@ export default class Task {
             id: this.id,
             title: this.title,
             description: this.description,
+            priority: this.priority,
             userid: this.userid,
             schedules: this.schedules,
             timeStamp: this.timeStamp?.toISOString?.() ?? this.timeStamp,
@@ -139,6 +141,7 @@ export default class Task {
         task.userid = obj.userid ?? obj.userId ?? null;
         task.completedHistory = obj.completedHistory ?? [];
         task.isAdmin = obj.isAdmin ?? false;
+        task.priority = obj.priority ?? 1;
         return task;
     }
 

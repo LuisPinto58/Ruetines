@@ -15,6 +15,7 @@ function _getCurrentUser() {
     return User.fromStorage();
 }
 
+
 function _matchesUser(taskUserid, userId) {
     if (taskUserid == null || userId == null) return false;
     const a = String(taskUserid);
@@ -95,6 +96,26 @@ export async function getTasks() {
         return [];
     }
 }
+
+export function energyModalCheck() { //verificar se modal de energia é para abrir
+  const today = new Date().toISOString().split("T")[0];
+  const lastShownDay = localStorage.getItem("energy-modal-last-shown-day");
+
+  if (lastShownDay !== today) {
+    localStorage.setItem("energy-modal-last-shown-day", today);
+    return true; 
+  }
+}
+
+//receber estado de utilizador
+export function setEnergyState(state){
+    localStorage.setItem("energyState", state);
+}
+
+export function getEnergyState(){
+    return localStorage.getItem("energyState");
+}
+
 
 export async function createTasks(task) {
     const currentUser = _getCurrentUser();

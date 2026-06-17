@@ -44,7 +44,6 @@ body.dark-mode #delete-task-btn ion-icon {
 }
 
 #premade-tasks-container {
-  background-color: yellow; 
   gap: 16;
 }
 
@@ -465,8 +464,26 @@ body.dark-mode .modal-content {
   border: 1px solid #4b4b5c;
 }
 
-body.dark-mode .modal-header h3 {
-  color: #ffffff;
+body.dark-mode .modal-header h3,
+body.dark-mode .modal-body label,
+body.dark-mode .modal-body p,
+body.dark-mode .modal-footer button {
+  color: #e8e8e8;
+}
+
+body.dark-mode .modal-body .form-control,
+body.dark-mode .modal-body select,
+body.dark-mode .modal-body textarea,
+body.dark-mode .modal-body input {
+  background-color: #262635 !important;
+  color: #f5f5f5 !important;
+  border: 1px solid #4b4b5c !important;
+}
+
+body.dark-mode .modal-body .form-control::placeholder,
+body.dark-mode .modal-body textarea::placeholder,
+body.dark-mode .modal-body input::placeholder {
+  color: #b0b0b0 !important;
 }
 
 body.dark-mode .modal-close {
@@ -488,6 +505,132 @@ body.dark-mode .modal .card small {
 }
 
 
+:root{
+    --Papel-Cru: #FDFBF7;
+    --Branco-Eucalipto: #EEF2EB;
+    --Lavanda-Suave: #EDE9F5;
+    --Carvao: #3D3D3D;
+    --Violeta-Profundo: #6B5FA0;
+    --Verde-Loureiro: #8A9E83;
+    --White: #FFFFFF;
+    --Gray: #79747E;
+    --Terracota: #c07a56;
+    --Pessego: #F4C7AB;
+    --Pedra: #A8A89E;
+}
+
+
+
+
+.energy-card {
+  background-color: var(--Papel-Cru); 
+  border-radius: 32px; 
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 48px 40px;
+  max-width: 550px;
+  margin: 40px auto;
+  text-align: center;
+  font-family: "DM Sans", sans-serif;
+}
+
+
+.energy-subtitle {
+  display: block;
+  font-size: 1rem;
+  color: var(--Carvao);
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+
+
+.energy-title {
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: var(--Carvao);
+  margin-top: 0;
+  margin-bottom: 40px;
+  letter-spacing: -0.02em;
+}
+
+
+.energy-options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+
+.energy-btn {
+  background: transparent;
+  border: 1px solid var(--Pedra); 
+  border-radius: 36px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 28px 16px 20px 16px;
+  width: 110px; 
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.energy-btn.burnout:hover {
+  transform: translateY(-4px);
+  border-color: var(--Terracota); 
+  background-color: color-mix(in srgb, var(--Pessego), white 60%);
+}
+
+.energy-btn.baixa:hover {
+  transform: translateY(-4px);
+  border-color: var(--Verde-Loureiro); 
+  background-color: var(--Branco-Eucalipto);
+}
+
+.energy-btn.boa:hover {
+  transform: translateY(-4px);
+  border-color: var(--Violeta-Profundo); 
+  background-color: var(--Lavanda-Suave);
+}
+
+.energy-btn span {
+  font-size: 0.95rem;
+  color: #333333;
+  font-weight: 400;
+}
+
+body.dark-mode .energy-card {
+  background-color: #1e1e2b;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+body.dark-mode .energy-subtitle,
+body.dark-mode .energy-title,
+body.dark-mode .energy-btn span,
+body.dark-mode .energy-modal-close {
+  color: #e8e8e8;
+}
+
+body.dark-mode .energy-btn {
+  border-color: #4b4b5c;
+  background-color: transparent;
+}
+
+body.dark-mode .energy-btn.burnout:hover {
+  background-color: #3d2a25;
+  border-color: var(--Terracota);
+}
+
+body.dark-mode .energy-btn.baixa:hover {
+  background-color: #2a3628;
+  border-color: var(--Verde-Loureiro);
+}
+
+body.dark-mode .energy-btn.boa:hover {
+  background-color: #2d2940;
+  border-color: var(--Violeta-Profundo);
+}
 
 
 
