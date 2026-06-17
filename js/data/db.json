@@ -66,19 +66,9 @@
         "2026-06-04",
         "2026-06-05",
         "2026-06-06",
-        "2026-06-07"
+        "2026-06-07",
+        "2026-06-16"
       ],
-      "isAdmin": false
-    },
-    {
-      "id": "6771191c-6bac-4c40-aa20-76a26828a80b",
-      "title": "aads",
-      "description": "asdds",
-      "userid": 4,
-      "schedules": [],
-      "timeStamp": "2026-06-07T12:18:01.744Z",
-      "status": false,
-      "completedHistory": [],
       "isAdmin": false
     },
     {
@@ -119,52 +109,6 @@
       "isAdmin": false
     },
     {
-      "id": "38af2529-c123-4cbd-9351-1ae356a3e1e1",
-      "title": "Arrumar o quarto",
-      "description": "Mantém-te o teu espaço organizado.",
-      "userid": 4,
-      "schedules": [
-        "18:00"
-      ],
-      "timeStamp": "2026-06-15T13:43:04.852Z",
-      "status": false,
-      "completedHistory": [],
-      "isAdmin": false
-    },
-    {
-      "id": "26b7ab93-3ce1-4056-a733-476ecc495800",
-      "title": "Beber 2L de água",
-      "description": "Mantém-te hidratado ao longo do dia.",
-      "userid": 4,
-      "schedules": [],
-      "timeStamp": "2026-06-15T13:45:13.262Z",
-      "status": false,
-      "completedHistory": [],
-      "isAdmin": false
-    },
-    {
-      "id": "287bd6d8-cd8b-487b-9df7-125662892b88",
-      "title": "Fazer exercício",
-      "description": "Mantém-te em forma.",
-      "userid": 4,
-      "schedules": [],
-      "timeStamp": "2026-06-15T13:45:14.682Z",
-      "status": false,
-      "completedHistory": [],
-      "isAdmin": false
-    },
-    {
-      "id": "25c68163-62aa-4567-b668-39c810accc23",
-      "title": "Dormir 8 horas",
-      "description": "Tem uma boa noite de descanso.",
-      "userid": 4,
-      "schedules": [],
-      "timeStamp": "2026-06-15T13:50:17.017Z",
-      "status": false,
-      "completedHistory": [],
-      "isAdmin": false
-    },
-    {
       "id": "8b7412bc-e985-4b44-b30f-247235e759c6",
       "title": "teste adimn budapeste",
       "description": "dfdssfdfsd",
@@ -176,6 +120,46 @@
       "status": false,
       "completedHistory": [],
       "isAdmin": true
+    },
+    {
+      "id": "3a4fd8b4-784f-4542-ae47-674a8dc85bfa",
+      "title": "Dormir 8 horas teste",
+      "description": "Tem uma boa noite de descanso.",
+      "userid": 4,
+      "schedules": [],
+      "timeStamp": "2026-06-16T21:43:42.661Z",
+      "status": false,
+      "completedHistory": [
+        "2026-06-16"
+      ],
+      "isAdmin": false,
+      "premadeId": "premade-5"
+    },
+    {
+      "id": "fa673589-da25-4beb-b853-986e3545fc01",
+      "title": "Ouvir um podcast",
+      "description": "Ouve algo interessante.",
+      "userid": 4,
+      "schedules": [],
+      "timeStamp": "2026-06-16T21:43:46.053Z",
+      "status": false,
+      "completedHistory": [
+        "2026-06-16"
+      ],
+      "isAdmin": false,
+      "premadeId": "premade-16"
+    },
+    {
+      "id": "ef5ad6c0-6684-422f-8b4e-d380ffeb2692",
+      "title": "Ler dois livros (editado)",
+      "description": "Reserva tempo para a leitura!!!!!!!.",
+      "userid": 4,
+      "schedules": [],
+      "timeStamp": "2026-06-16T21:46:31.210Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": false,
+      "premadeId": "premade-4"
     }
   ],
   "chats": [
@@ -416,7 +400,7 @@
       "id": "82f581e1-67fa-479b-812f-e24d3beae50f",
       "type": "individual",
       "timeStamp": "2026-06-14T16:48:35.367Z",
-      "status": "active",
+      "status": "expired",
       "users": [
         {
           "id": 1,
@@ -444,7 +428,7 @@
       "id": "f806df08-c21d-4862-9f64-fc0bda86d9f6",
       "type": "individual",
       "timeStamp": "2026-06-14T16:48:59.081Z",
-      "status": "active",
+      "status": "expired",
       "users": [
         {
           "id": 1,
@@ -480,7 +464,7 @@
       "id": "334317b7-7da1-4ab4-86a3-f8aa3b442c11",
       "type": "individual",
       "timeStamp": "2026-06-14T16:51:40.056Z",
-      "status": "active",
+      "status": "expired",
       "users": [
         {
           "id": 8,
@@ -546,6 +530,115 @@
           "sender": 6
         }
       ]
+    }
+  ],
+  "premadeTasks": [
+    {
+      "id": "premade-4",
+      "title": "Ler dois livros (editado)",
+      "description": "Reserva tempo para a leitura!!!!!!!.",
+      "userid": null,
+      "schedules": [
+        "18:00"
+      ],
+      "timeStamp": "2026-06-16T21:44:57.749Z",
+      "status": "active",
+      "completedHistory": [],
+      "isAdmin": false
+    },
+    {
+      "id": "premade-5",
+      "title": "Dormir 8 horas teste",
+      "description": "Tem uma boa noite de descanso.",
+      "userid": null,
+      "schedules": [],
+      "timeStamp": "2026-06-16T20:48:08.875Z",
+      "status": "active",
+      "completedHistory": [],
+      "isAdmin": false
+    },
+    {
+      "id": "premade-6",
+      "title": "Arrumar o quarto",
+      "description": "Mantém-te o teu espaço organizado.",
+      "schedules": []
+    },
+    {
+      "id": "premade-7",
+      "title": "Evitar alimentos picantes/salgados",
+      "description": "São ricos em sódio e podem causar doenças.",
+      "schedules": []
+    },
+    {
+      "id": "premade-8",
+      "title": "Fazer um plano de consumo mensal",
+      "description": "Evita gastos desnecessários.",
+      "schedules": []
+    },
+    {
+      "id": "premade-9",
+      "title": "Lavar a roupa",
+      "description": "Não deixes a roupa acumular.",
+      "schedules": []
+    },
+    {
+      "id": "premade-10",
+      "title": "Preparar roupa de amanhã",
+      "description": "Reduz o tempo de preparação matinal.",
+      "schedules": []
+    },
+    {
+      "id": "premade-11",
+      "title": "Andar de bicicleta",
+      "description": "Sente a brisa.",
+      "schedules": []
+    },
+    {
+      "id": "premade-12",
+      "title": "Planear o dia",
+      "description": "Organiza o que tens para fazer.",
+      "schedules": []
+    },
+    {
+      "id": "premade-13",
+      "title": "Comer 3 peças de fruta",
+      "description": "Faz um lanche simples e saudável.",
+      "schedules": []
+    },
+    {
+      "id": "premade-14",
+      "title": "Lavar o cabelo",
+      "description": "Faz a tua rotina capilar.",
+      "schedules": []
+    },
+    {
+      "id": "premade-15",
+      "title": "Regar as plantas",
+      "description": "Dá água às tuas plantas.",
+      "schedules": []
+    },
+    {
+      "id": "premade-16",
+      "title": "Ouvir um podcast",
+      "description": "Ouve algo interessante.",
+      "schedules": []
+    },
+    {
+      "id": "premade-17",
+      "title": "Limpar e-mail",
+      "description": "Apaga os e-mails antigos.",
+      "schedules": []
+    },
+    {
+      "id": "705cb725-c6c0-429b-bce9-6af7326177cf",
+      "title": "O HEXA VEM",
+      "description": "",
+      "userid": null,
+      "schedules": [],
+      "timeStamp": "2026-06-16T20:49:28.652Z",
+      "status": false,
+      "completedHistory": [],
+      "isAdmin": false
     }
   ]
 }
