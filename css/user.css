@@ -7,6 +7,8 @@
   --Verde-Loureiro: #8a9e83;
   --highlight-color: #8A38F5;
   --Terracota: #c07a56;
+  --Branco-Eucalipto: #EEF2EB;
+  --Lavanda-Suave: #EDE9F5;
 }
 
 body.dark-mode {
@@ -27,26 +29,19 @@ body.dark-mode .badge-title {
   color: #d8c9ff;
 }
 
-body.dark-mode .task-badge {
+body.dark-mode .medal-card {
   background-color: #262635;
   border-color: #4b4b5c;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+body.dark-mode .medal-task-title {
   color: #f1f1f1;
 }
 
-body.dark-mode .task-badge-header strong,
-body.dark-mode .task-badge small,
-body.dark-mode .task-badge .meta-label {
-  color: #f1f1f1;
-}
-
-body.dark-mode .task-badge-pill.status-completed {
-  background-color: #1f5a3c;
-  color: #e9fff1;
-}
-
-body.dark-mode .task-badge-pill.status-pending {
-  background-color: #5a4632;
-  color: #fff3de;
+body.dark-mode .medal-tier-label,
+body.dark-mode .medal-days-text {
+  color: #d1d1cf;
 }
 
 body.dark-mode .exp-bar-container {
@@ -73,12 +68,9 @@ body.dark-mode .delete-btn {
   color: #e8e8e8;
 }
 
-
-.body.dark-mode, #edit-button {
+body.dark-mode #edit-button {
   background-color: var(--Violeta-Profundo);
 }
-
-
 
 body.dark-mode .form-check-label,
 body.dark-mode .form-label,
@@ -86,41 +78,35 @@ body.dark-mode .modal-title {
   color: #e8e8e8;
 }
 
-
-
 body.open-dyslexic {
   font-family: 'Open-Dyslexic', sans-serif !important;
 }
 
-
 .flex-container{
-    display:flex;
-    justify-content: space-between;
-    padding: 20px;
-    margin-right: 1rem;
-    align-items: center;
+  display:flex;
+  justify-content: space-between;
+  padding: 20px;
+  margin-right: 1rem;
+  align-items: center;
 }
 
 .bi.bi-gear-wide {
   cursor: pointer;
 }
 
-
 body.dark-mode .btn-close {
   filter: invert(1) grayscale(100%) brightness(300%);
 }
 
-
-
 #user-email{
-    padding: 0.5rem;
-    font-size: 1.2rem;
+  padding: 0.5rem;
+  font-size: 1.2rem;
 }
 
 #badge-container{
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
   padding: 20px;
   border: 2px solid var(--Pedra);
   border-radius: 20px;
@@ -140,41 +126,87 @@ body.dark-mode .btn-close {
   color: var(--Violeta-Profundo);
 }
 
-.task-badge {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  width: 100%;
-  padding: 0.9rem 1rem;
-  border-radius: 16px;
-  background-color: var(--Papel-Cru);
+.medal-card {
+  background-color: var(--Branco-Eucalipto);
   border: 1px solid #e7e3d5;
-  box-sizing: border-box;
-}
-
-.task-badge-header {
+  border-radius: 16px;
+  padding: 16px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
+  gap: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.task-badge-header strong {
-  word-break: break-word;
+.medal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
 }
 
-.task-badge-pill {
-  white-space: nowrap;
-  font-size: 0.78rem;
-  font-weight: 700;
-  padding: 0.2rem 0.6rem;
-  border-radius: 999px;
-}
-
-.task-badge-progress {
+.medal-icon-wrapper {
+  width: 55px;  
+  height: 85px; 
   display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.custom-medal-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.12));
+}
+
+.exp-bar-container {
+  width: 100%;
+  height: 6px;
+  background-color: #d8d4c9;
+  border-radius: 4px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.exp-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease-out;
+}
+
+.exp-tier-bronze { background: linear-gradient(90deg, #d28a68, #c07a56); }
+.exp-tier-prata { background: linear-gradient(90deg, #c8c4d4, #a8a89e); }
+.exp-tier-ouro { background: linear-gradient(90deg, #f2c56b, #dca54a); }
+
+.medal-details {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.medal-task-title {
+  margin: 0 0 4px 0;
+  font-size: 1.1rem;
+  color: var(--Violeta-Profundo);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.medal-tier-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--Pedra);
+  margin-bottom: 8px;
+  display: inline-block;
+  letter-spacing: 0.5px;
+}
+
+.medal-days-text {
+  display: block;
+  margin-top: 6px;
+  color: var(--Pedra);
+  font-size: 0.8rem;
 }
 
 .badge-empty {
@@ -184,18 +216,18 @@ body.dark-mode .btn-close {
 
 .preference-item{
   display: flex;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
-    padding: 1.2rem 1.5rem;
-    background: var(--Papel-Cru);
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    text-align: left;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  background: var(--Papel-Cru);
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: left;
 }
 
 .switch {
@@ -215,73 +247,73 @@ body.dark-mode .btn-close {
   outline: 3px solid var(--Violeta-Profundo);
   outline-offset: 3px;
 }
+
 .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--Pedra);
-    transition: .4s;
-    border-radius: 34px;
-    border: 1px solid #ccc;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--Pedra);
+  transition: .4s;
+  border-radius: 34px;
+  border: 1px solid #ccc;
 }
 
 .slider:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 3px;
-    bottom: 3px;
-    background-color: #888;
-    transition: .4s;
-    border-radius: 50%;
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #888;
+  transition: .4s;
+  border-radius: 50%;
 }
 
 input:checked + .slider {
-    background-color: var(--Violeta-Profundo);
+  background-color: var(--Violeta-Profundo);
 }
 
 input:checked + .slider:before {
-    background-color: white;
-    transform: translateX(22px);
+  background-color: white;
+  transform: translateX(22px);
 }
 
 #logout-btn{
-    background-color: var(--Terracota);
-    border: 1px solid var(--Terracota);
-    color: var(--Papel-Cru);
-    border-radius: 20px;
-    padding: 0.5rem 1rem;
-    margin-top:2rem;
-    transition: all 0.3s ease;
+  background-color: var(--Terracota);
+  border: 1px solid var(--Terracota);
+  color: var(--Papel-Cru);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  margin-top:2rem;
+  transition: all 0.3s ease;
 }
 
 .btn-submit{
-    background-color: var(--Verde-Loureiro);
-    border: 1px solid var(--Verde-Loureiro);
-    color: var(--Papel-Cru);
-    border-radius: 20px;
-    padding: 0.5rem 1rem;
-    transition: all 0.3s ease;
+  background-color: var(--Verde-Loureiro);
+  border: 1px solid var(--Verde-Loureiro);
+  color: var(--Papel-Cru);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
 }
 
-
 .delete-btn {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    width: 100%;
-    padding: 1.2rem 1.5rem;
-    background: var(--Papel-Cru);
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--Terracota);
-    text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  background: var(--Papel-Cru);
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--Terracota);
+  text-align: left;
 }
