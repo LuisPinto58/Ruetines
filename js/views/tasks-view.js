@@ -88,7 +88,7 @@ async function loadTasks() {
             <h5 class="text-truncate" style="margin: 0; padding-right: 10px;"> 
               ${task.title}
             </h5>
-            ${task.premadeId ? `<ion-icon name="sparkles" style="color: yellow;"></ion-icon>` : ""}
+            ${task.premadeId ? `<ion-icon name="sparkles" style="color: #E3C565;""></ion-icon>` : ""}
           </div>
 
           <div class="d-flex align-items-center flex-shrink-0 ms-2" style="color: var(--Gray); font-size: 0.9rem;">
