@@ -366,38 +366,59 @@ document
   .getElementById("add-task-btn")
   .addEventListener("click", createTaskModal);
 
+// Premade Tasks - Tarefas Sugeridas
 
+const PREMADE_TASKS = [
+  {
+    premadeId: crypto.randomUUID(),
+    title: "Beber 2L de água",
+    description: "Mantém-te hidratado ao longo do dia.",
+  },
+  { premadeId: crypto.randomUUID(), title: "Fazer exercício", description: "Mantém-te em forma." },
+  { premadeId: crypto.randomUUID(), title: "Meditar 10 minutos", description: "Momento para relaxar." },
+  { premadeId: crypto.randomUUID(), title: "Ler um livro", description: "Reserva tempo para a leitura." },
+  { premadeId: crypto.randomUUID(), title: "Dormir 8 horas", description: "Tem uma boa noite de descanso." },
+  {
+    premadeId: crypto.randomUUID(),
+    title: "Arrumar o quarto",
+    description: "Mantém-te o teu espaço organizado.",
+  },
+  {
+    premadeId: crypto.randomUUID(),
+    title: "Evitar alimentos picantes/salgados",
+    description: "São ricos em sódio e podem causar doenças.",
+  },
+  {
+    premadeId: crypto.randomUUID(),
+    title: "Fazer um plano de consumo mensal",
+    description: "Evita gastos desnecessários.",
+  },
+  { premadeId: crypto.randomUUID(), title: "Lavar a roupa", description: "Não deixes a roupa acumular." },
+  {
+    premadeId: crypto.randomUUID(),
+    title: "Preparar roupa de amanhã",
+    description: "Reduz o tempo de preparação matinal.",
+  },
+  { premadeId: crypto.randomUUID(), title: "Andar de bicicleta", description: "Sente a brisa." },
+  { premadeId: crypto.randomUUID(), title: "Planear o dia", description: "Organiza o que tens para fazer." },
+  {
+    premadeId: crypto.randomUUID(),
+    title: "Comer 3 peças de fruta",
+    description: "Faz um lanche simples e saudável.",
+  },
+  { premadeId: crypto.randomUUID(), title: "Lavar o cabelo", description: "Faz a tua rotina capilar." },
+  { premadeId: crypto.randomUUID(), title: "Regar as plantas", description: "Dá água às tuas plantas." },
+  { premadeId: crypto.randomUUID(), title: "Ouvir um podcast", description: "Ouve algo interessante." },
+  { premadeId: crypto.randomUUID(), title: "Limpar e-mail", description: "Apaga os e-mails antigos." },
+];
 
+async function loadPremadeTasks() {
+  const container = document.getElementById("premade-tasks-container");
+  if (!container) return;
 
-  // Premade Tasks - Tarefas Sugeridas
-
-  const PREMADE_TASKS = [
-    { title: "Beber 2L de água", description: "Mantém-te hidratado ao longo do dia."},
-    { title: "Fazer exercício", description: "Mantém-te em forma."},
-    { title: "Meditar 10 minutos", description: "Momento para relaxar."},
-    { title: "Ler um livro", description: "Reserva tempo para a leitura."},
-    { title: "Dormir 8 horas", description: "Tem uma boa noite de descanso."},
-    { title: "Arrumar o quarto", description: "Mantém-te o teu espaço organizado."},
-    { title: "Evitar alimentos picantes/salgados", description: "São ricos em sódio e podem causar doenças."},
-    { title: "Fazer um plano de consumo mensal", description: "Evita gastos desnecessários."},
-    { title: "Lavar a roupa", description: "Não deixes a roupa acumular."},
-    { title: "Preparar roupa de amanhã", description: "Reduz o tempo de preparação matinal."},    
-    { title: "Andar de bicicleta", description: "Sente a brisa."},
-    { title: "Planear o dia", description: "Organiza o que tens para fazer."},
-    { title: "Comer 3 peças de fruta", description: "Faz um lanche simples e saudável."},
-    { title: "Lavar o cabelo", description: "Faz a tua rotina capilar."},
-    { title: "Regar as plantas", description: "Dá água às tuas plantas."},
-    { title: "Ouvir um podcast", description: "Ouve algo interessante."},
-    { title: "Limpar e-mail", description: "Apaga os e-mails antigos."},
-  ];
-
-  async function loadPremadeTasks() {
-    const container = document.getElementById("premade-tasks-container");
-    if (!container) return;
-
-    const token = sessionStorage.getItem('token');
-    if (!token) {
-      container.innerHTML = `
+  const token = sessionStorage.getItem("token");
+  if (!token) {
+    container.innerHTML = `
       <div class="premade-login-notice d-flex justify-content-center align-items-center gap-2" style="padding: 2rem; color: var(--Gray);">
         <ion-icon name="lock-closed-outline"></ion-icon>
         <p class="m-0">Faz log in para ver as tarefas sugeridas.</p>
@@ -406,19 +427,12 @@ document
       return;
     }
 
-    const existingTasks = (await getTasks()) || [];
-    const existingTitles = new Set(
-      existingTasks.map((t) => (t.title || "").trim().toLowerCase()),
-    );
+  const existingTasks = (await getTasks()) || [];
+  const existingPremadeIds = new Set(
+    existingTasks.map((t) => t.premadeId).filter(Boolean),
+  );
 
     container.innerHTML = "";
-
-
-    const randomTasks = [...PREMADE_TASKS]
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 4);
-
-
 
 
     randomTasks.forEach((premade) => {
@@ -437,18 +451,16 @@ document
         </button>
       `;
 
-      if (!alreadyAdded) {
-        const addBtn = card.querySelector(".premade-add-btn");
-        addBtn.addEventListener("click", async() => {
-          addBtn.disabled = true;
-          await createTasks({
-            title: premade.title,
-            description: premade.description,
-            status: false,
-            schedules: [],
-          });
-          await loadTasks();
-          await loadPremadeTasks();
+    if (!alreadyAdded) {
+      const addBtn = card.querySelector(".premade-add-btn");
+      addBtn.addEventListener("click", async () => {
+        addBtn.disabled = true;
+        await createTasks({
+          premadeId: premade.premadeId,
+          title: premade.title,
+          description: premade.description,
+          status: false,
+          schedules: [],
         });
       }
 
@@ -470,8 +482,8 @@ async function showAllSuggestedTasksModal() {
 
  
   const existingTasks = (await getTasks()) || [];
-  const existingTitles = new Set(
-    existingTasks.map((t) => (t.title || "").trim().toLowerCase()),
+  const existingPremadeIds = new Set(
+    existingTasks.map((t) => t.premadeId).filter(Boolean),
   );
 
 
@@ -488,8 +500,8 @@ async function showAllSuggestedTasksModal() {
 
   
   let listHtml = PREMADE_TASKS.map((t, index) => {
-    const alreadyAdded = existingTitles.has(t.title.trim().toLowerCase());
-    
+    const alreadyAdded = existingPremadeIds.has(t.premadeId);
+
     return `
     <div class="card mb-2" style="flex: unset; width: 100%;">
       <div class="card-body d-flex justify-content-between align-items-center p-2" style="width: 100%;">
@@ -541,7 +553,7 @@ async function showAllSuggestedTasksModal() {
 
      
       await createTasks({
-        userid: "user1",
+        premadeId: taskToAdd.premadeId,
         title: taskToAdd.title,
         description: taskToAdd.description,
         status: false,

@@ -6,13 +6,13 @@ import socket from "../data/socket.js";
 let currentRoomId = null;
 let refreshHandler = null;
 
-export async function getChat() {
+export async function getChat() { //fetching chats for current user and returning as Chat instances
     const userId = User.fromStorage()?.id;
     const chats = await getChats(userId);
     return chats.map(chat => Chat.fromObject(chat));
 }
 
-export const initializeChatSocket = (handler) => {
+export const initializeChatSocket = (handler) => { //initialize socket connection and set up event listeners for chat updates
     refreshHandler = handler;
 
     socket.on("refresh_chat", async (payload) => {
@@ -34,17 +34,16 @@ export const joinChatRoom = (chatId) => {
     socket.emit("join_chat", chatId);
 };
 
-export const createChat = async (type) => {
+export const createChat = async (type) => { //chat creation
     const currentUser = User.fromStorage();
     if (!currentUser?.id) {
         throw new Error("Utilizador não autenticado.");
     }
-
+    // Create a new chat instance and add the current user
     const chat = new Chat(type);
     chat.addUser(currentUser);
 
     const response = await addChats(chat);
-    console.log(response);
     if (!response.ok) {
         throw new Error("Falha ao criar novo chat.");
     }
@@ -56,9 +55,9 @@ export const createChat = async (type) => {
     return chat;
 };
 
-export const sendMessage = async (chat, text) => {
+export const sendMessage = async (chat, text) => { //sending message and emitting socket event to refresh chat for other users
     const currentUser = User.fromStorage();
-    const updatedChat = await handleSendMessage(chat, text, currentUser?.id);
+    const updatedChat = await handleSendMessage(chat, text, currentUser?.id); //regular db update
 
     if (updatedChat?.id) {
         socket.emit("new_chat_message", {
@@ -71,7 +70,7 @@ export const sendMessage = async (chat, text) => {
     return updatedChat;
 };
 
-export const handleSendMessage = async (chat, text, userId) => {
+export const handleSendMessage = async (chat, text, userId) => { //sending message to server and updating chat instance
     if (!text?.trim()) return chat;
 
     const chatInstance = chat instanceof Chat ? chat : Chat.fromObject(chat);
@@ -86,7 +85,7 @@ export const handleSendMessage = async (chat, text, userId) => {
     return chatInstance;
 };
 
-export const handleReportMessage = async (message, chat) => {
+export const handleReportMessage = async (message, chat) => { //reporting message to server and handling errors
     try {
         const result = await reportMessage(message, chat.id);
         return result;

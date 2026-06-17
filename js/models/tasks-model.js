@@ -8,6 +8,7 @@ export default class Task {
 
     constructor(title, description = "") {
         this.id = crypto.randomUUID();
+        this.premadeId = null;
         this.timeStamp = new Date();
         this.status = "active";
         this.#title = title?.toString?.() ?? "";
@@ -113,6 +114,7 @@ export default class Task {
     toJSON() {
         return {
             id: this.id,
+            premadeId: this.premadeId,
             title: this.title,
             description: this.description,
             userid: this.userid,
@@ -127,6 +129,7 @@ export default class Task {
     static fromObject(obj) {
         const task = new Task(obj.title ?? "", obj.description ?? "");
         task.id = obj.id ?? task.id;
+        task.premadeId = obj.premadeId ?? null;
         task.timeStamp = obj.timeStamp ? new Date(obj.timeStamp) : task.timeStamp;
         task.status = obj.status ?? task.status;
         task.schedules = Array.isArray(obj.schedules) ? obj.schedules.slice() : (obj.schedules ? [obj.schedules] : []);

@@ -13,15 +13,15 @@ const authHeaders = (token = sessionStorage.getItem('token')) => ({
 
 const jsonHeaders = () => ({ 'Content-Type': 'application/json' });
 
-const logoutUser = () => {
+const logoutUser = () => { //simple logout to clear session
   User.saveToStorage(null);
   sessionStorage.removeItem('token');
   if (typeof window !== 'undefined') {
-    window.location.href = '../html/tasks.html?loggedOut=true';
+    window.location.href = '../html/tasks.html?loggedOut=true'; 
   }
 };
 
-const getErrorMessage = async (res) => {
+const getErrorMessage = async (res) => { //treating error message
   const text = await res.text();
   if (!text) return 'Erro no servidor.';
 
@@ -33,7 +33,7 @@ const getErrorMessage = async (res) => {
   }
 };
 
-const handleApiError = async (res) => {
+const handleApiError = async (res) => { //centralized error handling to reduce code
   if (res.status === 401 || res.status === 403) {
     logoutUser();
     return { ok: false, status: res.status, message: 'Sessão expirada. Faça login novamente.' };
@@ -47,7 +47,7 @@ const handleApiError = async (res) => {
 
 // user and auth
 
-export const register = async (email, password) => {
+export const register = async (email, password) => { //account register, default is user, admin is added manually in db json
   const res = await fetch(`${API}/register`, {
     method: 'POST',
     headers: jsonHeaders(),
@@ -56,7 +56,7 @@ export const register = async (email, password) => {
   return { ok: res.status === 201 };
 };
 
-export const login = async (email, password) => {
+export const login = async (email, password) => { //login, returns token and user data
   const res = await fetch(`${API}/login`, {
     method: 'POST',
     headers: jsonHeaders(),
@@ -67,21 +67,39 @@ export const login = async (email, password) => {
   return { ok: true, token: data.accessToken, user: data.user };
 };
 
-export const updateUserPassword = async (userId, token, password) => {
+export const updateUserPassword = async (userId, password) => { //password update
   const res = await fetch(`${API}/users/${userId}`, {
     method: 'PATCH',
-    headers: authHeaders(token),
+    headers: authHeaders(),
     body: JSON.stringify({ password }),
   });
   if (!res.ok) return await handleApiError(res);
   return { ok: true };
 };
 
-export const deleteAccount = async (userId, token) => {
-  const res = await fetch(`${API}/users/${userId}`, {
-    method: 'DELETE',
-    headers: authHeaders(token),
+export const deleteAccount = async (userId) => { //remove user from other chats and deleting account
+  const chats = await getChats(userId); //to check chats
+  chats.forEach(async (chat) => {         
+    chat.users = chat.users.filter(user => user.id !== userId);
+    if (chat.users.length === 0) { //if no user left, delete, else update without user
+      await fetch(`${API}/chats/${chat.id}`, {
+        method: 'DELETE',
+        headers: authHeaders(),
+      });
+    } else {
+      await fetch(`${API}/chats/${chat.id}`, {
+        method: 'PATCH',
+        headers: authHeaders(),
+        body: JSON.stringify({ users: chat.users }),
+      });
+    }
   });
+
+  const res = await fetch(`${API}/users/${userId}`, { //delete user
+    method: 'DELETE',
+    headers: authHeaders(),
+  });
+  
   if (!res.ok) return await handleApiError(res);
   return { ok: true };
 };
@@ -94,7 +112,7 @@ export const getUserById = async (userId) => {
   if (!res.ok) {
     const message = await getErrorMessage(res);
 
-    if (res.status === 401 || res.status === 403) {
+    if (res.status === 401 || res.status === 403) { //in case user gets banned, this function will be used to check before other requests
       logoutUser();
       return { ok: false, status: res.status, message: 'Sessão expirada. Faça login novamente.' };
     }
@@ -108,7 +126,7 @@ export const getUserById = async (userId) => {
 
 //admin user mngmt
 export const warnUser = async (userId) => {
-  const userRes = await fetch(`${API}/users/${userId}`, {
+  const userRes = await fetch(`${API}/users/${userId}`, { //get user to check existance and get warnings
     headers: authHeaders(),
   });
   if (!userRes.ok) return await handleApiError(userRes);
@@ -116,7 +134,7 @@ export const warnUser = async (userId) => {
   const user = await userRes.json();
   const warnings = (user.warnings || 0) + 1;
 
-  const res = await fetch(`${API}/users/${userId}`, {
+  const res = await fetch(`${API}/users/${userId}`, { //update warnings
     method: 'PATCH',
     headers: authHeaders(),
     body: JSON.stringify({ warnings }),
@@ -125,16 +143,7 @@ export const warnUser = async (userId) => {
   return { ok: true, warnings };
 };
 
-export const banUser = async (userId) => {
-  const res = await fetch(`${API}/users/${userId}`, {
-    method: 'DELETE',
-    headers: authHeaders(),
-  });
-  if (!res.ok) return await handleApiError(res);
-  return { ok: true };
-};
-
-export const getUserWarnings = async (userId) => {
+export const getUserWarnings = async (userId) => { //get user to check existance and get warnings
   const res = await fetch(`${API}/users/${userId}`, {
     headers: authHeaders(),
   });
@@ -151,24 +160,24 @@ export const getChats = async (userId) => {
   const userResult = await getUserById(userId);
 
   if (!userResult.ok || !userResult.user) {
-    return { ok: false, message: userResult.message || 'Utilizador não encontrado.', chat: null };
+    return { ok: false, message: userResult.message || 'Utilizador não encontrado.', chat: null }; //check if user wasnt banned
   }
 
   const user = userResult.user;
 
-  const res = await fetch(`${API}/chats`, { headers: authHeaders() });
+  const res = await fetch(`${API}/chats`, { headers: authHeaders() }); //get users
   if (!res.ok) return [];
 
   const chats = await res.json();
-  let processed = await Promise.all(chats.map(expireOrDeleteChat));
+  let processed = await Promise.all(chats.map(expireOrDeleteChat)); //expire or delete old chats first
   processed = processed
     .filter(Boolean)
-    .filter(chat => chat.users?.some(userObj => userObj.id === userId))
+    .filter(chat => chat.users?.some(userObj => userObj.id === userId))       //get chats with user
 
   if (user.role == 'admin') {
     return processed
   }else{
-    return processed.filter(chat => chat.type !== "admin" || chat.messages?.length > 1);
+    return processed.filter(chat => chat.type !== "admin" || chat.messages?.length > 1); //making sure users only see chats when admin responds instead of immediatly seeing he was reported
   }
 };
 
@@ -180,31 +189,31 @@ export const addChats = async (data) => {
 
   const user = userResult.user;
 
-  const getChat = await fetch(`${API}/chats`, { headers: authHeaders() });
+  const getChat = await fetch(`${API}/chats`, { headers: authHeaders() }); //getting existing chats to see if there are openings
   if (!getChat.ok) {
     throw new Error("Falha ao obter chats existentes.");
   }
 
   const chats = await getChat.json();
   const currentUserId = data.users?.[0]?.id;
-  const maxUsers = data.type === "individual" ? 2 : 5;
+  const maxUsers = data.type === "individual" ? 2 : 5; //seeing if its going to be a group chat or individual
 
   if (currentUserId) {
     const openChat = chats
-      .filter(chat => chat.type === data.type && chat.status === "active")
+      .filter(chat => chat.type === data.type && chat.status === "active")  //getting chats of same type and active status
       .find(chat =>
         (chat.users?.length ?? 0) < maxUsers &&
-        !chat.users?.some(userObj => userObj.id === currentUserId)
+        !chat.users?.some(userObj => userObj.id === currentUserId)  //checking if user isnt in chat and if theres space
       );
 
-    if (openChat) {
+    if (openChat) { //if theres an open chat user witll be added to it
       const openChatInstance = Chat.fromObject(openChat);
       openChatInstance.addUser(data.users[0]);
       const response = await addChatUser(openChat.id, { users: openChatInstance.users });
       return { ok: response.ok, joined: response.ok, chat: { ...openChat, users: openChatInstance.users } };
     }
   }
-
+  //if no open chat, create new chat
   const res = await fetch(`${API}/chats`, {
     method: 'POST',
     headers: authHeaders(),
@@ -220,7 +229,7 @@ export const addChats = async (data) => {
 };
 
 
-export const addChatUser = async (chatId, data) => {
+export const addChatUser = async (chatId, data) => { //add user to existing chat
   const res = await fetch(`${API}/chats/${chatId}`, {
     method: 'PATCH',
     headers: authHeaders(),
@@ -230,13 +239,13 @@ export const addChatUser = async (chatId, data) => {
   return { ok: true };
 };
 
-export const addChatMessage = async (chatId, data, userId) => {
-  const userResult = await getUserById(userId);
+export const addChatMessage = async (chatId, data, userId) => { //posting messages
+  const userResult = await getUserById(userId); //usual user check
   if (!userResult.ok || !userResult.user) {
     return { ok: false, message: userResult.message || 'Utilizador não encontrado.', chat: null };
   }
 
-  const res = await fetch(`${API}/chats/${chatId}`, {
+  const res = await fetch(`${API}/chats/${chatId}`, {//patching chat
     method: 'PATCH',
     headers: authHeaders(),
     body: JSON.stringify(data),
@@ -244,28 +253,28 @@ export const addChatMessage = async (chatId, data, userId) => {
   if (!res.ok) return await handleApiError(res);
   return { ok: true };
 };
-
+//user message report
 export const reportMessage = async (message, chatId) => {
   const adminRes = await fetch(`${API}/users?role=admin`, { headers: authHeaders() });
   if (!adminRes.ok) {
     throw new Error("Falha ao obter administradores.");
-  }
+  }//in case theres an error on fetch
 
   const [adminUser] = await adminRes.json();
   if (!adminUser?.id) {
     throw new Error("Nenhum administrador encontrado.");
-  }
+  }//just making sure admin actually exists
 
-  const reportChat = new Chat('admin');
+  const reportChat = new Chat('admin'); //create chat and admin eported user and admin
   reportChat.addUser({ id: message.sender });
   if (adminUser.id !== message.sender) {
     reportChat.addUser({ id: adminUser.id });
   }
 
-  const reportedContent = `REPORT: mensagem reportada de ${message.sender} no chat ${chatId} - "${message.content ?? ''}"`;
+  const reportedContent = `REPORT: mensagem reportada de ${message.sender} no chat ${chatId} - "${message.content ?? ''}"`; //adding reported message to chat
   reportChat.addMessage(reportedContent, message.sender);
 
-  const res = await fetch(`${API}/chats`, {
+  const res = await fetch(`${API}/chats`, { //final post
     method: 'POST',
     headers: authHeaders(),
     body: JSON.stringify(reportChat.toJSON()),
@@ -275,7 +284,7 @@ export const reportMessage = async (message, chatId) => {
   return { ok: true };
 };
 
-export const expireChat = async (chatId) => {
+export const expireChat = async (chatId) => { //patch status to manually expire chat (admin)
   const res = await fetch(`${API}/chats/${chatId}`, {
     method: 'PATCH',
     headers: authHeaders(),
@@ -285,14 +294,14 @@ export const expireChat = async (chatId) => {
   return { ok: true };
 }
 
-const DAY_MS = 24 * 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000; //here to change if needed, currently set to 1 day for expiration and 3 days for deletion
 
 const expireOrDeleteChat = async (chat) => {
   if (!chat?.timeStamp || !chat?.id) return chat;
-  if(chat.type === "admin") return chat;
+  if(chat.type === "admin") return chat; //admin chats arent auto expired or deleted, only manually
   const ageMs = Date.now() - new Date(chat.timeStamp).getTime();
 
-  if (ageMs >= 3 * DAY_MS) {
+  if (ageMs >= 3 * DAY_MS) { //delete if chat is older than 3 days
     await fetch(`${API}/chats/${chat.id}`, {
       method: 'DELETE',
       headers: authHeaders(),
@@ -300,7 +309,7 @@ const expireOrDeleteChat = async (chat) => {
     return null;
   }
 
-  if (ageMs >= DAY_MS && chat.status !== 'expired') {
+  if (ageMs >= DAY_MS && chat.status !== 'expired') { //expire if chat is older than a day and currently active
     const res = await fetch(`${API}/chats/${chat.id}`, {
       method: 'PATCH',
       headers: authHeaders(),

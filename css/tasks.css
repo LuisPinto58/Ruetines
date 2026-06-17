@@ -459,6 +459,19 @@ body.dark-mode .premade-login-notice {
   border-color: #4b4b5c;
 }
 
+body.dark-mode .modal-content {
+  background-color: #1e1e2b !important;
+  color: #e8e8e8;
+  border: 1px solid #4b4b5c;
+}
+
+body.dark-mode .modal-header h3 {
+  color: #ffffff;
+}
+
+body.dark-mode .modal-close {
+  color: #e8e8e8 !important;
+}
 
 body.dark-mode .modal-content {
   background-color: #1e1e2b !important;
@@ -479,7 +492,15 @@ body.dark-mode .text-muted {
 }
 
 
+body.dark-mode .modal .card {
+  background-color: #262635 !important;
+  border-color: #4b4b5c !important;
+}
 
+body.dark-mode .modal .card h6,
+body.dark-mode .modal .card small {
+  color: #e8e8e8 !important;
+}
 
 
 
