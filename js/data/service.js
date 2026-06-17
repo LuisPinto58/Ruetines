@@ -14,6 +14,11 @@ const authHeaders = (token = sessionStorage.getItem("token")) => ({
 
 const jsonHeaders = () => ({ "Content-Type": "application/json" });
 
+/**
+ * logout
+ * @param {} 
+ * @removes token and user data from session and redirects to login page
+ */
 const logoutUser = () => {
   //simple logout to clear session
   User.saveToStorage(null);
@@ -23,6 +28,11 @@ const logoutUser = () => {
   }
 };
 
+/**
+ * error message
+ * @param {res} fetch response
+ * @returns {text} error message, tries to parse json for message or error field, if not returns text, if no text returns generic message
+ */
 const getErrorMessage = async (res) => {
   //treating error message
   const text = await res.text();
@@ -35,7 +45,10 @@ const getErrorMessage = async (res) => {
     return text;
   }
 };
-
+/**
+ * error handler, checks for 401 or 403
+ * @param {res} fetch response
+ * @returns {ok: boolean, status: number, message: string}  */
 const handleApiError = async (res) => {
   //centralized error handling to reduce code
   if (res.status === 401 || res.status === 403) {
@@ -55,8 +68,12 @@ const handleApiError = async (res) => {
   };
 };
 
-// user and auth
-
+//  auth, route requires no auth
+/**
+ * register user
+ * @param {string,string} email,password
+ * @returns {Promise<{ok: boolean}|error>}
+ */
 export const register = async (email, password) => {
   //account register, default is user, admin is added manually in db json
   const res = await fetch(`${API}/register`, {
@@ -67,6 +84,11 @@ export const register = async (email, password) => {
   return { ok: res.status === 201 };
 };
 
+/**
+ * login user
+ * @param {string,string} email,password
+ * @returns {Promise<{ok: boolean, token: string, user: object}|error>}
+ */
 export const login = async (email, password) => {
   //login, returns token and user data
   const res = await fetch(`${API}/login`, {
@@ -79,6 +101,14 @@ export const login = async (email, password) => {
   return { ok: true, token: data.accessToken, user: data.user };
 };
 
+
+//user, requires auth for all requests (660)
+
+/**
+ * udate user password
+ * @param {int,string} userid,password
+ * @returns {Promise<{ok: boolean}|error>}
+ */
 export const updateUserPassword = async (userId, password) => {
   //password update
   const res = await fetch(`${API}/users/${userId}`, {
@@ -90,6 +120,11 @@ export const updateUserPassword = async (userId, password) => {
   return { ok: true };
 };
 
+/**
+ * delete account, removes user from chats and deletes his tasks, if user is the only one in the chat it deletes the chat, else it just updates the chat without the user
+ * @param {int} userId
+ * @returns {Promise<{ok: boolean}|error>}
+ */
 export const deleteAccount = async (userId) => {
   //remove user from other chats and deleting account
   const chats = await getChats(userId); //to check chats
@@ -129,6 +164,11 @@ export const deleteAccount = async (userId) => {
   return { ok: true };
 };
 
+/**
+ * get user by id, used for checking if user exists and getting warnings for admin mngmt
+ * @param {int} userId
+ * @returns {Promise<{ok: boolean; user: object}|error>}
+ */
 export const getUserById = async (userId) => {
   const res = await fetch(`${API}/users/${userId}`, {
     headers: authHeaders(),
@@ -158,7 +198,11 @@ export const getUserById = async (userId) => {
   return { ok: true, user: await res.json() };
 };
 
-//admin user mngmt
+/**
+ * admin user mngmt
+ * @param {int} userid
+ * @returns {Promise<{warnings: int}|error>}
+ */
 export const warnUser = async (userId) => {
   const userRes = await fetch(`${API}/users/${userId}`, {
     //get user to check existance and get warnings
@@ -192,7 +236,13 @@ export const getUserWarnings = async (userId) => {
   return user.warnings || 0;
 };
 
-//chats
+//chats, requires auth for all requests (660)
+
+/**
+ * get chats
+ * @param {int} userid
+ * @returns {Promise<{chat: object}|error>}
+ */
 export const getChats = async (userId) => {
   const userResult = await getUserById(userId);
 
@@ -224,6 +274,12 @@ export const getChats = async (userId) => {
   }
 };
 
+
+/**
+ * creates new chat or adds user to existing one if theres an opening, for individual or group chats
+ * @param {object} data
+ * @returns {Promise<{ok: boolean;joined:boolean;chat}|error>}
+ */
 export const addChats = async (data) => {
   const userResult = await getUserById(data.users?.[0]?.id);
   if (!userResult.ok || !userResult.user) {
@@ -283,6 +339,11 @@ export const addChats = async (data) => {
   return { ok: res.ok, joined: false, chat: createdChat };
 };
 
+/**
+ * add user to chat
+ * @param {int,object} chatid,data
+ * @returns {Promise<{ok: boolean}|error>}
+ */
 export const addChatUser = async (chatId, data) => {
   //add user to existing chat
   const res = await fetch(`${API}/chats/${chatId}`, {
@@ -294,6 +355,11 @@ export const addChatUser = async (chatId, data) => {
   return { ok: true };
 };
 
+/**
+ * add message to chat
+ * @param {string,object,int} chatId, data, userId
+ * @returns {Promise<{ok: boolean}|undefined>}
+ */
 export const addChatMessage = async (chatId, data, userId) => {
   //posting messages
   const userResult = await getUserById(userId); //usual user check
@@ -301,6 +367,23 @@ export const addChatMessage = async (chatId, data, userId) => {
     return {
       ok: false,
       message: userResult.message || "Utilizador não encontrado.",
+      chat: null,
+    };
+  }
+
+  const chatRes = await fetch(`${API}/chats/${chatId}`, {
+    headers: authHeaders(),
+  });
+
+  if (!chatRes.ok) {
+    return await handleApiError(chatRes);
+  }
+
+  const chat = await chatRes.json().catch(() => null);
+  if (!chat || chat.status !== "active") {
+    return {
+      ok: false,
+      message: "Este chat já está encerrado.",
       chat: null,
     };
   }
@@ -314,7 +397,11 @@ export const addChatMessage = async (chatId, data, userId) => {
   if (!res.ok) return await handleApiError(res);
   return { ok: true };
 };
-//user message report
+/**
+ * user message report
+ * @param {string,string} message,chatId
+ * @returns {Promise<{ok: boolean}|undefined>}
+ */
 export const reportMessage = async (message, chatId) => {
   const adminRes = await fetch(`${API}/users?role=admin`, {
     headers: authHeaders(),
@@ -348,6 +435,11 @@ export const reportMessage = async (message, chatId) => {
   return { ok: true };
 };
 
+/**
+ * Expires a chat manually.
+ * @param {string} chatId
+ * @returns {Promise<{ok: boolean}|undefined>}
+ */
 export const expireChat = async (chatId) => {
   //patch status to manually expire chat (admin)
   const res = await fetch(`${API}/chats/${chatId}`, {
@@ -360,7 +452,11 @@ export const expireChat = async (chatId) => {
 };
 
 const DAY_MS = 24 * 60 * 60 * 1000; //here to change if needed, currently set to 1 day for expiration and 3 days for deletion
-
+/**
+ * Expires chat or deletes them, time based
+ * @param {Chat|Object} chat
+ * @returns {Promise<Chat|undefined>}
+ */
 const expireOrDeleteChat = async (chat) => {
   if (!chat?.timeStamp || !chat?.id) return chat;
   if (chat.type === "admin") return chat; //admin chats arent auto expired or deleted, only manually
@@ -391,7 +487,7 @@ const expireOrDeleteChat = async (chat) => {
 };
 
 // ──────────────────────────────────────────────────────────────
-// tasks & premadeTasks
+// tasks & premadeTasks, tasks require auth for all requests (660), premadeTasks require auth for create, update and delete, but not for get, as they are public and visible to all users(664)
 // ──────────────────────────────────────────────────────────────
 
 /**
@@ -423,7 +519,7 @@ export const createPremadeTask = async (task) => {
   });
   if (!res.ok) {
     console.error("Error creating premade task:", res.statusText);
-    return;
+    return handleApiError(res);
   }
   const data = await res.json();
   return Task.fromObject(data);
@@ -552,7 +648,7 @@ export const createTask = async (task) => {
   });
   if (!res.ok) {
     console.error("Error creating task:", res.statusText);
-    return;
+    return handleApiError(res);
   }
   const data = await res.json();
   return Task.fromObject(data);
@@ -573,7 +669,7 @@ export const updateTask = async (task) => {
   });
   if (!res.ok) {
     console.error("Error updating task:", res.statusText);
-    return;
+    return handleApiError(res);
   }
   const data = await res.json();
   return Task.fromObject(data);

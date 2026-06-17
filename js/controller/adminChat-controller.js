@@ -28,6 +28,7 @@ export const expireChat = async (chatId) => { //manual admin chat expiration
     const result = await expireChatService(chatId);
     if (result?.ok) {
         alert(`Chat ${chatId} expired!`);
+        window.location.reload(); //reload page to update chat list
     } else {
         alert('Falha ao expirar chat.');
     }
